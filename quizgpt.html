@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Produto ideal para você!</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+  .fade { opacity: 0; transform: translateY(6px); transition: all .28s ease; }
+  .fade.show { opacity: 1; transform: translateY(0); }
+  .option-btn { text-align: left; }
+</style>
+</head>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center p-6">
+  <main class="w-full max-w-3xl bg-white rounded-2xl shadow-lg p-6">
+    <h1 class="text-2xl font-bold text-center text-blue-700 mb-4">Encontre o serviço ideal</h1>
+
+    <div id="app">
+      <!-- conteúdo injetado pelo JS -->
+      <div id="loader" class="text-center text-gray-500">Carregando dados...</div>
+    </div>
+  </main>
+
+<script>
+(async function(){
+  const app = document.getElementById('app');
+
+  // ------------- carregar precos.json -------------
+  let dadosJSON;
+  try {
+    const res = await fetch('precos.json');
+    if(!res.ok) throw new Error('Falha ao carregar precos.json — abra via servidor ou coloque o arquivo na mesma pasta.');
+    dadosJSON = await res.json();
+  } catch(err) {
+    app.innerHTML = `<div class="text-red-600">Erro ao carregar <code>precos.json</code>: ${err.message}</div>`;
+    console.error(err);
+    return;
+  }
+
+  const categorias = (dadosJSON.orcamento && Array.isArray(dadosJSON.orcamento.categorias)) ? dadosJSON.orcamento.categorias : [];
+  const observacoes = dadosJSON.orcamento && dadosJSON.orcamento.observacoes ? dadosJSON.orcamento.observacoes : '';
+
+  if(!categorias.length){
+    app.innerHTML = `<div class="text-red-600">O arquivo JSON foi carregado mas não contém categorias de serviços em <code>orcamento.categorias</code>.</div>`;
+    return;
+  }
+
+  // ---------- perguntas ramificadas (>=5 perguntas) ----------
+  // 1) Tipo de projeto — listamos categorias do JSON
+  // 2) Objetivo
+  // 3) Volume / duração
+  // 4) Formato (pacote / avulso / indiferente)
+  // 5) Orçamento aproximado
+  // (Opcional: 6) Prazo — influencia apenas como info
+  const perguntas = [
+    {
+      id: 'tipo',
+      texto: '1) Qual tipo de projeto você quer?',
+      opcoes: categorias.map(c => ({text: c.nome, value: c.nome}))
+    },
+    {
+      id: 'objetivo',
+      texto: '2) Qual o objetivo principal deste projeto?',
+      opcoes: [
+        {text: 'Gerar vendas/Conversão', value: 'vendas'},
+        {text: 'Fortalecer marca/Branding', value: 'branding'},
+        {text: 'Conteúdo para redes sociais', value: 'social'},
+        {text: 'Educar/Conteúdo técnico', value: 'educativo'}
+      ]
+    },
+    {
+      id: 'volume',
+      texto: '3) Volume / duração aproximada',
+      opcoes: [
+        {text: 'Pequeno (ex.: 1–5 imagens, vídeo curto)', value: 'baixo'},
+        {text: 'Médio (ex.: 6–15 imagens, vídeo 30s)', value: 'medio'},
+        {text: 'Alto (ex.: >15 imagens, vídeos longos)', value: 'alto'}
+      ]
+    },
+    {
+      id: 'formato',
+      texto: '4) Prefere pacote completo ou serviço avulso?',
+      opcoes: [
+        {text: 'Pacote (combos)', value: 'pacote'},
+        {text: 'Avulso (único)', value: 'avulso'},
+        {text: 'Indiferente', value: 'indiferente'}
+      ]
+    },
+    {
+      id: 'orcamento',
+      texto: '5) Faixa de orçamento aproximada',
+      opcoes: [
+        {text: 'Até R$100', value: 100},
+        {text: 'Até R$300', value: 300},
+        {text: 'Até R$800', value: 800},
+        {text: 'Acima de R$800', value: 999999}
+      ]
+    },
+    {
+      id: 'prazo',
+      texto: '6) Prazo desejado (opcional) — isso pode influenciar recomendações',
+      opcoes: [
+        {text: 'Até 3 dias', value: '3d'},
+        {text: 'Até 7 dias', value: '7d'},
+        {text: 'Mais que 7 dias', value: 'maior'}
+      ]
+    }
+  ];
+
+  // ---------- estado ----------
+  let respostas = {}; // mapa id->value
+  let indice = 0;
+  let cart = []; // selecionados ao final
+
+  // ---------- utilitários ----------
+  function clearApp(){ app.innerHTML = ''; }
+  function setFade(html){
+    app.innerHTML = html;
+    const el = app.querySelector('.fade');
+    if(el) setTimeout(()=>el.classList.add('show'), 10);
+  }
+  function escapeHtml(s){ return String(s).replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+  function formatPrice(n){ return typeof n === 'number' ? new Intl.NumberFormat('pt-BR',{style:'currency',currency:'BRL'}).format(n) : n; }
+
+  // ---------- render de pergunta ----------
+  function renderPergunta(i){
+    indice = i;
+    if(i >= perguntas.length) return computeRecommendations();
+    const p = perguntas[i];
+    const opsHtml = p.opcoes.map(o=>`<button class="option-btn option transition-all option-btn w-full option-btn py-3 px-4 bg-blue-500 hover:bg-blue-600 text-white rounded-lg option-btn" data-val="${escapeHtml(o.value)}">${escapeHtml(o.text)}</button>`).join('');
+    setFade(`<div class="fade">
+      <p class="text-lg font-semibold mb-4">${escapeHtml(p.texto)}</p>
+      <div class="flex flex-col gap-3 mb-4">${opsHtml}</div>
+      <div class="text-sm text-gray-500">Pergunta ${i+1} de ${perguntas.length}</div>
+    </div>`);
+
+    app.querySelectorAll('.option-btn').forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        const v = btn.dataset.val;
+        respostas[p.id] = (isNaN(Number(v)) ? v : Number(v));
+        renderPergunta(i+1);
+      });
+    });
+  }
+
+  // ---------- lógica de recomendação ----------
+  // cria lista plana de todos os serviços com referência à categoria
+  const allServices = [];
+  categorias.forEach(cat=>{
+    if(Array.isArray(cat.servicos)){
+      cat.servicos.forEach(s=>{
+        allServices.push(Object.assign({}, s, {__categoria: cat.nome}));
+      });
+    }
+  });
+
+  // helper: lowercase combined text
+  function textForService(s){
+    let t = (s.titulo||'') + ' ' + (s.descricao||'') + ' ' + (s.extras||'');
+    return t.toLowerCase();
+  }
+
+  // scoring function
+  function scoreService(s, answers){
+    let score = 0;
+    // +3 if same category
+    if(s.__categoria === answers.tipo) score += 3;
+
+    // budget: prefer services <= budget
+    const budget = Number(answers.orcamento) || Infinity;
+    if(typeof s.preco === 'number' && s.preco <= budget) score += 2;
+    // small bonus for much cheaper than budget
+    if(typeof s.preco === 'number' && s.preco <= (budget/2)) score += 1;
+
+    const txt = textForService(s);
+
+    // formato: pacote vs avulso
+    if(answers.formato === 'pacote'){
+      if(/pacote|pack|bundle|combo/i.test(s.titulo)) score += 2;
+      // if title contains 'pacote' in portuguese - stronger weight
+      if(/pacote/i.test(s.titulo)) score += 1;
+    } else if(answers.formato === 'avulso'){
+      if(!/pacote|pack|bundle|combo/i.test(s.titulo)) score += 1;
+    } else { // indiferente
+      score += 0.5;
+    }
+
+    // objetivo keywords
+    const obj = answers.objetivo;
+    if(obj === 'vendas'){
+      if(/\bvendas?\b|venda|conversão|conversao|reserva|pedido|comissão|promo/ig.test(txt)) score += 2;
+      if(/\banúncio|anuncio|ads|campanha|campanhas|promoção|promocao/ig.test(txt)) score += 1;
+    }
+    if(obj === 'branding'){
+      if(/\blogo|branding|identidade|identidade visual|marca|manual/ig.test(txt)) score += 2;
+    }
+    if(obj === 'social'){
+      if(/\breels|shorts|social|instagram|facebook|tiktok|stories|conteúdo|conteudo/ig.test(txt)) score += 2;
+      if(/\bvídeo|video|imagem|imagens/ig.test(txt)) score += 1;
+    }
+    if(obj === 'educativo'){
+      if(/\bpodcast|ensai|ensaio|educa|tutorial|treinamento|curso/ig.test(txt)) score += 2;
+      if(/\bvídeo|video|webinar/ig.test(txt)) score += 1;
+    }
+
+    // volume heuristics (aplica mais para imagens e vídeos)
+    const vol = answers.volume;
+    if(/imagem|imagens|imagem/i.test(s.__categoria.toLowerCase())){
+      // images: look for numbers in title (5,10,15)
+      if(vol === 'baixo'){
+        if(/\b5\b|5 imagens|5 imagem|\baté 5\b/i.test(txt) || (s.preco && s.preco <= 80)) score += 2;
+      } else if(vol === 'medio'){
+        if(/\b10\b|10 imagens|até 10/i.test(txt) || (s.preco>80 && s.preco<=160)) score += 2;
+      } else if(vol === 'alto'){
+        if(/\b15\b|15 imagens|mais de 15|sob consulta|sob-consulta/i.test(txt) || (s.preco > 160)) score += 2;
+      }
+    }
+    if(/vídeo|video/i.test(s.__categoria.toLowerCase())){
+      if(vol === 'baixo'){
+        if(/\b15\b|15 segundos|rápido|rápido|rápida/i.test(txt) || (s.preco && s.preco <= 120)) score += 2;
+      } else if(vol === 'medio'){
+        if(/\b30\b|30 segundos|simples/i.test(txt) || (s.preco > 120 && s.preco <= 350)) score += 2;
+      } else if(vol === 'alto'){
+        if(/\b60\b|1 min|1 minuto|elaborad|premium/i.test(txt) || (s.preco > 350)) score += 2;
+      }
+    }
+
+    // prazo: small bonus if description mentions fast turnaround (optional)
+    if(answers.prazo === '3d' && /\bra(pido|ápido)|express|fast|urgente|rápido/i.test(textForService(s))) score += 1;
+
+    return score;
+  }
+
+  // ---------- compute recommendations and show UI ----------
+  function computeRecommendations(){
+    // verify we have required answers
+    const required = ['tipo','objetivo','volume','formato','orcamento'];
+    for(const r of required){
+      if(typeof respostas[r] === 'undefined'){
+        // fallback render next unanswered
+        const nextIndex = perguntas.findIndex(p=>p.id===r);
+        return renderPergunta(nextIndex >=0 ? nextIndex : 0);
+      }
+    }
+
+    // generate scores
+    const budget = Number(respostas.orcamento) || Infinity;
+    const scored = allServicesWithCategory().map(s => {
+      return { service: s, score: scoreService(s, respostas) };
+    });
+
+    // filter out services above budget (unless budget is very high sentinel)
+    const filtered = scored.filter(x => (typeof x.service.preco !== 'number' || x.service.preco <= budget) || budget === 999999);
+
+    // sort by score desc then price asc
+    filtered.sort((a,b)=>{
+      if(b.score !== a.score) return b.score - a.score;
+      const pa = a.service.preco || 0, pb = b.service.preco || 0;
+      return pa - pb;
+    });
+
+    // take top results with score > 0, else fallback to top 6 in category (ignoring budget)
+    let recomendados = filtered.filter(x => x.score > 0).map(x=>x.service);
+    if(recomendados.length === 0){
+      // fallback: choose up to 6 services from chosen category
+      const cat = categorias.find(c=>c.nome===respostas.tipo);
+      if(cat && Array.isArray(cat.servicos) && cat.servicos.length){
+        recomendados = cat.servicos.slice(0,6);
+      } else {
+        // ultimate fallback: top 6 cheapest overall
+        const all = allServicesWithCategory().slice().sort((a,b)=>(a.preco||0)-(b.preco||0));
+        recomendados = all.slice(0,6);
+      }
+    } else {
+      // trim to top 8 results
+      recomendados = recomendados.slice(0,8);
+    }
+
+    showRecommendations(recomendados);
+  }
+
+  function allServicesWithCategory(){
+    // cached earlier as allServices; we need plain objects without score
+    return allServices;
+  }
+
+  // ---------- show recommendations + checklist ----------
+  function showRecommendations(list){
+    const chosenSummary = perguntas.map(p=>{
+      const v = respostas[p.id];
+      // find text label for display
+      const opt = p.opcoes.find(o => String(o.value) === String(v));
+      return `<li><span class="font-semibold">${escapeHtml(p.texto)}</span> — ${escapeHtml(opt ? opt.text : String(v))}</li>`;
+    }).join('');
+
+    const itemsHtml = list.map((s, idx)=>`
+      <label class="flex items-start gap-3 p-3 border rounded-lg mb-3">
+        <input type="checkbox" class="suggest-check mt-1" data-key="${escapeHtml(s.titulo)}" data-cat="${escapeHtml(s.__categoria)}" data-index="${idx}">
+        <div>
+          <div class="font-semibold">${escapeHtml(s.titulo)} <span class="text-sm text-gray-500">(${escapeHtml(s.__categoria)})</span></div>
+          <div class="text-sm text-gray-600">${escapeHtml(s.descricao || '')}${s.extras ? ' — '+escapeHtml(s.extras) : ''}</div>
+          <div class="text-sm text-green-700 font-semibold mt-1">${formatPrice(Number(s.preco||0))}</div>
+        </div>
+      </label>
+    `).join('');
+
+    setFade(`<div class="fade">
+      <h2 class="text-xl font-bold mb-3">Suas escolhas</h2>
+      <ul class="mb-4 list-disc list-inside text-sm text-gray-700">${chosenSummary}</ul>
+
+      <h3 class="text-lg font-semibold mb-2">Serviços que mais combinam (marque os que desejar)</h3>
+      <form id="recoForm" class="mb-4">${itemsHtml}</form>
+
+      <div class="flex gap-3">
+        <button id="addToCart" class="bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded-lg">Adicionar selecionados ao carrinho</button>
+        <button id="refazer" class="bg-gray-200 hover:bg-gray-300 text-gray-800 py-2 px-4 rounded-lg">Refazer quiz</button>
+      </div>
+      <p class="mt-3 text-sm text-gray-500">${escapeHtml(observacoes||'')}</p>
+    </div>`);
+
+    document.getElementById('refazer').addEventListener('click', ()=>{ respostas={}; indice=0; cart=[]; renderPergunta(0); });
+
+    document.getElementById('addToCart').addEventListener('click', ()=>{
+      const checks = Array.from(document.querySelectorAll('.suggest-check:checked'));
+      if(!checks.length){
+        alert('Marque ao menos um serviço ou clique Voltar para refazer o quiz.');
+        return;
+      }
+      // add selected items to cart (use title as key)
+      checks.forEach(ch=>{
+        const key = ch.dataset.key;
+        // find matching service object by title (and category)
+        const svc = allServices.find(s=>s.titulo === key && s.__categoria === ch.dataset.cat);
+        if(svc && !cart.find(x=>x.titulo===svc.titulo && x.__categoria===svc.__categoria)){
+          cart.push(svc);
+        }
+      });
+      showCart();
+    });
+  }
+
+  // --------- cart UI ----------
+  function showCart(){
+    if(!cart.length){
+      setFade(`<div class="fade"><p class="mb-4">Carrinho vazio.</p><button class="bg-blue-500 text-white py-2 px-4 rounded-lg" onclick="location.reload()">Voltar</button></div>`);
+      return;
+    }
+    const rows = cart.map((s, i)=>`
+      <li class="flex justify-between items-start gap-4 p-3 border rounded-lg mb-2">
+        <div>
+          <div class="font-semibold">${escapeHtml(s.titulo)} <span class="text-sm text-gray-500">(${escapeHtml(s.__categoria)})</span></div>
+          <div class="text-sm text-gray-600">${escapeHtml(s.descricao||'')}</div>
+        </div>
+        <div class="text-right">
+          <div class="font-semibold">${formatPrice(Number(s.preco||0))}</div>
+          <button class="mt-2 text-sm text-red-600 remove-item" data-index="${i}">Remover</button>
+        </div>
+      </li>
+    `).join('');
+
+    const subtotal = cart.reduce((t,s)=>t+(Number(s.preco)||0),0);
+    const desconto = cart.length > 2 ? 0.10 : (cart.length > 1 ? 0.05 : 0);
+    const total = subtotal - subtotal*desconto;
+
+    setFade(`<div class="fade">
+      <h2 class="text-xl font-bold mb-4">Seu carrinho</h2>
+      <ul class="mb-4 list-none p-0">${rows}</ul>
+      <p class="mb-1">Subtotal: <span class="font-semibold">${formatPrice(subtotal)}</span></p>
+      <p class="mb-3 text-green-600">Desconto aplicado: <span class="font-semibold">${Math.round(desconto*100)}%</span></p>
+      <p class="text-lg font-bold mb-4">Total: ${formatPrice(total)}</p>
+      <div class="flex gap-3">
+        <button id="finalizar" class="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg">Finalizar (simular pedido)</button>
+        <button id="voltarRefazer" class="bg-gray-200 hover:bg-gray-300 text-gray-800 py-2 px-4 rounded-lg">Refazer quiz</button>
+      </div>
+    </div>`);
+
+    // listeners
+    document.querySelectorAll('.remove-item').forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        const idx = Number(btn.dataset.index);
+        cart.splice(idx,1);
+        showCart();
+      });
+    });
+
+    document.getElementById('voltarRefazer').addEventListener('click', ()=>{ respostas={}; indice=0; cart=[]; renderPergunta(0); });
+    document.getElementById('finalizar').addEventListener('click', ()=>{
+      // show a modal-like summary (no external calls)
+      const recap = cart.map(s=>`${s.titulo} (${s.__categoria}) — ${formatPrice(Number(s.preco||0))}`).join('\\n');
+      alert('Pedido simulado:\\' + recap + '\ Tire um print e nos envie que nós vamos conversar melhor! (isso é apenas uma simulação)');
+      // optional: reset
+      respostas={}; indice=0; cart=[]; renderPergunta(0);
+    });
+  }
+
+  // ---------- iniciar ----------
+  renderPergunta(0);
+
+})(); // fim IIFE
+</script>
+</body>
+</html>
