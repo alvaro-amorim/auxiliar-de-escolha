@@ -3,26 +3,150 @@
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>Produto ideal para você!</title>
+<title>Encontre o serviço ideal</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <style>
   .fade { opacity: 0; transform: translateY(6px); transition: all .28s ease; }
   .fade.show { opacity: 1; transform: translateY(0); }
   .option-btn { text-align: left; }
+  .chip { user-select: none; }
 </style>
 </head>
-<body class="bg-gray-100 min-h-screen flex items-center justify-center p-6">
-  <main class="w-full max-w-3xl bg-white rounded-2xl shadow-lg p-6">
-    <h1 class="text-2xl font-bold text-center text-blue-700 mb-4">Encontre o serviço ideal</h1>
 
-    <div id="app">
-      <div id="loader" class="text-center text-gray-500">Carregando dados...</div>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center p-6">
+
+  <!-- “gatilho” do modal -->
+  <main class="w-full max-w-3xl bg-white rounded-2xl shadow-lg p-6">
+    <h1 class="text-2xl font-bold text-center text-blue-700 mb-2">Encontre o serviço ideal</h1>
+    <p class="text-center text-gray-600 mb-5">Monte sua seleção em <span class="font-semibold">~2 minutos</span> e finalize com orçamento pré-preenchido.</p>
+
+    <div class="flex justify-center">
+      <button id="openModal" class="bg-blue-600 hover:bg-blue-700 text-white py-3 px-5 rounded-xl font-semibold">
+        Abrir quiz (modal)
+      </button>
+    </div>
+
+    <div class="mt-5 text-center text-xs text-gray-500">
+      Dica: para carregar <code>precos.json</code> no navegador, rode via servidor (ex.: Live Server).
     </div>
   </main>
 
+  <!-- MODAL -->
+  <div id="modal" class="fixed inset-0 hidden items-center justify-center">
+    <div id="backdrop" class="absolute inset-0 bg-black/40"></div>
+
+    <div class="relative w-[min(920px,96vw)] bg-white rounded-2xl shadow-2xl overflow-hidden">
+      <!-- header -->
+      <div class="flex items-center justify-between px-5 py-4 border-b">
+        <div>
+          <div class="text-lg font-bold text-blue-700">Quiz de escolha</div>
+          <div class="text-xs text-gray-500">Interativo • recomenda combos • simula descontos</div>
+        </div>
+        <button id="closeModal" class="p-2 rounded-lg hover:bg-gray-100" aria-label="Fechar">
+          ✕
+        </button>
+      </div>
+
+      <!-- conteúdo -->
+      <div class="grid md:grid-cols-[1.3fr_.7fr] gap-0">
+        <!-- tela principal -->
+        <div class="p-5">
+          <div id="app">
+            <div id="loader" class="text-center text-gray-500">Carregando dados...</div>
+          </div>
+        </div>
+
+        <!-- resumo lateral (vende mais) -->
+        <aside class="p-5 border-t md:border-t-0 md:border-l bg-gray-50">
+          <div class="flex items-center justify-between mb-2">
+            <h3 class="font-semibold text-gray-800">Seu resumo</h3>
+            <span id="progressText" class="text-xs text-gray-500">0%</span>
+          </div>
+
+          <div class="w-full bg-gray-200 rounded-full h-2 mb-4">
+            <div id="progressBar" class="bg-blue-600 h-2 rounded-full" style="width: 0%"></div>
+          </div>
+
+          <div id="sideSummary" class="text-sm text-gray-700 space-y-2">
+            <div class="text-gray-500">Responda o quiz para ver recomendações e preços.</div>
+          </div>
+
+          <div class="mt-5 p-3 bg-white rounded-xl border">
+            <div class="text-sm font-semibold text-gray-800 mb-2">Simulação (ao selecionar)</div>
+            <div id="sideTotals" class="text-sm text-gray-700 space-y-1">
+              <div class="flex justify-between"><span>Subtotal</span><span>—</span></div>
+              <div class="flex justify-between"><span>Desconto</span><span>—</span></div>
+              <div class="flex justify-between font-bold"><span>Total</span><span>—</span></div>
+            </div>
+            <div class="mt-2 text-xs text-gray-500">
+              *Descontos de combo são simulados. Planos já incluem desconto por período.
+            </div>
+          </div>
+
+          <div class="mt-4 text-xs text-gray-500">
+            Estratégia: recomendamos primeiro o mínimo viável (Essencial) e depois elevamos o impacto (Recomendado/Agressivo).
+          </div>
+        </aside>
+      </div>
+
+      <!-- footer -->
+      <div class="flex items-center justify-between px-5 py-4 border-t bg-white">
+        <button id="backBtn" class="hidden bg-gray-200 hover:bg-gray-300 text-gray-800 py-2 px-4 rounded-lg">
+          Voltar
+        </button>
+        <div class="text-xs text-gray-500" id="stepCounter">—</div>
+        <button id="nextBtn" class="hidden bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg">
+          Continuar
+        </button>
+      </div>
+    </div>
+  </div>
+
 <script>
 (async function(){
+  // ---------- modal controls ----------
+  const modal = document.getElementById('modal');
+  const openModalBtn = document.getElementById('openModal');
+  const closeModalBtn = document.getElementById('closeModal');
+  const backdrop = document.getElementById('backdrop');
+
+  function openModal(){
+    modal.classList.remove('hidden');
+    modal.classList.add('flex');
+  }
+  function closeModal(){
+    modal.classList.add('hidden');
+    modal.classList.remove('flex');
+  }
+  openModalBtn.addEventListener('click', openModal);
+  closeModalBtn.addEventListener('click', closeModal);
+  backdrop.addEventListener('click', closeModal);
+
   const app = document.getElementById('app');
+  const sideSummary = document.getElementById('sideSummary');
+  const sideTotals = document.getElementById('sideTotals');
+  const progressBar = document.getElementById('progressBar');
+  const progressText = document.getElementById('progressText');
+  const stepCounter = document.getElementById('stepCounter');
+  const backBtn = document.getElementById('backBtn');
+  const nextBtn = document.getElementById('nextBtn');
+
+  // ---------- utils ----------
+  function escapeHtml(s){ return String(s).replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+  function formatPrice(n){
+    const num = Number(n);
+    if(!isFinite(num)) return String(n);
+    return new Intl.NumberFormat('pt-BR',{style:'currency',currency:'BRL'}).format(num);
+  }
+  function setFade(html){
+    app.innerHTML = html;
+    const el = app.querySelector('.fade');
+    if(el) setTimeout(()=>el.classList.add('show'), 10);
+  }
+  function toArrayText(arr){
+    if(!Array.isArray(arr)) return '';
+    return arr.join(' ');
+  }
 
   // ------------- carregar precos.json -------------
   let dadosJSON;
@@ -31,56 +155,162 @@
     if(!res.ok) throw new Error('Falha ao carregar precos.json — abra via servidor ou coloque o arquivo na mesma pasta.');
     dadosJSON = await res.json();
   } catch(err) {
-    app.innerHTML = `<div class="text-red-600">Erro ao carregar <code>precos.json</code>: ${err.message}</div>`;
+    setFade(`<div class="fade">
+      <div class="text-red-600 font-semibold mb-2">Erro ao carregar <code>precos.json</code></div>
+      <div class="text-gray-700 text-sm">${escapeHtml(err.message)}</div>
+      <div class="mt-3 text-sm text-gray-500">Dica: rode com Live Server / servidor local.</div>
+    </div>`);
     console.error(err);
     return;
   }
 
   const categorias = (dadosJSON.orcamento && Array.isArray(dadosJSON.orcamento.categorias)) ? dadosJSON.orcamento.categorias : [];
-  const observacoes = dadosJSON.orcamento && dadosJSON.orcamento.observacoes ? dadosJSON.orcamento.observacoes : '';
+  const observacoes = (dadosJSON.orcamento && dadosJSON.orcamento.observacoes) ? dadosJSON.orcamento.observacoes : '';
+  const hero = (dadosJSON.orcamento && dadosJSON.orcamento.hero) ? dadosJSON.orcamento.hero : null;
 
   if(!categorias.length){
-    app.innerHTML = `<div class="text-red-600">O arquivo JSON foi carregado mas não contém categorias de serviços em <code>orcamento.categorias</code>.</div>`;
+    setFade(`<div class="fade text-red-600">JSON carregou, mas não há categorias em <code>orcamento.categorias</code>.</div>`);
     return;
   }
 
+  // ------------- normalização de serviços -------------
+  const allServices = [];
+  categorias.forEach(cat=>{
+    if(Array.isArray(cat.servicos)){
+      cat.servicos.forEach((s, idx)=>{
+        const isPlan = Array.isArray(s.precos_por_periodo) && s.precos_por_periodo.length;
+        const displayTitle = s.titulo_venda || s.titulo || 'Serviço';
+        const fullText = [
+          displayTitle,
+          s.titulo || '',
+          s.descricao || '',
+          s.extras || '',
+          toArrayText(s.inclui),
+          toArrayText(s.beneficios)
+        ].join(' ').toLowerCase();
+
+        let priceMin = null;
+        if(isPlan){
+          // considera mensal como "entrada"
+          const mensal = s.precos_por_periodo.find(p => String(p.periodo).toLowerCase().includes('mensal')) || s.precos_por_periodo[0];
+          priceMin = mensal ? Number(mensal.preco_total_com_desc) : null;
+        } else if(typeof s.preco === 'number'){
+          priceMin = Number(s.preco);
+        }
+
+        allServices.push(Object.assign({}, s, {
+          __id: `${cat.nome}::${displayTitle}::${idx}`,
+          __categoria: cat.nome,
+          __displayTitle: displayTitle,
+          __isPlan: isPlan,
+          __priceMin: priceMin,
+          __fullText: fullText
+        }));
+      });
+    }
+  });
+
+  // ------------- perguntas (funil mais vendedor) -------------
   const perguntas = [
     {
-      id: 'tipo',
-      texto: '1) Qual tipo de projeto você quer?',
-      opcoes: categorias.map(c => ({text: c.nome, value: c.nome}))
+      id: 'start',
+      tipo: 'screen',
+      texto: hero?.titulo || 'Monte seu orçamento em 2 minutos',
+      subtitulo: hero?.subtitulo || 'Responda algumas perguntas e receba recomendações com combos e descontos simulados.',
+      cta: hero?.cta || 'Começar'
     },
     {
       id: 'objetivo',
-      texto: '2) Qual o objetivo principal deste projeto?',
+      tipo: 'single',
+      texto: '1) Qual o objetivo principal?',
       opcoes: [
-        {text: 'Gerar vendas/Conversão', value: 'vendas'},
-        {text: 'Fortalecer marca/Branding', value: 'branding'},
-        {text: 'Conteúdo para redes sociais', value: 'social'},
-        {text: 'Educar/Conteúdo técnico', value: 'educativo'}
+        {text: 'Gerar vendas / conversão (promoção, campanha, anúncios)', value: 'vendas'},
+        {text: 'Conteúdo contínuo para redes sociais (semanal/mensal)', value: 'social'},
+        {text: 'Fortalecer marca / branding (visual profissional)', value: 'branding'},
+        {text: 'Educar / conteúdo técnico (explicar, ensinar, tutorial)', value: 'educativo'}
+      ]
+    },
+    {
+      id: 'canais',
+      tipo: 'multi',
+      texto: '2) Onde você vai publicar?',
+      min: 1,
+      opcoes: [
+        {text: 'Instagram (Feed/Stories/Reels)', value: 'instagram'},
+        {text: 'TikTok', value: 'tiktok'},
+        {text: 'YouTube Shorts', value: 'shorts'},
+        {text: 'WhatsApp', value: 'whatsapp'},
+        {text: 'Site', value: 'site'},
+        {text: 'Vários canais', value: 'multi'}
+      ]
+    },
+    {
+      id: 'frequencia',
+      tipo: 'single',
+      texto: '3) Frequência desejada',
+      opcoes: [
+        {text: 'Pontual (uma campanha ou entrega única)', value: 'pontual'},
+        {text: 'Semanal (consistência)', value: 'semanal'},
+        {text: 'Mensal (conteúdo contínuo)', value: 'mensal'}
+      ]
+    },
+    {
+      id: 'tipo',
+      tipo: 'single',
+      texto: '4) Você já sabe qual tipo de serviço procura?',
+      opcoes: [
+        {text: 'Não tenho certeza (quero recomendação)', value: '__AUTO__'},
+        ...categorias.map(c => ({text: c.nome, value: c.nome}))
+      ]
+    },
+    {
+      id: 'materiais',
+      tipo: 'multi',
+      texto: '5) Você já tem materiais prontos?',
+      min: 1,
+      opcoes: [
+        {text: 'Tenho logo/identidade visual', value: 'tem_logo'},
+        {text: 'Tenho fotos do produto/serviço', value: 'tem_fotos'},
+        {text: 'Tenho vídeos gravados', value: 'tem_videos'},
+        {text: 'Tenho roteiro/textos', value: 'tem_texto'},
+        {text: 'Não tenho nada ainda', value: 'nada'}
       ]
     },
     {
       id: 'volume',
-      texto: '3) Volume / duração aproximada',
+      tipo: 'single',
+      texto: '6) Volume aproximado',
       opcoes: [
-        {text: 'Pequeno (ex.: 1–5 imagens, vídeo curto)', value: 'baixo'},
-        {text: 'Médio (ex.: 6–15 imagens, vídeo 30s)', value: 'medio'},
-        {text: 'Alto (ex.: >15 imagens, vídeos longos)', value: 'alto'}
+        {text: 'Pequeno (1–5 artes / vídeo curto)', value: 'baixo'},
+        {text: 'Médio (6–15 artes / 30s)', value: 'medio'},
+        {text: 'Alto (>15 artes / vídeo premium)', value: 'alto'}
+      ]
+    },
+    {
+      id: 'estilo',
+      tipo: 'single',
+      texto: '7) Estilo preferido',
+      opcoes: [
+        {text: 'Minimalista / clean', value: 'clean'},
+        {text: 'Impactante / promocional', value: 'promo'},
+        {text: 'Premium / institucional', value: 'premium'},
+        {text: 'Criativo / divertido', value: 'criativo'}
       ]
     },
     {
       id: 'formato',
-      texto: '4) Prefere pacote completo ou serviço avulso?',
+      tipo: 'single',
+      texto: '8) Prefere pacote completo ou serviço avulso?',
       opcoes: [
-        {text: 'Pacote (combos)', value: 'pacote'},
-        {text: 'Avulso (único)', value: 'avulso'},
+        {text: 'Pacote (combos com economia)', value: 'pacote'},
+        {text: 'Avulso (apenas 1 serviço)', value: 'avulso'},
         {text: 'Indiferente', value: 'indiferente'}
       ]
     },
     {
       id: 'orcamento',
-      texto: '5) Faixa de orçamento aproximada',
+      tipo: 'single',
+      texto: '9) Faixa de orçamento (aproximada)',
       opcoes: [
         {text: 'Até R$100', value: 100},
         {text: 'Até R$300', value: 300},
@@ -90,198 +320,808 @@
     },
     {
       id: 'prazo',
-      texto: '6) Prazo desejado (opcional) — isso pode influenciar recomendações',
+      tipo: 'single_optional',
+      texto: '10) Prazo desejado (opcional)',
       opcoes: [
         {text: 'Até 3 dias', value: '3d'},
         {text: 'Até 7 dias', value: '7d'},
-        {text: 'Mais que 7 dias', value: 'maior'}
+        {text: 'Mais que 7 dias', value: 'maior'},
+        {text: 'Não sei / sem pressa', value: '__SKIP__'}
       ]
     }
   ];
 
+  // ---------- estado ----------
   let respostas = {};
   let indice = 0;
-  const allServices = [];
-  categorias.forEach(cat=>{
-    if(Array.isArray(cat.servicos)){
-      cat.servicos.forEach(s=>{
-        allServices.push(Object.assign({}, s, {__categoria: cat.nome}));
-      });
-    }
-  });
 
-  function clearApp(){ app.innerHTML = ''; }
-  function setFade(html){
-    app.innerHTML = html;
-    const el = app.querySelector('.fade');
-    if(el) setTimeout(()=>el.classList.add('show'), 10);
+  // ---------- UI helpers ----------
+  function updateProgress(){
+    const totalSteps = perguntas.length - 1; // sem contar start?
+    const current = Math.max(0, indice - 1);
+    const pct = Math.round((current / totalSteps) * 100);
+    progressBar.style.width = `${Math.min(100, Math.max(0, pct))}%`;
+    progressText.textContent = `${Math.min(100, Math.max(0, pct))}%`;
   }
-  function escapeHtml(s){ return String(s).replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
-  function formatPrice(n){ return typeof n === 'number' ? new Intl.NumberFormat('pt-BR',{style:'currency',currency:'BRL'}).format(n) : n; }
-  function renderPergunta(i){
-    indice = i;
-    if(i >= perguntas.length) return computeRecommendations();
-    const p = perguntas[i];
-    const opsHtml = p.opcoes.map(o=>`<button class="option-btn option transition-all option-btn w-full option-btn py-3 px-4 bg-blue-500 hover:bg-blue-600 text-white rounded-lg option-btn" data-val="${escapeHtml(o.value)}">${escapeHtml(o.text)}</button>`).join('');
-    setFade(`<div class="fade">
-      <p class="text-lg font-semibold mb-4">${escapeHtml(p.texto)}</p>
-      <div class="flex flex-col gap-3 mb-4">${opsHtml}</div>
-      <div class="text-sm text-gray-500">Pergunta ${i+1} de ${perguntas.length}</div>
-    </div>`);
 
-    app.querySelectorAll('.option-btn').forEach(btn=>{
-      btn.addEventListener('click', ()=>{
-        const v = btn.dataset.val;
-        respostas[p.id] = (isNaN(Number(v)) ? v : Number(v));
-        renderPergunta(i+1);
-      });
+  function renderSideSummary(){
+    const lines = [];
+    const mapLabel = {
+      objetivo: 'Objetivo',
+      canais: 'Canais',
+      frequencia: 'Frequência',
+      tipo: 'Tipo',
+      materiais: 'Materiais',
+      volume: 'Volume',
+      estilo: 'Estilo',
+      formato: 'Preferência',
+      orcamento: 'Orçamento',
+      prazo: 'Prazo'
+    };
+
+    Object.keys(mapLabel).forEach(k=>{
+      if(typeof respostas[k] === 'undefined') return;
+      let v = respostas[k];
+      if(Array.isArray(v)) v = v.join(', ');
+      if(k === 'orcamento') v = `Até R$${respostas[k]}`;
+      if(k === 'tipo' && v === '__AUTO__') v = 'Recomendação automática';
+      if(k === 'prazo' && v === '__SKIP__') v = 'Sem preferência';
+      lines.push(`<div class="flex justify-between gap-3"><span class="text-gray-500">${escapeHtml(mapLabel[k])}</span><span class="font-semibold text-gray-800 text-right">${escapeHtml(String(v))}</span></div>`);
     });
+
+    if(!lines.length){
+      sideSummary.innerHTML = `<div class="text-gray-500">Responda o quiz para ver recomendações e preços.</div>`;
+      return;
+    }
+    sideSummary.innerHTML = `<div class="space-y-2">${lines.join('')}</div>`;
   }
+
+  function showNavButtons(showBack, showNext){
+    backBtn.classList.toggle('hidden', !showBack);
+    nextBtn.classList.toggle('hidden', !showNext);
+  }
+
   function textForService(s){
-    let t = (s.titulo||'') + ' ' + (s.descricao||'') + ' ' + (s.extras||'');
-    return t.toLowerCase();
+    return s.__fullText || '';
   }
-  function scoreService(s, answers){
+
+  // ---------- score engine (simples e efetivo) ----------
+  function scoreService(s, a){
     let score = 0;
-    if(s.__categoria === answers.tipo) score += 3;
-    const budget = Number(answers.orcamento) || Infinity;
-    if(typeof s.preco === 'number' && s.preco <= budget) score += 2;
-    if(typeof s.preco === 'number' && s.preco <= (budget/2)) score += 1;
+
+    // categoria selecionada (se houver)
+    if(a.tipo && a.tipo !== '__AUTO__' && s.__categoria === a.tipo) score += 6;
+
+    // orçamento (filtro suave)
+    const budget = Number(a.orcamento) || Infinity;
+    if(typeof s.__priceMin === 'number'){
+      if(s.__priceMin <= budget) score += 4;
+      else score -= 6; // muito fora do orçamento
+      if(s.__priceMin <= budget/2) score += 1;
+    }
+
+    // objetivo
     const txt = textForService(s);
-    const obj = answers.objetivo;
-    if(obj === 'vendas'){
-      if(/\bvendas?\b|venda|conversão|conversao|reserva|pedido|comissão|promo/ig.test(txt)) score += 2;
-      if(/\banúncio|anuncio|ads|campanha|campanhas|promoção|promocao/ig.test(txt)) score += 1;
+    if(a.objetivo === 'vendas'){
+      if(/\bvenda|vendas|convers|promo|campanh|ads|an[uú]ncio|cta|oferta|reserv/ig.test(txt)) score += 5;
+      if(/\bshort|storytelling|reels|tiktok|impact/ig.test(txt)) score += 2;
     }
-    if(obj === 'branding'){
-      if(/\blogo|branding|identidade|identidade visual|marca|manual/ig.test(txt)) score += 2;
+    if(a.objetivo === 'social'){
+      // empurra planos quando frequência é mensal/semanal
+      if(s.__isPlan) score += (a.frequencia === 'mensal' ? 10 : 6);
+      if(/\binstagram|tiktok|reels|shorts|stories|conte[uú]do|feed/ig.test(txt)) score += 4;
+      if(/\bimagem|artes?|pack\b|v[ií]deo/ig.test(txt)) score += 2;
     }
-    if(obj === 'social'){
-      if(/\breels|shorts|social|instagram|facebook|tiktok|stories|conteúdo|conteudo/ig.test(txt)) score += 2;
-      if(/\bvídeo|video|imagem|imagens/ig.test(txt)) score += 1;
+    if(a.objetivo === 'branding'){
+      if(/\blogo|identidade|brand|marca|website|site|manual|mascote|personagem/ig.test(txt)) score += 6;
+      if(/\bpremium|institucional|corporativo/ig.test(txt)) score += 2;
     }
-    if(obj === 'educativo'){
-      if(/\bpodcast|ensai|ensaio|educa|tutorial|treinamento|curso/ig.test(txt)) score += 2;
-      if(/\bvídeo|video|webinar/ig.test(txt)) score += 1;
+    if(a.objetivo === 'educativo'){
+      if(/\btutorial|trein|curso|explic|ensaio|podcast|roteiro/ig.test(txt)) score += 5;
+      if(/\bv[ií]deo|narra|dublag/ig.test(txt)) score += 2;
     }
-    const vol = answers.volume;
-    if(/imagem|imagens|imagem/i.test(s.__categoria.toLowerCase())){
-      if(vol === 'baixo'){
-        if(/\b5\b|5 imagens|5 imagem|\baté 5\b/i.test(txt) || (s.preco && s.preco <= 80)) score += 2;
-      } else if(vol === 'medio'){
-        if(/\b10\b|10 imagens|até 10/i.test(txt) || (s.preco>80 && s.preco<=160)) score += 2;
-      } else if(vol === 'alto'){
-        if(/\b15\b|15 imagens|mais de 15|sob consulta|sob-consulta/i.test(txt) || (s.preco > 160)) score += 2;
+
+    // canais
+    const canais = Array.isArray(a.canais) ? a.canais : [];
+    if(canais.includes('instagram') || canais.includes('tiktok') || canais.includes('shorts')){
+      if(/\breels|tiktok|shorts|stories|vertical|15s|30s/ig.test(txt)) score += 2;
+    }
+    if(canais.includes('site')){
+      if(/\bwebsite|site|landing|corporativo/ig.test(txt)) score += 3;
+    }
+    if(canais.includes('whatsapp')){
+      if(/\bpack|imagem|arte|card|story|stories|banner/ig.test(txt)) score += 2;
+    }
+
+    // materiais (se não tem logo, puxa identidade)
+    const mats = Array.isArray(a.materiais) ? a.materiais : [];
+    if(mats.includes('nada') && /\bidentidade|logo/ig.test(txt)) score += 4;
+
+    // volume (imagens/vídeos)
+    if(a.volume){
+      if(/imagens/i.test(s.__categoria.toLowerCase())){
+        if(a.volume === 'baixo' && /\b5\b|5 artes|5 imagens|visual r[aá]pido/ig.test(txt)) score += 3;
+        if(a.volume === 'medio' && /\b10\b|engajamento|10 artes|10 imagens/ig.test(txt)) score += 3;
+        if(a.volume === 'alto' && /\b15\b|crescimento|15 artes|15 imagens/ig.test(txt)) score += 3;
+      }
+      if(/v[ií]deos/i.test(s.__categoria.toLowerCase())){
+        if(a.volume === 'baixo' && /\b15\b|short/ig.test(txt)) score += 3;
+        if(a.volume === 'medio' && /\b30\b|storytelling/ig.test(txt)) score += 3;
+        if(a.volume === 'alto' && /\b60\b|premium/ig.test(txt)) score += 3;
       }
     }
-    if(/vídeo|video/i.test(s.__categoria.toLowerCase())){
-      if(vol === 'baixo'){
-        if(/\b15\b|15 segundos|rápido|rápido|rápida/i.test(txt) || (s.preco && s.preco <= 120)) score += 2;
-      } else if(vol === 'medio'){
-        if(/\b30\b|30 segundos|simples/i.test(txt) || (s.preco > 120 && s.preco <= 350)) score += 2;
-      } else if(vol === 'alto'){
-        if(/\b60\b|1 min|1 minuto|elaborad|premium/i.test(txt) || (s.preco > 350)) score += 2;
-      }
-    }
-    if(answers.prazo === '3d' && /\bra(pido|ápido)|express|fast|urgente|rápido/i.test(textForService(s))) score += 1;
+
+    // prazo (se quer rápido, favorece “rápido/1 dia/express”)
+    if(a.prazo === '3d' && /\br[aá]pid|express|1 dia|prazo acelerado/ig.test(txt)) score += 2;
+
+    // estilo (sutil)
+    if(a.estilo === 'premium' && /\bpremium|corporativo|institucional/ig.test(txt)) score += 1;
+    if(a.estilo === 'promo' && /\bpromo|oferta|impact/ig.test(txt)) score += 1;
+    if(a.estilo === 'clean' && /\bminimal|clean|simples/ig.test(txt)) score += 1;
+    if(a.estilo === 'criativo' && /\bcriativ|divertid|mascote|personagem/ig.test(txt)) score += 1;
+
     return score;
   }
-  function computeRecommendations(){
-    const required = ['tipo','objetivo','volume','formato','orcamento'];
-    for(const r of required){
-      if(typeof respostas[r] === 'undefined'){
-        const nextIndex = perguntas.findIndex(p=>p.id===r);
-        return renderPergunta(nextIndex >=0 ? nextIndex : 0);
-      }
+
+  function comboDiscountPerc(qtd){
+    if(qtd >= 4) return 12;
+    if(qtd === 3) return 8;
+    if(qtd === 2) return 5;
+    return 0;
+  }
+
+  // ---------- perguntas renderer ----------
+  function renderPergunta(i){
+    indice = i;
+    updateProgress();
+    renderSideSummary();
+
+    // contador
+    const visibleSteps = perguntas.filter(p => p.tipo !== 'screen').length;
+    const currentVisibleIndex = Math.max(0, perguntas.slice(0,i).filter(p=>p.tipo!=='screen').length);
+    stepCounter.textContent = (i === 0) ? 'Início' : `Etapa ${currentVisibleIndex} de ${visibleSteps}`;
+
+    // nav
+    showNavButtons(i > 0, false);
+
+    const p = perguntas[i];
+
+    // START SCREEN
+    if(p.tipo === 'screen'){
+      setFade(`<div class="fade">
+        <h2 class="text-2xl font-extrabold text-gray-900 mb-2">${escapeHtml(p.texto)}</h2>
+        <p class="text-gray-600 mb-5">${escapeHtml(p.subtitulo || '')}</p>
+        <div class="grid sm:grid-cols-3 gap-3 mb-6">
+          <div class="p-4 rounded-xl border">
+            <div class="font-semibold text-gray-800">Recomendação automática</div>
+            <div class="text-sm text-gray-600">O quiz sugere serviços e pacotes com base no seu objetivo.</div>
+          </div>
+          <div class="p-4 rounded-xl border">
+            <div class="font-semibold text-gray-800">Combos e economia</div>
+            <div class="text-sm text-gray-600">Simula desconto ao juntar serviços (sem compromisso).</div>
+          </div>
+          <div class="p-4 rounded-xl border">
+            <div class="font-semibold text-gray-800">Finaliza com 1 clique</div>
+            <div class="text-sm text-gray-600">Você chega no orçamento com o formulário pronto.</div>
+          </div>
+        </div>
+        <button id="startBtn" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 px-5 rounded-xl font-semibold">
+          ${escapeHtml(p.cta || 'Começar')}
+        </button>
+      </div>`);
+      document.getElementById('startBtn').addEventListener('click', ()=>renderPergunta(i+1));
+      return;
     }
-    const budget = Number(respostas.orcamento) || Infinity;
-    const scored = allServicesWithCategory().map(s => {
-      return { service: s, score: scoreService(s, respostas) };
+
+    // SINGLE / SINGLE_OPTIONAL
+    if(p.tipo === 'single' || p.tipo === 'single_optional'){
+      const opsHtml = p.opcoes.map(o=>`
+        <button class="option-btn w-full py-3 px-4 bg-blue-600 hover:bg-blue-700 text-white rounded-xl transition-all"
+          data-val="${escapeHtml(o.value)}">
+          ${escapeHtml(o.text)}
+        </button>
+      `).join('');
+
+      setFade(`<div class="fade">
+        <p class="text-lg font-semibold mb-4">${escapeHtml(p.texto)}</p>
+        <div class="flex flex-col gap-3 mb-4">${opsHtml}</div>
+        <div class="text-xs text-gray-500">Clique em uma opção para avançar.</div>
+      </div>`);
+
+      app.querySelectorAll('.option-btn').forEach(btn=>{
+        btn.addEventListener('click', ()=>{
+          const v = btn.dataset.val;
+          respostas[p.id] = (isNaN(Number(v)) ? v : Number(v));
+          renderPergunta(i+1);
+        });
+      });
+
+      backBtn.onclick = ()=>renderPergunta(i-1);
+      showNavButtons(i>0, false);
+      return;
+    }
+
+    // MULTI
+    if(p.tipo === 'multi'){
+      const current = Array.isArray(respostas[p.id]) ? respostas[p.id] : [];
+      const chips = p.opcoes.map(o=>{
+        const active = current.includes(o.value);
+        return `
+          <button type="button"
+            class="chip px-3 py-2 rounded-xl border text-sm transition-all ${active ? 'bg-blue-600 text-white border-blue-600' : 'bg-white hover:bg-gray-50'}"
+            data-val="${escapeHtml(o.value)}">
+            ${escapeHtml(o.text)}
+          </button>
+        `;
+      }).join('');
+
+      setFade(`<div class="fade">
+        <p class="text-lg font-semibold mb-4">${escapeHtml(p.texto)}</p>
+        <div class="flex flex-wrap gap-2 mb-4">${chips}</div>
+        <div class="flex items-center justify-between gap-3">
+          <div class="text-xs text-gray-500">Selecione ${p.min || 1}+ opção(ões) e clique em Continuar.</div>
+          <button id="multiNext" class="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg font-semibold disabled:opacity-40 disabled:cursor-not-allowed" disabled>
+            Continuar
+          </button>
+        </div>
+      </div>`);
+
+      const btnNext = document.getElementById('multiNext');
+      function updateBtn(){
+        const cur = Array.isArray(respostas[p.id]) ? respostas[p.id] : [];
+        btnNext.disabled = cur.length < (p.min || 1);
+      }
+
+      app.querySelectorAll('.chip').forEach(ch=>{
+        ch.addEventListener('click', ()=>{
+          const val = ch.dataset.val;
+          let cur = Array.isArray(respostas[p.id]) ? respostas[p.id].slice() : [];
+          if(cur.includes(val)) cur = cur.filter(x=>x!==val);
+          else cur.push(val);
+          respostas[p.id] = cur;
+
+          // re-render para refletir ativo/inativo
+          renderPergunta(i);
+        });
+      });
+
+      btnNext.addEventListener('click', ()=>{
+        renderPergunta(i+1);
+      });
+
+      updateBtn();
+
+      backBtn.onclick = ()=>renderPergunta(i-1);
+      showNavButtons(i>0, false);
+      return;
+    }
+
+    // fallback
+    renderPergunta(i+1);
+  }
+
+  // ---------- recomendações / pacotes ----------
+  function pickTopServices(a, limit){
+    const budget = Number(a.orcamento) || Infinity;
+    const scored = allServices.map(s => ({ s, score: scoreService(s, a) }));
+
+    // filtra pelo budget (mas deixa entrar se budget = 999999)
+    const filtered = scored.filter(x=>{
+      if(budget === 999999) return true;
+      if(typeof x.s.__priceMin !== 'number') return true;
+      return x.s.__priceMin <= budget;
     });
-    const filtered = scored.filter(x => (typeof x.service.preco !== 'number' || x.service.preco <= budget) || budget === 999999);
-    filtered.sort((a,b)=>{
-      if(b.score !== a.score) return b.score - a.score;
-      const pa = a.service.preco || 0, pb = b.service.preco || 0;
+
+    filtered.sort((A,B)=>{
+      if(B.score !== A.score) return B.score - A.score;
+      const pa = A.s.__priceMin ?? 999999;
+      const pb = B.s.__priceMin ?? 999999;
       return pa - pb;
     });
-    let recomendados = filtered.filter(x => x.score > 0).map(x=>x.service);
-    if(recomendados.length === 0){
-      const cat = categorias.find(c=>c.nome===respostas.tipo);
-      if(cat && Array.isArray(cat.servicos) && cat.servicos.length){
-        recomendados = cat.servicos.slice(0,6);
-      } else {
-        const all = allServicesWithCategory().slice().sort((a,b)=>(a.preco||0)-(b.preco||0));
-        recomendados = all.slice(0,6);
-      }
-    } else {
-      recomendados = recomendados.slice(0,8);
+
+    const top = filtered.filter(x=>x.score > 0).slice(0, limit).map(x=>x.s);
+    return top.length ? top : filtered.slice(0, limit).map(x=>x.s);
+  }
+
+  function findServiceByRegex(re, preferCategory){
+    const list = preferCategory ? allServices.filter(s=>s.__categoria===preferCategory) : allServices;
+    return list.find(s => re.test((s.__displayTitle||'')+' '+(s.titulo||'')+' '+(s.descricao||'')));
+  }
+
+  function buildPackages(a, topList){
+    // tenta montar pacotes com lógica simples e vendável
+    const budget = Number(a.orcamento) || Infinity;
+
+    const bestImages = topList.find(s => /imagens/i.test(s.__categoria));
+    const bestVideo  = topList.find(s => /v[ií]deos/i.test(s.__categoria));
+    const bestPlan   = topList.find(s => s.__isPlan);
+    const identity   = findServiceByRegex(/\bidentidade|logo\b/i, 'Serviços Avulsos') || findServiceByRegex(/\bidentidade|logo\b/i);
+    const website    = findServiceByRegex(/\bwebsite|site\b/i, 'Serviços Avulsos') || findServiceByRegex(/\bwebsite|site\b/i);
+    const narra      = findServiceByRegex(/\bnarra/ig, 'Serviços Avulsos') || findServiceByRegex(/\bnarra/ig);
+    const trilha     = findServiceByRegex(/\btrilha/ig, 'Serviços Avulsos') || findServiceByRegex(/\btrilha/ig);
+
+    // helper: respeitar budget de forma leve
+    function withinBudget(s){
+      if(!s) return false;
+      if(budget === 999999) return true;
+      if(typeof s.__priceMin !== 'number') return true;
+      return s.__priceMin <= budget;
     }
-    showRecommendations(recomendados);
-  }
-  function allServicesWithCategory(){
-    return allServices;
-  }
 
-  // ---------- show recommendations + checklist ----------
-  function showRecommendations(list){
-    const chosenSummary = perguntas.map(p=>{
-      const v = respostas[p.id];
-      const opt = p.opcoes.find(o => String(o.value) === String(v));
-      return `<li><span class="font-semibold">${escapeHtml(p.texto)}</span> — ${escapeHtml(opt ? opt.text : String(v))}</li>`;
-    }).join('');
+    const mats = Array.isArray(a.materiais) ? a.materiais : [];
+    const needsIdentity = mats.includes('nada') || !mats.includes('tem_logo');
 
-    const itemsHtml = list.map((s, idx)=>`
-      <label class="flex items-start gap-3 p-3 border rounded-lg mb-3">
-        <input type="checkbox" class="suggest-check mt-1" data-cat="${escapeHtml(s.__categoria)}" data-title="${escapeHtml(s.titulo)}">
-        <div>
-          <div class="font-semibold">${escapeHtml(s.titulo)} <span class="text-sm text-gray-500">(${escapeHtml(s.__categoria)})</span></div>
-          <div class="text-sm text-gray-600">${escapeHtml(s.descricao || '')}${s.extras ? ' — '+escapeHtml(s.extras) : ''}</div>
-          <div class="text-sm text-green-700 font-semibold mt-1">${formatPrice(Number(s.preco||0))}</div>
-        </div>
-      </label>
-    `).join('');
+    // Pacote Essencial
+    const essential = [];
+    if(a.objetivo === 'social' && (a.frequencia === 'mensal' || a.frequencia === 'semanal') && bestPlan && withinBudget(bestPlan)){
+      essential.push({id: bestPlan.__id, kind:'plan', period:'Mensal'});
+    } else {
+      if(bestImages && withinBudget(bestImages)) essential.push({id: bestImages.__id, kind:'service'});
+      if(bestVideo && withinBudget(bestVideo) && (a.objetivo==='vendas' || a.objetivo==='educativo')) essential.push({id: bestVideo.__id, kind:'service'});
+      if(!essential.length && topList[0]) essential.push({id: topList[0].__id, kind:'service'});
+    }
 
-    setFade(`<div class="fade">
-      <h2 class="text-xl font-bold mb-3">Suas escolhas</h2>
-      <ul class="mb-4 list-disc list-inside text-sm text-gray-700">${chosenSummary}</ul>
+    // Pacote Recomendado (maior ROI)
+    const recommended = essential.slice();
+    if(needsIdentity && identity && withinBudget(identity)){
+      recommended.unshift({id: identity.__id, kind:'service'});
+    }
+    if(narra && withinBudget(narra) && !recommended.find(x=>x.id===narra.__id) && (a.objetivo==='vendas' || a.objetivo==='educativo' || a.objetivo==='social')){
+      recommended.push({id: narra.__id, kind:'service'});
+    }
+    if(trilha && withinBudget(trilha) && !recommended.find(x=>x.id===trilha.__id) && (a.objetivo==='vendas' || a.objetivo==='social')){
+      recommended.push({id: trilha.__id, kind:'service'});
+    }
+    // se social e não pegou plano, tenta colocar um plano como upgrade
+    if(a.objetivo === 'social' && bestPlan && withinBudget(bestPlan) && !recommended.find(x=>x.id===bestPlan.__id)){
+      recommended.unshift({id: bestPlan.__id, kind:'plan', period:'Mensal'});
+    }
 
-      <h3 class="text-lg font-semibold mb-2">Serviços que mais combinam (marque os que desejar)</h3>
-      <form id="recoForm" class="mb-4">${itemsHtml}</form>
-
-      <div class="flex gap-3">
-        <button id="go-to-orcamento" class="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg">Fazer orçamento com estes serviços</button>
-        <button id="refazer" class="bg-gray-200 hover:bg-gray-300 text-gray-800 py-2 px-4 rounded-lg">Refazer quiz</button>
-      </div>
-      <p class="mt-3 text-sm text-gray-500">${escapeHtml(observacoes||'')}</p>
-    </div>`);
-
-    document.getElementById('refazer').addEventListener('click', ()=>{ respostas={}; indice=0; renderPergunta(0); });
-    document.getElementById('go-to-orcamento').addEventListener('click', ()=>{
-      const checks = Array.from(document.querySelectorAll('.suggest-check:checked'));
-      const selectedTitles = checks.map(ch => ch.dataset.title);
-      const selectedCats = checks.map(ch => ch.dataset.cat);
-      
-      const resumoQuiz = `
-        - Qual tipo de projeto você quer? ${respostas.tipo}
-        - Qual o objetivo principal deste projeto? ${respostas.objetivo}
-        - Volume / duração aproximada: ${respostas.volume}
-        - Prefere pacote completo ou serviço avulso? ${respostas.formato}
-        - Faixa de orçamento aproximada: Até R$${respostas.orcamento}
-        - Prazo desejado: ${respostas.prazo}
-      `;
-      const encodedResumo = encodeURIComponent(resumoQuiz);
-      
-      const encodedServices = encodeURIComponent(JSON.stringify(checks.map(ch => ({
-        category: ch.dataset.cat,
-        title: ch.dataset.title
-      }))));
-
-      window.open(`https://www.comercias.com.br/orcamento?servicos=${encodedServices}&resumo=${encodedResumo}`, '_blank');
+    // Pacote Agressivo (impacto)
+    const aggressive = recommended.slice();
+    if(a.objetivo === 'branding'){
+      if(website && withinBudget(website) && !aggressive.find(x=>x.id===website.__id)){
+        aggressive.push({id: website.__id, kind:'service'});
+      }
+    }
+    // mais um “top” extra
+    topList.slice(0,6).forEach(s=>{
+      if(aggressive.length >= 6) return;
+      if(!aggressive.find(x=>x.id===s.__id) && withinBudget(s)){
+        aggressive.push({id: s.__id, kind: s.__isPlan ? 'plan' : 'service', period: s.__isPlan ? 'Mensal' : undefined});
+      }
     });
+
+    return [
+      {tier:'Essencial', badge:'Começar rápido', items: essential},
+      {tier:'Recomendado', badge:'Melhor custo-benefício', items: recommended},
+      {tier:'Agressivo', badge:'Máximo impacto', items: aggressive}
+    ];
   }
+
+  // ---------- cálculo de totais ----------
+  function getServiceById(id){ return allServices.find(s=>s.__id===id); }
+
+  function computeTotals(selected){
+    // selected: array of {id, kind:'service'|'plan', period?}
+    let avulsoSubtotal = 0;
+    let planTotal = 0;
+    let planSavings = 0;
+
+    const avulsos = [];
+    const plans = [];
+
+    selected.forEach(it=>{
+      const s = getServiceById(it.id);
+      if(!s) return;
+
+      if(s.__isPlan){
+        plans.push({ s, period: it.period || 'Mensal' });
+      } else {
+        avulsos.push(s);
+      }
+    });
+
+    avulsos.forEach(s=>{
+      const p = Number(s.preco ?? s.__priceMin ?? 0);
+      avulsoSubtotal += (isFinite(p) ? p : 0);
+    });
+
+    // desconto combo (só em avulsos; planos já têm desconto por período)
+    const comboPerc = comboDiscountPerc(avulsos.length);
+    const comboDiscount = Math.round((avulsoSubtotal * comboPerc) * 100) / 100;
+    const avulsoTotal = avulsoSubtotal - comboDiscount;
+
+    // planos
+    plans.forEach(({s, period})=>{
+      const opt = Array.isArray(s.precos_por_periodo)
+        ? (s.precos_por_periodo.find(p => String(p.periodo).toLowerCase() === String(period).toLowerCase())
+           || s.precos_por_periodo.find(p => String(p.periodo).toLowerCase().includes(String(period).toLowerCase()))
+           || s.precos_por_periodo[0])
+        : null;
+
+      if(opt){
+        planTotal += Number(opt.preco_total_com_desc || 0);
+        const sem = Number(opt.preco_total_sem_desc || 0);
+        const com = Number(opt.preco_total_com_desc || 0);
+        planSavings += Math.max(0, sem - com);
+      } else {
+        planTotal += Number(s.__priceMin || 0);
+      }
+    });
+
+    const total = avulsoTotal + planTotal;
+
+    return {
+      avulsoSubtotal,
+      comboPerc,
+      comboDiscount,
+      avulsoTotal,
+      planTotal,
+      planSavings,
+      total
+    };
+  }
+
+  function renderTotalsBox(tot){
+    const discLabel = tot.comboPerc ? `-${tot.comboPerc}%` : '—';
+    sideTotals.innerHTML = `
+      <div class="flex justify-between"><span>Subtotal (avulsos)</span><span>${formatPrice(tot.avulsoSubtotal)}</span></div>
+      <div class="flex justify-between"><span>Desconto combo ${escapeHtml(discLabel)}</span><span>${tot.comboDiscount ? '-'+formatPrice(tot.comboDiscount) : '—'}</span></div>
+      <div class="flex justify-between"><span>Planos</span><span>${tot.planTotal ? formatPrice(tot.planTotal) : '—'}</span></div>
+      <div class="flex justify-between font-bold"><span>Total</span><span>${formatPrice(tot.total)}</span></div>
+    `;
+  }
+
+  // ---------- tela de resultados ----------
+  function renderResults(){
+    // valida mínimo
+    const required = ['objetivo','canais','frequencia','tipo','materiais','volume','estilo','formato','orcamento'];
+    for(const r of required){
+      if(typeof respostas[r] === 'undefined'){
+        const idx = perguntas.findIndex(p=>p.id===r);
+        return renderPergunta(idx >= 0 ? idx : 0);
+      }
+    }
+
+    const topList = pickTopServices(respostas, 14);
+    const packages = buildPackages(respostas, topList);
+
+    // estado seleção final
+    let selectedMap = new Map(); // id -> {id,kind,period?}
+
+    function applyPackage(pkg){
+      selectedMap.clear();
+      pkg.items.forEach(it=>{
+        selectedMap.set(it.id, { id: it.id, kind: it.kind, period: it.period });
+      });
+      renderSelectionArea();
+    }
+
+    function toggleService(id){
+      if(selectedMap.has(id)) selectedMap.delete(id);
+      else {
+        const s = getServiceById(id);
+        if(!s) return;
+        selectedMap.set(id, { id, kind: s.__isPlan ? 'plan' : 'service', period: s.__isPlan ? 'Mensal' : undefined });
+      }
+      renderSelectionArea(false);
+    }
+
+    function updatePlanPeriod(id, period){
+      const it = selectedMap.get(id);
+      if(it){
+        it.period = period;
+        selectedMap.set(id, it);
+        renderSelectionArea(false);
+      }
+    }
+
+    function buildChosenSummaryText(){
+      const canais = Array.isArray(respostas.canais) ? respostas.canais.join(', ') : String(respostas.canais || '');
+      const mats = Array.isArray(respostas.materiais) ? respostas.materiais.join(', ') : String(respostas.materiais || '');
+      return `
+- Objetivo: ${respostas.objetivo}
+- Canais: ${canais}
+- Frequência: ${respostas.frequencia}
+- Tipo desejado: ${respostas.tipo === '__AUTO__' ? 'Recomendação automática' : respostas.tipo}
+- Materiais: ${mats}
+- Volume: ${respostas.volume}
+- Estilo: ${respostas.estilo}
+- Preferência: ${respostas.formato}
+- Orçamento: Até R$${respostas.orcamento}
+- Prazo: ${respostas.prazo === '__SKIP__' ? 'Sem preferência' : (respostas.prazo || '—')}
+      `.trim();
+    }
+
+    function servicesForChecklist(){
+      // sugere serviços mais relevantes, mas garante variedade
+      const already = new Set();
+      const list = [];
+
+      // pega top por categoria (até 2 por categoria)
+      const byCat = {};
+      topList.forEach(s=>{
+        byCat[s.__categoria] = byCat[s.__categoria] || [];
+        byCat[s.__categoria].push(s);
+      });
+      Object.keys(byCat).forEach(cat=>{
+        byCat[cat].slice(0,2).forEach(s=>{
+          if(!already.has(s.__id)){ list.push(s); already.add(s.__id); }
+        });
+      });
+
+      // completa até 12
+      topList.forEach(s=>{
+        if(list.length >= 12) return;
+        if(!already.has(s.__id)){ list.push(s); already.add(s.__id); }
+      });
+
+      return list.slice(0,12);
+    }
+
+    function renderSelectionArea(resetScroll=true){
+      const selectedArr = Array.from(selectedMap.values());
+      const totals = computeTotals(selectedArr);
+      renderTotalsBox(totals);
+
+      const chosenSummary = buildChosenSummaryText();
+
+      const pkgHtml = packages.map(pkg=>{
+        const itemsList = pkg.items.map(it=>{
+          const s = getServiceById(it.id);
+          if(!s) return '';
+          const label = s.__displayTitle;
+          const isPlan = s.__isPlan;
+          return `<li class="text-sm text-gray-700">${escapeHtml(label)}${isPlan ? ` <span class="text-xs text-gray-500">(Plano ${escapeHtml(it.period||'Mensal')})</span>` : ''}</li>`;
+        }).join('');
+
+        // simulação de preço do pacote
+        const simulatedTotals = computeTotals(pkg.items);
+        const savingsText = [];
+        if(simulatedTotals.comboDiscount > 0) savingsText.push(`combo: -${formatPrice(simulatedTotals.comboDiscount)}`);
+        if(simulatedTotals.planSavings > 0) savingsText.push(`plano: -${formatPrice(simulatedTotals.planSavings)}`);
+
+        return `
+          <div class="p-4 rounded-2xl border bg-white">
+            <div class="flex items-center justify-between mb-1">
+              <div class="text-lg font-bold text-gray-900">${escapeHtml(pkg.tier)}</div>
+              <span class="text-xs px-2 py-1 rounded-full bg-blue-100 text-blue-700 font-semibold">${escapeHtml(pkg.badge)}</span>
+            </div>
+            <div class="text-sm text-gray-600 mb-3">Pacote sugerido com base nas suas respostas.</div>
+            <ul class="list-disc list-inside mb-3">${itemsList}</ul>
+            <div class="flex items-end justify-between gap-3 mb-3">
+              <div>
+                <div class="text-xs text-gray-500">Total estimado</div>
+                <div class="text-lg font-extrabold text-green-700">${formatPrice(simulatedTotals.total)}</div>
+                <div class="text-xs text-gray-500">${savingsText.length ? `Economia (${savingsText.join(' + ')})` : '—'}</div>
+              </div>
+              <button class="applyPkg bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-xl font-semibold" data-tier="${escapeHtml(pkg.tier)}">
+                Aplicar ${escapeHtml(pkg.tier)}
+              </button>
+            </div>
+            <div class="text-xs text-gray-500">
+              *Simulação automática. Você pode adicionar/remover itens abaixo.
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      const checklist = servicesForChecklist().map(s=>{
+        const checked = selectedMap.has(s.__id) ? 'checked' : '';
+        const priceLabel = s.__isPlan ? (s.precos_por_periodo?.[0]?.preco_total_com_desc ? formatPrice(s.precos_por_periodo[0].preco_total_com_desc)+'/mês' : 'Plano') : formatPrice(s.__priceMin ?? s.preco ?? 0);
+
+        // se for plano e estiver marcado, mostra seletor de período
+        const planSelect = s.__isPlan && selectedMap.has(s.__id) ? (function(){
+          const it = selectedMap.get(s.__id);
+          const opts = (Array.isArray(s.precos_por_periodo) ? s.precos_por_periodo : []).map(p=>{
+            const selected = (String(it.period||'Mensal').toLowerCase() === String(p.periodo).toLowerCase()) ? 'selected' : '';
+            const econ = (Number(p.preco_total_sem_desc||0) - Number(p.preco_total_com_desc||0));
+            const econTxt = econ > 0 ? ` (economiza ${formatPrice(econ)})` : '';
+            return `<option value="${escapeHtml(p.periodo)}" ${selected}>${escapeHtml(p.periodo)} — ${formatPrice(p.preco_total_com_desc)}${econTxt}</option>`;
+          }).join('');
+          return `
+            <div class="mt-2">
+              <label class="text-xs text-gray-500">Período do plano</label>
+              <select class="planPeriod mt-1 w-full border rounded-lg px-3 py-2 text-sm" data-id="${escapeHtml(s.__id)}">
+                ${opts}
+              </select>
+            </div>
+          `;
+        })() : '';
+
+        return `
+          <label class="flex items-start gap-3 p-3 border rounded-xl bg-white hover:bg-gray-50 transition-all">
+            <input type="checkbox" class="svcCheck mt-1" data-id="${escapeHtml(s.__id)}" ${checked}>
+            <div class="flex-1">
+              <div class="font-semibold text-gray-900">
+                ${escapeHtml(s.__displayTitle)}
+                <span class="text-xs text-gray-500">(${escapeHtml(s.__categoria)})</span>
+              </div>
+              <div class="text-sm text-gray-600">${escapeHtml((s.descricao||'').slice(0,140))}${(s.descricao||'').length>140?'…':''}</div>
+              <div class="text-sm font-bold text-green-700 mt-1">${escapeHtml(priceLabel)}</div>
+              ${planSelect}
+            </div>
+          </label>
+        `;
+      }).join('');
+
+      // final payload
+      const selectedDetail = selectedArr.map(it=>{
+        const s = getServiceById(it.id);
+        if(!s) return null;
+        let price = s.__priceMin ?? s.preco ?? 0;
+
+        // se plano, pegar preço do período
+        if(s.__isPlan && Array.isArray(s.precos_por_periodo)){
+          const opt = s.precos_por_periodo.find(p => String(p.periodo).toLowerCase() === String(it.period||'Mensal').toLowerCase())
+                   || s.precos_por_periodo.find(p => String(p.periodo).toLowerCase().includes(String(it.period||'Mensal').toLowerCase()))
+                   || s.precos_por_periodo[0];
+          if(opt) price = Number(opt.preco_total_com_desc || price);
+        }
+        return {
+          category: s.__categoria,
+          title: s.__displayTitle,
+          kind: s.__isPlan ? 'plano' : 'avulso',
+          period: s.__isPlan ? (it.period || 'Mensal') : undefined,
+          price: price
+        };
+      }).filter(Boolean);
+
+      const totalsPayload = {
+        avulsoSubtotal: totals.avulsoSubtotal,
+        comboPerc: totals.comboPerc,
+        comboDiscount: totals.comboDiscount,
+        planTotal: totals.planTotal,
+        planSavings: totals.planSavings,
+        total: totals.total
+      };
+
+      setFade(`
+        <div class="fade">
+          <div class="flex items-start justify-between gap-3 mb-4">
+            <div>
+              <h2 class="text-xl font-extrabold text-gray-900">Resultado do quiz</h2>
+              <p class="text-sm text-gray-600">Escolha um pacote pronto (recomendado) ou personalize marcando os serviços.</p>
+            </div>
+            <button id="refazer" class="bg-gray-200 hover:bg-gray-300 text-gray-800 py-2 px-4 rounded-lg">
+              Refazer
+            </button>
+          </div>
+
+          <div class="grid md:grid-cols-3 gap-3 mb-5">
+            ${pkgHtml}
+          </div>
+
+          <div class="flex items-center justify-between mb-2">
+            <h3 class="text-lg font-bold text-gray-900">Serviços sugeridos (personalize)</h3>
+            <div class="text-xs text-gray-500">Dica: 2+ serviços liberam desconto de combo.</div>
+          </div>
+
+          <div class="grid gap-3 mb-5">
+            ${checklist}
+          </div>
+
+          <div class="p-4 rounded-2xl border bg-blue-50 mb-4">
+            <div class="font-semibold text-blue-900 mb-1">Resumo automático (vai no orçamento)</div>
+            <pre class="whitespace-pre-wrap text-sm text-blue-900/90">${escapeHtml(chosenSummary)}</pre>
+          </div>
+
+          <div class="flex flex-col sm:flex-row gap-3">
+            <button id="go-to-orcamento"
+              class="bg-blue-600 hover:bg-blue-700 text-white py-3 px-5 rounded-xl font-semibold flex-1">
+              Finalizar e ir para o orçamento (pré-preenchido)
+            </button>
+            <button id="copyResumo"
+              class="bg-white hover:bg-gray-50 border py-3 px-5 rounded-xl font-semibold">
+              Copiar resumo
+            </button>
+          </div>
+
+          <p class="mt-3 text-sm text-gray-500">${escapeHtml(observacoes||'')}</p>
+
+          <textarea id="payloadServices" class="hidden">${escapeHtml(JSON.stringify(selectedDetail))}</textarea>
+          <textarea id="payloadTotals" class="hidden">${escapeHtml(JSON.stringify(totalsPayload))}</textarea>
+        </div>
+      `);
+
+      // bind pacote
+      document.querySelectorAll('.applyPkg').forEach(btn=>{
+        btn.addEventListener('click', ()=>{
+          const tier = btn.dataset.tier;
+          const pkg = packages.find(p=>p.tier===tier);
+          if(pkg) applyPackage(pkg);
+        });
+      });
+
+      // bind checks
+      document.querySelectorAll('.svcCheck').forEach(ch=>{
+        ch.addEventListener('change', ()=>{
+          toggleService(ch.dataset.id);
+        });
+      });
+
+      // bind plan period selects
+      document.querySelectorAll('.planPeriod').forEach(sel=>{
+        sel.addEventListener('change', ()=>{
+          updatePlanPeriod(sel.dataset.id, sel.value);
+        });
+      });
+
+      // actions
+      document.getElementById('refazer').addEventListener('click', ()=>{
+        respostas = {};
+        indice = 0;
+        renderTotalsBox({avulsoSubtotal:0,comboPerc:0,comboDiscount:0,planTotal:0,planSavings:0,total:0});
+        renderPergunta(0);
+      });
+
+      document.getElementById('copyResumo').addEventListener('click', async ()=>{
+        const text = buildChosenSummaryText();
+        try{
+          await navigator.clipboard.writeText(text);
+          document.getElementById('copyResumo').textContent = 'Copiado!';
+          setTimeout(()=>document.getElementById('copyResumo').textContent='Copiar resumo', 1200);
+        }catch(e){
+          alert('Não foi possível copiar automaticamente. Selecione e copie manualmente.');
+        }
+      });
+
+      document.getElementById('go-to-orcamento').addEventListener('click', ()=>{
+        const resumoQuiz = buildChosenSummaryText();
+        const encodedResumo = encodeURIComponent(resumoQuiz);
+
+        const encodedServices = encodeURIComponent(JSON.stringify(selectedDetail));
+        const encodedTotals = encodeURIComponent(JSON.stringify(totalsPayload));
+
+        // ajuste o destino conforme sua rota (React/Next/etc.)
+        // ex.: "/orcamento" (SPA) ou "https://www.comercias.com.br/orcamento"
+        const target = `/orcamento?servicos=${encodedServices}&resumo=${encodedResumo}&totais=${encodedTotals}`;
+
+        window.location.href = target;
+      });
+
+      if(resetScroll) app.scrollTop = 0;
+    }
+
+    // inicia com Recomendado aplicado (melhor para vender mais)
+    applyPackage(packages.find(p=>p.tier==='Recomendado') || packages[0]);
+  }
+
+  // ---------- controlador do fluxo ----------
+  function maybeFinish(i){
+    if(i >= perguntas.length){
+      updateProgress();
+      renderSideSummary();
+      renderResults();
+      showNavButtons(false, false);
+      backBtn.onclick = null;
+      nextBtn.onclick = null;
+      return true;
+    }
+    return false;
+  }
+
+  // back/next (a maioria avança por clique; multi usa botão interno)
+  backBtn.addEventListener('click', ()=>{
+    if(indice > 0) renderPergunta(indice - 1);
+  });
+  nextBtn.addEventListener('click', ()=>{
+    renderPergunta(indice + 1);
+  });
 
   // ---------- iniciar ----------
+  // abre modal já no começo (se quiser)
+  // openModal();
+
   renderPergunta(0);
+
+  // ao sair do último step, chama renderResults
+  const originalRenderPergunta = renderPergunta;
+  renderPergunta = function(i){
+    if(maybeFinish(i)) return;
+    originalRenderPergunta(i);
+  };
 
 })(); // fim IIFE
 </script>
