@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
   <title>Comercias • Service Finder</title>
 
-  <!-- Premium font -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -17,9 +16,9 @@
         extend: {
           fontFamily: { sans: ['Plus Jakarta Sans', 'ui-sans-serif', 'system-ui'] },
           boxShadow: {
-            premium: '0 18px 60px rgba(0,0,0,.35)',
-            soft: '0 10px 30px rgba(2,6,23,.18)',
-            insetSoft: 'inset 0 1px 0 rgba(255,255,255,.08)'
+            premium: '0 26px 80px rgba(0,0,0,.42)',
+            soft: '0 14px 36px rgba(2,6,23,.25)',
+            ringy: '0 0 0 6px rgba(99,102,241,.22)',
           }
         }
       }
@@ -27,88 +26,132 @@
   </script>
 
   <style>
+    :root{
+      --bg1: rgba(2,6,23,1);
+      --panel: rgba(255,255,255,.08);
+      --border: rgba(255,255,255,.12);
+      --muted: rgba(255,255,255,.65);
+      --muted2: rgba(255,255,255,.45);
+      --accent1: rgba(99,102,241,1);
+      --accent2: rgba(14,165,233,1);
+    }
     body{
       background:
-        radial-gradient(1200px 680px at 15% 10%, rgba(99,102,241,.25), transparent 55%),
-        radial-gradient(900px 540px at 85% 20%, rgba(14,165,233,.20), transparent 55%),
-        radial-gradient(900px 540px at 50% 90%, rgba(168,85,247,.14), transparent 60%),
-        linear-gradient(180deg, rgba(2,6,23,1), rgba(2,6,23,.95));
+        radial-gradient(1100px 620px at 12% 12%, rgba(99,102,241,.26), transparent 55%),
+        radial-gradient(900px 520px at 88% 18%, rgba(14,165,233,.18), transparent 55%),
+        radial-gradient(880px 560px at 48% 92%, rgba(168,85,247,.14), transparent 60%),
+        linear-gradient(180deg, rgba(2,6,23,1), rgba(2,6,23,.96));
+      color: white;
     }
     .dots{
       background-image: radial-gradient(rgba(255,255,255,.08) 1px, transparent 1px);
       background-size: 18px 18px;
-      mask-image: radial-gradient(circle at 30% 20%, black 0%, transparent 60%);
+      mask-image: radial-gradient(circle at 30% 20%, black 0%, transparent 65%);
       opacity: .55;
       pointer-events:none;
     }
     .glass{
       background: linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.06));
-      border: 1px solid rgba(255,255,255,.10);
+      border: 1px solid rgba(255,255,255,.12);
       backdrop-filter: blur(18px);
       -webkit-backdrop-filter: blur(18px);
-      box-shadow: 0 18px 60px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.08);
+      box-shadow: 0 26px 80px rgba(0,0,0,.42), inset 0 1px 0 rgba(255,255,255,.08);
     }
-    .fade { opacity: 0; transform: translateY(10px); transition: all .24s ease; }
-    .fade.show { opacity: 1; transform: translateY(0); }
-    .panel-enter { opacity: 0; transform: translateY(10px) scale(.985); transition: all .18s ease; }
-    .panel-enter.show { opacity: 1; transform: translateY(0) scale(1); }
-    .ring-focus:focus { outline: none; box-shadow: 0 0 0 5px rgba(99,102,241,.25); }
-
-    .grad-border{ position: relative; border-radius: 22px; overflow: hidden; }
-    .grad-border:before{
-      content:"";
-      position:absolute; inset:0;
-      padding: 1px;
-      border-radius: 22px;
-      background: linear-gradient(135deg, rgba(99,102,241,.9), rgba(14,165,233,.85), rgba(168,85,247,.70));
-      -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-      -webkit-mask-composite: xor;
-      mask-composite: exclude;
-      pointer-events:none;
-      opacity: .55;
+    .panel{
+      background: rgba(0,0,0,.18);
+      border: 1px solid rgba(255,255,255,.10);
     }
-
     .btn-primary{
-      background: linear-gradient(90deg, rgba(99,102,241,1), rgba(14,165,233,1));
-      box-shadow: 0 18px 45px rgba(99,102,241,.22);
+      background: linear-gradient(90deg, var(--accent1), var(--accent2));
+      box-shadow: 0 18px 50px rgba(99,102,241,.25);
     }
-    .btn-primary:hover{ filter: brightness(1.05); }
+    .btn-primary:hover{ filter: brightness(1.06); transform: translateY(-1px); }
     .btn-ghost{
       background: rgba(255,255,255,.06);
       border: 1px solid rgba(255,255,255,.12);
     }
     .btn-ghost:hover{ background: rgba(255,255,255,.10); }
+    .ring-focus:focus{ outline:none; box-shadow: 0 0 0 6px rgba(99,102,241,.22); }
+
+    .fade{ opacity:0; transform: translateY(10px); transition: all .22s ease; }
+    .fade.show{ opacity:1; transform: translateY(0); }
 
     .opt{
       border: 1px solid rgba(255,255,255,.12);
       background: rgba(255,255,255,.06);
-      transition: transform .15s ease, background .15s ease, border-color .15s ease;
+      transition: transform .14s ease, background .14s ease, border-color .14s ease;
     }
     .opt:hover{
       transform: translateY(-1px);
       background: rgba(255,255,255,.10);
       border-color: rgba(255,255,255,.22);
     }
+    .opt.active{
+      background: linear-gradient(180deg, rgba(255,255,255,.14), rgba(255,255,255,.08));
+      border-color: rgba(255,255,255,.35);
+    }
 
+    .chip{
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.06);
+    }
+    .chip.active{
+      background: rgba(255,255,255,1);
+      color: rgba(15,23,42,1);
+      border-color: rgba(255,255,255,1);
+    }
+
+    .grad-border{
+      position: relative;
+      border-radius: 22px;
+      overflow: hidden;
+    }
+    .grad-border:before{
+      content:"";
+      position:absolute; inset:0;
+      padding: 1px;
+      border-radius: 22px;
+      background: linear-gradient(135deg, rgba(99,102,241,.95), rgba(14,165,233,.85), rgba(168,85,247,.72));
+      -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      pointer-events:none;
+      opacity: .6;
+    }
+
+    /* modal feel */
+    #modalPanel{ transform: translateY(10px) scale(.99); opacity:0; transition: all .16s ease; }
+    #modalPanel.show{ transform: translateY(0) scale(1); opacity:1; }
+
+    /* bottom sheet on mobile */
     @media (max-width: 767px){
       #modalPanel{
+        border-bottom-left-radius: 0 !important;
+        border-bottom-right-radius: 0 !important;
         align-self: flex-end;
-        border-bottom-left-radius: 0;
-        border-bottom-right-radius: 0;
         max-height: 92vh;
+      }
+      .stickyMobileBar{
+        position: sticky;
+        bottom: 0;
+        z-index: 10;
+        backdrop-filter: blur(14px);
+        -webkit-backdrop-filter: blur(14px);
       }
     }
   </style>
 </head>
 
-<body class="min-h-screen font-sans text-white">
+<body class="min-h-screen font-sans">
   <div class="fixed inset-0 dots"></div>
 
   <main class="relative min-h-screen flex items-center justify-center px-4 py-10">
     <div class="w-full max-w-6xl">
+
+      <!-- Header -->
       <div class="flex items-center justify-between mb-6 md:mb-8">
         <div class="flex items-center gap-3">
-          <div class="h-10 w-10 rounded-2xl bg-white/10 border border-white/12 flex items-center justify-center">
+          <div class="h-10 w-10 rounded-2xl bg-white/10 border border-white/15 flex items-center justify-center">
             <span class="text-lg">✦</span>
           </div>
           <div>
@@ -123,85 +166,88 @@
         </div>
       </div>
 
+      <!-- Hero -->
       <section class="glass rounded-[28px] overflow-hidden">
         <div class="p-6 md:p-10 grid lg:grid-cols-[1.1fr_.9fr] gap-8">
           <div>
             <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/8 border border-white/12 text-xs text-white/70">
               <span class="inline-block h-2 w-2 rounded-full bg-emerald-400"></span>
-              <span id="heroBadge">Quiz inteligente • Combos • Simulação de desconto</span>
+              <span id="heroBadge">Quiz premium • Pacotes • Economia por combo</span>
             </div>
 
             <h1 id="heroTitle" class="mt-4 text-3xl md:text-5xl font-extrabold tracking-tight leading-[1.05]">
-              Encontre o serviço ideal em minutos.
+              Descubra o melhor pacote para vender mais.
             </h1>
+
             <p id="heroSub" class="mt-4 text-white/70 text-base md:text-lg max-w-2xl">
-              Responda em ~2 minutos. No final, selecione os serviços e vá para o orçamento já preenchido.
+              Responda em ~2 minutos. No final, selecione serviços, veja o total estimado e vá para o orçamento pré-preenchido.
             </p>
 
             <div class="mt-6 flex flex-col sm:flex-row gap-3">
-              <button id="openModal" class="ring-focus btn-primary px-6 py-3.5 rounded-2xl font-bold inline-flex items-center justify-center gap-2">
-                <span id="ctaStart">Começar quiz</span>
+              <button id="openModal" class="ring-focus btn-primary transition-all px-6 py-3.5 rounded-2xl font-extrabold inline-flex items-center justify-center gap-2">
+                <span id="ctaStart">Começar</span>
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" class="opacity-90">
                   <path d="M8 5l8 7-8 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
               </button>
 
               <div class="rounded-2xl btn-ghost px-4 py-3 text-sm text-white/70 leading-snug">
-                <div class="font-semibold text-white/85" id="miniNoteTitle">Dica rápida</div>
+                <div class="font-semibold text-white/85" id="miniNoteTitle">Por que isso converte mais?</div>
                 <div id="miniNoteText">
-                  Sem arquivo externo: os serviços já estão embutidos no HTML.
+                  Porque mostra 3 caminhos prontos (Essencial/Recomendado/Scale) + economia por combo.
                 </div>
               </div>
             </div>
 
             <div class="mt-6 grid sm:grid-cols-3 gap-3">
               <div class="rounded-2xl btn-ghost p-4">
-                <div class="font-semibold" id="b1t">Recomendação automática</div>
-                <div class="text-white/65 text-sm mt-1" id="b1s">Sugere serviços e pacotes com base no objetivo.</div>
+                <div class="font-semibold" id="b1t">Parece consultoria</div>
+                <div class="text-white/65 text-sm mt-1" id="b1s">Sugestões certeiras, sem parecer “venda forçada”.</div>
               </div>
               <div class="rounded-2xl btn-ghost p-4">
-                <div class="font-semibold" id="b2t">Upsell inteligente</div>
-                <div class="text-white/65 text-sm mt-1" id="b2s">Planos e add-ons aparecem só quando fazem sentido.</div>
+                <div class="font-semibold" id="b2t">Upsell elegante</div>
+                <div class="text-white/65 text-sm mt-1" id="b2s">Add-ons aparecem só quando aumentam resultado.</div>
               </div>
               <div class="rounded-2xl btn-ghost p-4">
-                <div class="font-semibold" id="b3t">Finaliza com 1 clique</div>
-                <div class="text-white/65 text-sm mt-1" id="b3s">Direciona para o orçamento com tudo preenchido.</div>
+                <div class="font-semibold" id="b3t">Final rápido</div>
+                <div class="text-white/65 text-sm mt-1" id="b3s">Orçamento com dados + serviços já selecionados.</div>
               </div>
             </div>
           </div>
 
+          <!-- Preview -->
           <div class="grad-border">
             <div class="rounded-[22px] bg-black/25 border border-white/10 p-5 md:p-6">
               <div class="flex items-center justify-between mb-4">
-                <div class="text-sm text-white/70" id="previewTitle">Como funciona</div>
+                <div class="text-sm text-white/70" id="previewTitle">O que você vai ver</div>
                 <div class="text-xs text-white/55" id="previewTime">~2 min</div>
               </div>
 
               <div class="space-y-3">
                 <div class="rounded-2xl bg-white/6 border border-white/10 p-4">
-                  <div class="text-white/85 font-semibold" id="p1t">1) Você responde</div>
-                  <div class="text-white/60 text-sm mt-1" id="p1s">Objetivo, canais, frequência, orçamento e prazo.</div>
+                  <div class="text-white/90 font-semibold" id="p1t">1) Diagnóstico</div>
+                  <div class="text-white/60 text-sm mt-1" id="p1s">Objetivo, canal, volume, prazo e orçamento.</div>
                 </div>
                 <div class="rounded-2xl bg-white/6 border border-white/10 p-4">
-                  <div class="text-white/85 font-semibold" id="p2t">2) Você recebe pacotes</div>
-                  <div class="text-white/60 text-sm mt-1" id="p2s">Essencial • Recomendado • Agressivo.</div>
+                  <div class="text-white/90 font-semibold" id="p2t">2) 3 pacotes</div>
+                  <div class="text-white/60 text-sm mt-1" id="p2s">Escolha rápido ou personalize.</div>
                 </div>
                 <div class="rounded-2xl bg-white/6 border border-white/10 p-4">
-                  <div class="text-white/85 font-semibold" id="p3t">3) Você personaliza</div>
-                  <div class="text-white/60 text-sm mt-1" id="p3s">Marca serviços e vê economia por combo.</div>
+                  <div class="text-white/90 font-semibold" id="p3t">3) Economia</div>
+                  <div class="text-white/60 text-sm mt-1" id="p3s">Simulação automática de desconto por combo.</div>
                 </div>
               </div>
 
               <div class="mt-5 rounded-2xl bg-gradient-to-r from-indigo-500/20 to-sky-500/20 border border-white/10 p-4">
-                <div class="text-sm font-semibold text-white/90" id="dealTitle">Simulação de desconto (combo)</div>
-                <div class="text-white/70 text-sm mt-1" id="dealText">2 serviços: 5% • 3: 8% • 4+: 12% (simulado)</div>
+                <div class="text-sm font-semibold text-white/90" id="dealTitle">Combo (simulado)</div>
+                <div class="text-white/70 text-sm mt-1" id="dealText">2 serviços: 5% • 3: 8% • 4+: 12%</div>
               </div>
             </div>
           </div>
         </div>
 
         <div class="px-6 md:px-10 py-4 border-t border-white/10 bg-black/15 text-xs text-white/55" id="footerLine">
-          *Descontos de combo são simulados. Planos já incluem desconto por período.
+          *Valores e descontos são estimativas para facilitar a decisão.
         </div>
       </section>
     </div>
@@ -211,15 +257,17 @@
   <div id="modal" class="fixed inset-0 hidden items-end md:items-center justify-center p-0 md:p-8">
     <div id="backdrop" class="absolute inset-0 bg-black/65"></div>
 
-    <div id="modalPanel" class="panel-enter relative w-full md:w-[min(1120px,96vw)] glass rounded-t-[28px] md:rounded-[28px] overflow-hidden max-h-[92vh] md:max-h-[90vh] flex flex-col">
+    <div id="modalPanel" class="relative w-full md:w-[min(1140px,96vw)] glass rounded-t-[28px] md:rounded-[28px] overflow-hidden max-h-[92vh] md:max-h-[90vh] flex flex-col">
+
+      <!-- Modal Header -->
       <div class="px-5 md:px-7 py-4 border-b border-white/10 bg-black/15 flex items-center justify-between gap-3">
         <div class="flex items-center gap-3">
           <div class="h-10 w-10 rounded-2xl bg-white/10 border border-white/12 flex items-center justify-center">
             <span class="text-lg">⚡</span>
           </div>
           <div>
-            <div class="font-extrabold tracking-tight" id="modalTitle">Quiz inteligente</div>
-            <div class="text-xs text-white/60" id="modalSub">Pacotes recomendados • Simulação de desconto • Pré-preenchimento</div>
+            <div class="font-extrabold tracking-tight" id="modalTitle">Quiz premium</div>
+            <div class="text-xs text-white/60" id="modalSub">Pacotes + personalização + orçamento pré-preenchido</div>
           </div>
         </div>
 
@@ -228,1232 +276,1302 @@
             <button id="langPT" class="ring-focus px-3 py-2 rounded-xl text-sm font-semibold bg-white/10">🇧🇷 PT</button>
             <button id="langEN" class="ring-focus px-3 py-2 rounded-xl text-sm font-semibold text-white/70">🇺🇸 EN</button>
           </div>
-
           <button id="closeModal" class="ring-focus px-3 py-2 rounded-2xl btn-ghost text-white/85">✕</button>
         </div>
       </div>
 
+      <!-- Stepper -->
+      <div class="px-5 md:px-7 py-4 border-b border-white/10 bg-black/10">
+        <div class="flex items-center justify-between gap-3">
+          <div class="text-sm font-semibold text-white/85" id="stepTitle">Etapa</div>
+          <div class="text-xs text-white/55" id="stepMeta">0/0</div>
+        </div>
+        <div class="mt-3 h-2 rounded-full bg-white/10 overflow-hidden">
+          <div id="stepBar" class="h-2 rounded-full bg-gradient-to-r from-indigo-400 to-sky-400" style="width:0%"></div>
+        </div>
+      </div>
+
+      <!-- Body -->
       <div class="flex-1 overflow-y-auto">
         <div class="grid md:grid-cols-[1.35fr_.65fr]">
           <div class="p-5 md:p-7">
-            <div id="app"></div>
+            <div id="screen"></div>
           </div>
 
           <aside class="p-5 md:p-7 border-t md:border-t-0 md:border-l border-white/10 bg-black/15">
             <div class="flex items-center justify-between">
-              <h3 class="font-semibold text-white/90" id="sideTitle">Seu resumo</h3>
-              <span class="text-xs text-white/55" id="progressText">0%</span>
+              <h3 class="font-semibold text-white/90" id="sideTitle">Resumo</h3>
+              <span class="text-xs text-white/55" id="sideHint">live</span>
             </div>
 
-            <div class="mt-3 w-full h-2 rounded-full bg-white/10 overflow-hidden">
-              <div id="progressBar" class="h-2 rounded-full bg-gradient-to-r from-indigo-400 to-sky-400" style="width:0%"></div>
-            </div>
-
-            <div id="sideSummary" class="mt-4 text-sm text-white/80 space-y-2">
-              <div class="text-white/55" id="sideEmpty">Responda o quiz para ver recomendações.</div>
+            <div id="sideSummary" class="mt-4 text-sm text-white/85 space-y-2">
+              <div class="text-white/55" id="sideEmpty">Responda para ver recomendações.</div>
             </div>
 
             <div class="mt-5 rounded-3xl border border-white/10 bg-white/5 p-4">
               <div class="flex items-center justify-between mb-2">
                 <div class="text-sm font-semibold text-white/90" id="simTitle">Simulação</div>
-                <span class="text-xs text-white/55">live</span>
+                <span class="text-xs text-white/55" id="simRule">2=5% • 3=8% • 4+=12%</span>
               </div>
-              <div id="sideTotals" class="text-sm text-white/80 space-y-1">
-                <div class="flex justify-between"><span id="lblSub">Subtotal</span><span>—</span></div>
-                <div class="flex justify-between"><span id="lblDisc">Desconto</span><span>—</span></div>
-                <div class="flex justify-between"><span id="lblPlans">Planos</span><span>—</span></div>
-                <div class="flex justify-between font-extrabold"><span id="lblTotal">Total</span><span>—</span></div>
+              <div id="totalsBox" class="text-sm text-white/80 space-y-1">
+                <div class="flex justify-between"><span id="lblSub">Subtotal</span><span id="vSub">—</span></div>
+                <div class="flex justify-between"><span id="lblDisc">Desconto</span><span id="vDisc">—</span></div>
+                <div class="flex justify-between"><span id="lblPlans">Planos</span><span id="vPlans">—</span></div>
+                <div class="flex justify-between font-extrabold"><span id="lblTotal">Total</span><span id="vTotal">—</span></div>
               </div>
-              <div class="mt-2 text-xs text-white/55" id="sideNote">*Combos: 2=5%, 3=8%, 4+=12% (simulado).</div>
+
+              <div class="mt-3 text-xs text-white/55" id="noteTotals">
+                *Estimativa para acelerar sua decisão.
+              </div>
             </div>
 
             <div class="mt-4 text-xs text-white/50" id="sideStrategy">
-              Estratégia: começamos no essencial e evoluímos para maior impacto.
+              Dica: o pacote “Recomendado” costuma ter o melhor custo-benefício.
             </div>
           </aside>
         </div>
       </div>
 
+      <!-- Footer actions -->
       <div class="px-5 md:px-7 py-4 border-t border-white/10 bg-black/15 flex items-center justify-between gap-3">
-        <button id="backBtn" class="hidden ring-focus px-4 py-2.5 rounded-2xl btn-ghost text-white/90">Voltar</button>
-        <div class="text-xs text-white/55" id="stepCounter">—</div>
-        <button id="nextBtn" class="hidden ring-focus px-4 py-2.5 rounded-2xl btn-primary font-bold">Continuar</button>
+        <button id="backBtn" class="ring-focus px-4 py-2.5 rounded-2xl btn-ghost text-white/90 hidden">Voltar</button>
+        <button id="skipBtn" class="ring-focus px-4 py-2.5 rounded-2xl btn-ghost text-white/80 hidden">Pular</button>
+        <button id="nextBtn" class="ring-focus px-5 py-2.5 rounded-2xl btn-primary font-extrabold transition-all disabled:opacity-50 disabled:cursor-not-allowed">Continuar</button>
       </div>
+
     </div>
   </div>
 
 <script>
 (() => {
-  // =========================
-  // 1) DADOS EMBUTIDOS (SEM JSON EXTERNO)
-  // =========================
-  // Se quiser editar preços/serviços, edite SOMENTE este objeto.
-  const EMBEDDED_DATA = {"orcamento":{"observacoes":"Preços podem variar conforme briefing, complexidade, revisões e prazo. Peça orçamento para confirmação.","categorias":[{"nome":"Imagens","servicos":[{"titulo":"Criação de Imagem (Básica)","titulo_venda":"Imagem (Básica)","descricao":"Ideal para posts simples, anúncios e artes rápidas.","extras":"Entrega em alta resolução, 1 variação.","preco":50},{"titulo":"Criação de Imagem (Profissional)","titulo_venda":"Imagem (Profissional)","descricao":"Artes mais elaboradas para campanhas, carrosséis e conteúdo premium.","extras":"2 variações + ajustes finos.","preco":90},{"titulo":"Criação de Imagem (Premium)","titulo_venda":"Imagem (Premium)","descricao":"Direção de arte completa, alto impacto e acabamento premium.","extras":"3 variações + refinamento detalhado.","preco":140}]},{"nome":"Vídeos","servicos":[{"titulo":"Edição de Vídeo (Básica)","titulo_venda":"Vídeo (Básico)","descricao":"Cortes, legenda simples e ajustes básicos.","extras":"Até 30s.","preco":120},{"titulo":"Edição de Vídeo (Profissional)","titulo_venda":"Vídeo (Profissional)","descricao":"Ritmo, cortes avançados, motion e legendas melhores.","extras":"Até 60s.","preco":250},{"titulo":"Edição de Vídeo (Premium)","titulo_venda":"Vídeo (Premium)","descricao":"Edição avançada com estética premium, motion e storytelling.","extras":"Até 90s.","preco":420},{"titulo":"Edição de Vídeo (Sob Consulta)","titulo_venda":"Vídeo (Sob Consulta)","descricao":"Projetos longos, complexos ou com demanda específica.","extras":"Orçamento personalizado.","preco":0}]},{"nome":"Planos de Social Media (Conteúdo Mensal)","servicos":[{"titulo":"Plano Social Media (Básico)","titulo_venda":"Plano Mensal (Básico)","descricao":"Conteúdo mensal para manter presença e consistência.","inclui":["10 imagens por mês","2 vídeos curtos por mês"],"beneficios":["Consistência","Aparência profissional"],"precos_por_periodo":[{"periodo":"Mensal","preco_total_sem_desc":750,"desconto_percentual":0,"preco_total_com_desc":750},{"periodo":"Trimestral","preco_total_sem_desc":2250,"desconto_percentual":10,"preco_total_com_desc":2025},{"periodo":"Semestral","preco_total_sem_desc":4500,"desconto_percentual":15,"preco_total_com_desc":3825},{"periodo":"Anual","preco_total_sem_desc":9000,"desconto_percentual":20,"preco_total_com_desc":7200}]},{"titulo":"Plano Social Media (Profissional)","titulo_venda":"Plano Mensal (Profissional)","descricao":"Para crescer com mais volume e variedade.","inclui":["20 imagens por mês","4 vídeos curtos por mês"],"beneficios":["Maior volume","Melhor performance"],"precos_por_periodo":[{"periodo":"Mensal","preco_total_sem_desc":1400,"desconto_percentual":0,"preco_total_com_desc":1400},{"periodo":"Trimestral","preco_total_sem_desc":4200,"desconto_percentual":10,"preco_total_com_desc":3780},{"periodo":"Semestral","preco_total_sem_desc":8400,"desconto_percentual":15,"preco_total_com_desc":7140},{"periodo":"Anual","preco_total_sem_desc":16800,"desconto_percentual":20,"preco_total_com_desc":13440}]},{"titulo":"Plano Social Media (Premium)","titulo_venda":"Plano Mensal (Premium)","descricao":"Máximo impacto com estética premium + volume alto.","inclui":["30 imagens por mês","8 vídeos curtos por mês"],"beneficios":["Altíssima consistência","Presença forte"],"precos_por_periodo":[{"periodo":"Mensal","preco_total_sem_desc":2500,"desconto_percentual":0,"preco_total_com_desc":2500},{"periodo":"Trimestral","preco_total_sem_desc":7500,"desconto_percentual":10,"preco_total_com_desc":6750},{"periodo":"Semestral","preco_total_sem_desc":15000,"desconto_percentual":15,"preco_total_com_desc":12750},{"periodo":"Anual","preco_total_sem_desc":30000,"desconto_percentual":20,"preco_total_com_desc":24000}]}]},{"nome":"Serviços Avulsos","servicos":[{"titulo":"Criação de Logo","titulo_venda":"Logo","descricao":"Logo profissional para a sua marca.","extras":"2 opções + ajustes.","preco":220},{"titulo":"Identidade Visual","titulo_venda":"Identidade Visual","descricao":"Identidade completa com padrões, cores e tipografia.","extras":"Guia de marca.","preco":480},{"titulo":"Website","titulo_venda":"Website","descricao":"Site institucional simples e elegante.","extras":"Página única / landing.","preco":650},{"titulo":"Roteiro","titulo_venda":"Roteiro","descricao":"Roteiro para vídeos curtos e campanhas.","extras":"Estrutura + CTA.","preco":120},{"titulo":"Narração","titulo_venda":"Narração","descricao":"Narração para vídeos e anúncios.","extras":"Áudio limpo.","preco":150},{"titulo":"Trilha Sonora","titulo_venda":"Trilha Sonora","descricao":"Trilha adequada ao seu conteúdo.","extras":"Escolha/edição.","preco":90},{"titulo":"Copywriting","titulo_venda":"Copywriting","descricao":"Texto persuasivo para anúncios e páginas.","extras":"1 versão + variação.","preco":180},{"titulo":"Pacote de Anúncios","titulo_venda":"Pacote de Anúncios","descricao":"Criativos para campanhas de tráfego pago.","extras":"3 peças.","preco":300}]},{"nome":"Criação de Personagem Personalizado","servicos":[{"titulo":"Personagem (Básico)","titulo_venda":"Personagem (Básico)","descricao":"Criação simples do personagem.","extras":"1 pose.","preco":180},{"titulo":"Personagem (Profissional)","titulo_venda":"Personagem (Profissional)","descricao":"Mais detalhes e acabamento.","extras":"2 poses.","preco":280},{"titulo":"Personagem (Premium)","titulo_venda":"Personagem (Premium)","descricao":"Acabamento premium e mais detalhes.","extras":"3 poses.","preco":380}]},{"nome":"Pacotes de Personagem Personalizado","servicos":[{"titulo":"Pacote Personagem Starter","titulo_venda":"Pacote Starter","descricao":"Personagem + variações para começar.","extras":"4 poses.","preco":520},{"titulo":"Pacote Personagem Pro","titulo_venda":"Pacote Pro","descricao":"Mais poses e expressões.","extras":"8 poses.","preco":920},{"titulo":"Pacote Personagem Premium","titulo_venda":"Pacote Premium","descricao":"Conteúdo completo do personagem.","extras":"12 poses + expressões.","preco":1380},{"titulo":"Pacote Personagem Max","titulo_venda":"Pacote Max","descricao":"Pacote completo sob demanda.","extras":"20 poses + expressões.","preco":2200}]}]}};
-
-  // =========================
-  // 2) DOM
-  // =========================
-  const modal = document.getElementById('modal');
-  const modalPanel = document.getElementById('modalPanel');
-  const openModalBtn = document.getElementById('openModal');
-  const closeModalBtn = document.getElementById('closeModal');
-  const backdrop = document.getElementById('backdrop');
-
-  const app = document.getElementById('app');
-  const sideSummary = document.getElementById('sideSummary');
-  const progressBar = document.getElementById('progressBar');
-  const progressText = document.getElementById('progressText');
-  const stepCounter = document.getElementById('stepCounter');
-  const backBtn = document.getElementById('backBtn');
-  const nextBtn = document.getElementById('nextBtn');
-  const sideTotals = document.getElementById('sideTotals');
-
-  const langPTTop = document.getElementById('langPTTop');
-  const langENTop = document.getElementById('langENTop');
-  const langPT = document.getElementById('langPT');
-  const langEN = document.getElementById('langEN');
-
-  // =========================
-  // 3) Utils
-  // =========================
-  const escapeHtml = (s)=> String(s).replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-  const setFade = (html)=>{
-    app.innerHTML = html;
-    const el = app.querySelector('.fade');
-    if(el) setTimeout(()=>el.classList.add('show'), 10);
+  // =========================================================
+  // 1) CATÁLOGO EMBUTIDO (NÃO depende de JSON externo)
+  //    - Você pode substituir por seus serviços reais
+  // =========================================================
+  const CATALOG = {
+    observacoes: "Valores podem variar conforme briefing, revisões e prazo. O orçamento final confirma tudo.",
+    categorias: [
+      { nome: "Imagens", servicos: [
+        { titulo:"Imagem (Básica)", descricao:"Arte rápida para post/anúncio.", extras:"1 variação • Alta resolução", preco:50 },
+        { titulo:"Imagem (Profissional)", descricao:"Mais elaborada para campanhas/carrossel.", extras:"2 variações • Ajustes finos", preco:90 },
+        { titulo:"Imagem (Premium)", descricao:"Direção de arte premium e acabamento.", extras:"3 variações • Refinamento", preco:140 },
+      ]},
+      { nome: "Vídeos", servicos: [
+        { titulo:"Vídeo (Básico)", descricao:"Cortes, legenda simples e ajustes.", extras:"Até 30s", preco:120 },
+        { titulo:"Vídeo (Profissional)", descricao:"Ritmo + motion leve + legenda melhor.", extras:"Até 60s", preco:250 },
+        { titulo:"Vídeo (Premium)", descricao:"Storytelling + motion avançado + estética.", extras:"Até 90s", preco:420 },
+      ]},
+      { nome: "Serviços Avulsos", servicos: [
+        { titulo:"Logo", descricao:"Logo profissional e versátil.", extras:"2 opções + ajustes", preco:220 },
+        { titulo:"Identidade Visual", descricao:"Guia completo (cores/tipografia/padrões).", extras:"Manual de marca", preco:480 },
+        { titulo:"Roteiro", descricao:"Roteiro curto com gancho e CTA.", extras:"Estrutura + CTA", preco:120 },
+        { titulo:"Copywriting", descricao:"Texto persuasivo para anúncios/páginas.", extras:"1 versão + variação", preco:180 },
+        { titulo:"Pacote de Anúncios", descricao:"Criativos para tráfego pago.", extras:"3 peças", preco:300 },
+        { titulo:"Website", descricao:"Landing page institucional.", extras:"Página única", preco:650 },
+        { titulo:"Narração", descricao:"Narração para vídeo/ads.", extras:"Áudio limpo", preco:150 },
+        { titulo:"Trilha Sonora", descricao:"Seleção e ajuste de trilha.", extras:"Edição", preco:90 },
+      ]},
+      { nome: "Planos de Social Media", servicos: [
+        {
+          titulo:"Plano Mensal (Básico)",
+          descricao:"Consistência mensal para presença profissional.",
+          inclui:["10 imagens/mês","2 vídeos curtos/mês"],
+          beneficios:["Consistência","Visual profissional"],
+          precos_por_periodo:[
+            {periodo:"Mensal", preco_total_sem_desc:750, desconto_percentual:0, preco_total_com_desc:750},
+            {periodo:"Trimestral", preco_total_sem_desc:2250, desconto_percentual:10, preco_total_com_desc:2025},
+            {periodo:"Semestral", preco_total_sem_desc:4500, desconto_percentual:15, preco_total_com_desc:3825},
+            {periodo:"Anual", preco_total_sem_desc:9000, desconto_percentual:20, preco_total_com_desc:7200}
+          ]
+        },
+        {
+          titulo:"Plano Mensal (Profissional)",
+          descricao:"Mais volume para crescer com variedade.",
+          inclui:["20 imagens/mês","4 vídeos curtos/mês"],
+          beneficios:["Maior volume","Performance melhor"],
+          precos_por_periodo:[
+            {periodo:"Mensal", preco_total_sem_desc:1400, desconto_percentual:0, preco_total_com_desc:1400},
+            {periodo:"Trimestral", preco_total_sem_desc:4200, desconto_percentual:10, preco_total_com_desc:3780},
+            {periodo:"Semestral", preco_total_sem_desc:8400, desconto_percentual:15, preco_total_com_desc:7140},
+            {periodo:"Anual", preco_total_sem_desc:16800, desconto_percentual:20, preco_total_com_desc:13440}
+          ]
+        }
+      ]}
+    ]
   };
-  const showModal = ()=>{
-    modal.classList.remove('hidden');
-    modal.classList.add('flex');
-    setTimeout(()=>modalPanel.classList.add('show'), 10);
-  };
-  const hideModal = ()=>{
-    modalPanel.classList.remove('show');
-    setTimeout(()=>{
-      modal.classList.add('hidden');
-      modal.classList.remove('flex');
-    }, 160);
-  };
 
-  openModalBtn.addEventListener('click', showModal);
-  closeModalBtn.addEventListener('click', hideModal);
-  backdrop.addEventListener('click', hideModal);
-  window.addEventListener('keydown', (e)=>{ if(e.key === 'Escape' && !modal.classList.contains('hidden')) hideModal(); });
-
-  // =========================
-  // 4) i18n
-  // =========================
-  const i18n = {
+  // =========================================================
+  // 2) i18n (UI premium)
+  // =========================================================
+  const I18N = {
     pt: {
-      heroBadge:"Quiz inteligente • Combos • Simulação de desconto",
-      heroTitle:"Encontre o serviço ideal em minutos.",
-      heroSub:"Responda em ~2 minutos. No final, selecione os serviços e vá para o orçamento já preenchido.",
-      ctaStart:"Começar quiz",
-      miniNoteTitle:"Dica rápida",
-      miniNoteText:"Sem arquivo externo: os serviços já estão embutidos no HTML.",
-      b1t:"Recomendação automática", b1s:"Sugere serviços e pacotes com base no objetivo.",
-      b2t:"Upsell inteligente", b2s:"Planos e add-ons aparecem só quando fazem sentido.",
-      b3t:"Finaliza com 1 clique", b3s:"Direciona para o orçamento com tudo preenchido.",
-      previewTitle:"Como funciona", previewTime:"~2 min",
-      p1t:"1) Você responde", p1s:"Objetivo, canais, frequência, orçamento e prazo.",
-      p2t:"2) Você recebe pacotes", p2s:"Essencial • Recomendado • Agressivo.",
-      p3t:"3) Você personaliza", p3s:"Marca serviços e vê economia por combo.",
-      dealTitle:"Simulação de desconto (combo)", dealText:"2 serviços: 5% • 3: 8% • 4+: 12% (simulado)",
-      footerLine:"*Descontos de combo são simulados. Planos já incluem desconto por período.",
+      heroBadge:"Quiz premium • Pacotes • Economia por combo",
+      heroTitle:"Descubra o melhor pacote para vender mais.",
+      heroSub:"Responda em ~2 minutos. No final, selecione serviços, veja o total estimado e vá para o orçamento pré-preenchido.",
+      ctaStart:"Começar",
+      miniNoteTitle:"Por que isso converte mais?",
+      miniNoteText:"Porque mostra 3 caminhos prontos (Essencial/Recomendado/Scale) + economia por combo.",
+      b1t:"Parece consultoria", b1s:"Sugestões certeiras, sem parecer “venda forçada”.",
+      b2t:"Upsell elegante", b2s:"Add-ons aparecem só quando aumentam resultado.",
+      b3t:"Final rápido", b3s:"Orçamento com dados + serviços já selecionados.",
+      previewTitle:"O que você vai ver", previewTime:"~2 min",
+      p1t:"1) Diagnóstico", p1s:"Objetivo, canal, volume, prazo e orçamento.",
+      p2t:"2) 3 pacotes", p2s:"Escolha rápido ou personalize.",
+      p3t:"3) Economia", p3s:"Simulação automática de desconto por combo.",
+      dealTitle:"Combo (simulado)", dealText:"2 serviços: 5% • 3: 8% • 4+: 12%",
+      footerLine:"*Valores e descontos são estimativas para facilitar a decisão.",
 
-      modalTitle:"Quiz inteligente",
-      modalSub:"Pacotes recomendados • Simulação de desconto • Pré-preenchimento",
-      sideTitle:"Seu resumo",
-      sideEmpty:"Responda o quiz para ver recomendações.",
+      modalTitle:"Quiz premium",
+      modalSub:"Pacotes + personalização + orçamento pré-preenchido",
+      sideTitle:"Resumo",
+      sideEmpty:"Responda para ver recomendações.",
       simTitle:"Simulação",
       lblSub:"Subtotal (avulsos)",
       lblDisc:"Desconto combo",
       lblPlans:"Planos",
       lblTotal:"Total",
-      sideNote:"*Combos: 2=5%, 3=8%, 4+=12% (simulado).",
-      sideStrategy:"Estratégia: começamos no essencial e evoluímos para maior impacto.",
+      noteTotals:"*Estimativa para acelerar sua decisão.",
+      sideStrategy:"Dica: o pacote “Recomendado” costuma ter o melhor custo-benefício.",
+
       back:"Voltar",
       next:"Continuar",
+      skip:"Pular",
 
-      startTitle:"Monte seu orçamento em 2 minutos",
-      startSubtitle:"Responda algumas perguntas e receba pacotes recomendados + simulação de economia.",
-      startCTA:"Começar",
-
-      q_objective:"1) Qual o objetivo principal?",
-      o_sales:"Gerar vendas / conversão (promoção, campanhas, anúncios)",
-      o_social:"Conteúdo contínuo para redes sociais (semanal/mensal)",
-      o_branding:"Fortalecer marca / branding (visual profissional)",
-      o_edu:"Educar / conteúdo técnico (explicar, ensinar, tutorial)",
-
-      q_channels:"2) Onde você vai publicar?",
-      ch_instagram:"Instagram (Feed/Stories/Reels)",
+      // steps
+      step:"Etapa",
+      stepOf:"de",
+      // questions
+      q_goal:"Qual é o seu objetivo principal?",
+      goal_sales:"Gerar vendas/conversão",
+      goal_social:"Conteúdo contínuo para redes",
+      goal_brand:"Fortalecer marca/branding",
+      goal_edu:"Educar/explicar (conteúdo técnico)",
+      q_channels:"Onde você vai publicar?",
+      ch_instagram:"Instagram (Feed/Reels/Stories)",
       ch_tiktok:"TikTok",
-      ch_shorts:"YouTube Shorts",
+      ch_youtube:"YouTube Shorts",
       ch_whatsapp:"WhatsApp",
-      ch_site:"Site",
+      ch_site:"Site / Landing page",
       ch_multi:"Vários canais",
+      q_focus:"Qual área é prioridade agora?",
+      focus_auto:"Quero recomendação automática",
+      focus_images:"Imagens / artes",
+      focus_videos:"Vídeos",
+      focus_ads:"Anúncios (criativos)",
+      focus_brand:"Branding (logo/identidade)",
+      focus_site:"Site / landing",
+      q_assets:"Você já tem materiais prontos?",
+      as_yes:"Sim (logo/fotos/brand)",
+      as_some:"Tenho algo, mas incompleto",
+      as_no:"Não, preciso criar do zero",
+      q_volume:"Volume aproximado",
+      vol_low:"Pequeno (1–5 peças)",
+      vol_mid:"Médio (6–15 peças)",
+      vol_high:"Alto (15+ / premium)",
+      q_budget:"Faixa de orçamento (aprox.)",
+      bud_100:"Até R$100",
+      bud_300:"Até R$300",
+      bud_800:"Até R$800",
+      bud_more:"Acima de R$800",
+      q_deadline:"Prazo desejado",
+      dl_3:"Até 3 dias",
+      dl_7:"Até 7 dias",
+      dl_more:"Mais que 7 dias",
+      q_pref:"Como prefere contratar?",
+      pref_bundle:"Pacote (combos)",
+      pref_single:"Avulso (1 serviço)",
+      pref_any:"Indiferente",
 
-      q_freq:"3) Frequência desejada",
-      f_one:"Pontual (uma campanha/entrega única)",
-      f_week:"Semanal (consistência)",
-      f_month:"Mensal (conteúdo contínuo)",
-
-      q_type:"4) Você já sabe qual tipo de serviço procura?",
-      type_auto:"Não tenho certeza (quero recomendação)",
-
-      q_assets:"5) Você já tem materiais prontos?",
-      a_logo:"Tenho logo/identidade visual",
-      a_photos:"Tenho fotos do produto/serviço",
-      a_videos:"Tenho vídeos gravados",
-      a_text:"Tenho roteiro/textos",
-      a_none:"Não tenho nada ainda",
-
-      q_volume:"6) Volume aproximado",
-      v_low:"Pequeno (1–5 artes / vídeo curto)",
-      v_mid:"Médio (6–15 artes / 30s)",
-      v_high:"Alto (>15 artes / vídeo premium)",
-
-      q_style:"7) Estilo preferido",
-      s_clean:"Minimalista / clean",
-      s_promo:"Impactante / promocional",
-      s_premium:"Premium / institucional",
-      s_fun:"Criativo / divertido",
-
-      q_preference:"8) Prefere pacote completo ou avulso?",
-      p_combo:"Pacote (combos com economia)",
-      p_single:"Avulso (apenas 1 serviço)",
-      p_any:"Indiferente",
-
-      q_budget:"9) Faixa de orçamento (aprox.)",
-      b_100:"Até R$100",
-      b_300:"Até R$300",
-      b_800:"Até R$800",
-      b_more:"Acima de R$800",
-
-      q_deadline:"10) Prazo desejado (opcional)",
-      d_3:"Até 3 dias",
-      d_7:"Até 7 dias",
-      d_more:"Mais que 7 dias",
-      d_skip:"Não sei / sem pressa",
-
-      clickToAdvance:"Clique em uma opção para avançar.",
-      pickMulti:"Selecione 1 ou mais e continue.",
-
-      resultsTitle:"Resultado do quiz",
-      resultsSub:"Escolha um pacote pronto (recomendado) ou personalize marcando os serviços.",
-      redo:"Refazer",
-      tier_essential:"Essencial",
-      tier_recommended:"Recomendado",
-      tier_aggressive:"Agressivo",
+      // results
+      resultsTitle:"Seu resultado",
+      resultsSub:"Escolha um pacote pronto ou personalize selecionando serviços.",
+      pack_essential:"Essencial",
+      pack_reco:"Recomendado",
+      pack_scale:"Scale",
       badge_essential:"Começar rápido",
-      badge_recommended:"Melhor custo-benefício",
-      badge_aggressive:"Máximo impacto",
-      apply:"Aplicar",
-      estimatedTotal:"Total estimado",
-      simulated:"*Simulação automática. Você pode adicionar/remover itens abaixo.",
-      customizeTitle:"Serviços sugeridos (personalize)",
-      customizeHint:"Dica: 2+ serviços liberam desconto de combo.",
-      planPeriod:"Período do plano",
-      saves:"economiza",
-      summaryAuto:"Resumo automático (vai no orçamento)",
-      finalize:"Finalizar e ir para o orçamento (pré-preenchido)",
+      badge_reco:"Melhor custo-benefício",
+      badge_scale:"Máximo impacto",
+      selectPack:"Selecionar pacote",
+      customize:"Personalizar serviços",
+      selected:"Selecionados",
+      period:"Período",
+      savings:"economiza",
+      goQuote:"Finalizar e ir para orçamento",
       copy:"Copiar resumo",
       copied:"Copiado!",
-      notes:"Observações"
+      notes:"Observações",
+      estTotal:"Total estimado",
+      comboHint:"2+ avulsos liberam desconto de combo (simulado)."
     },
 
     en: {
-      heroBadge:"Smart quiz • Bundles • Discount simulation",
-      heroTitle:"Find the perfect service in minutes.",
-      heroSub:"Answer in ~2 minutes. Then select services and go to a pre-filled quote form.",
-      ctaStart:"Start quiz",
-      miniNoteTitle:"Quick tip",
-      miniNoteText:"No external file: services are embedded in this HTML.",
-      b1t:"Auto recommendations", b1s:"Suggests services and bundles based on your goal.",
-      b2t:"Smart upsell", b2s:"Plans and add-ons appear only when it makes sense.",
-      b3t:"Finish in 1 click", b3s:"Redirects to a pre-filled quote page.",
-      previewTitle:"How it works", previewTime:"~2 min",
-      p1t:"1) You answer", p1s:"Goal, channels, frequency, budget and deadline.",
-      p2t:"2) You get bundles", p2s:"Essential • Recommended • Aggressive.",
-      p3t:"3) You customize", p3s:"Select services and see bundle savings.",
-      dealTitle:"Bundle discount simulation", dealText:"2 services: 5% • 3: 8% • 4+: 12% (simulated)",
-      footerLine:"*Bundle discounts are simulated. Plans already include period discounts.",
+      heroBadge:"Premium quiz • Bundles • Combo savings",
+      heroTitle:"Find the best package to sell more.",
+      heroSub:"Answer in ~2 minutes. Then select services, see the estimated total, and go to a pre-filled quote page.",
+      ctaStart:"Start",
+      miniNoteTitle:"Why does this convert better?",
+      miniNoteText:"Because it shows 3 ready paths (Essential/Recommended/Scale) + combo savings.",
+      b1t:"Feels like consulting", b1s:"Confident suggestions without pushy sales.",
+      b2t:"Elegant upsell", b2s:"Add-ons appear only when they increase results.",
+      b3t:"Fast finish", b3s:"Quote page already filled with your picks.",
+      previewTitle:"What you'll get", previewTime:"~2 min",
+      p1t:"1) Diagnosis", p1s:"Goal, channel, volume, deadline and budget.",
+      p2t:"2) 3 bundles", p2s:"Pick fast or customize.",
+      p3t:"3) Savings", p3s:"Automatic combo discount simulation.",
+      dealTitle:"Combo (simulated)", dealText:"2 services: 5% • 3: 8% • 4+: 12%",
+      footerLine:"*Prices and discounts are estimates to speed up decision-making.",
 
-      modalTitle:"Smart quiz",
-      modalSub:"Recommended bundles • Discount simulation • Pre-filling",
-      sideTitle:"Your summary",
-      sideEmpty:"Answer the quiz to see recommendations.",
+      modalTitle:"Premium quiz",
+      modalSub:"Bundles + customization + pre-filled quote",
+      sideTitle:"Summary",
+      sideEmpty:"Answer to see recommendations.",
       simTitle:"Simulation",
       lblSub:"Subtotal (one-offs)",
-      lblDisc:"Bundle discount",
+      lblDisc:"Combo discount",
       lblPlans:"Plans",
       lblTotal:"Total",
-      sideNote:"*Bundles: 2=5%, 3=8%, 4+=12% (simulated).",
-      sideStrategy:"Strategy: start with essentials, then boost impact.",
+      noteTotals:"*Estimate to speed up your decision.",
+      sideStrategy:"Tip: the “Recommended” bundle is usually the best value.",
+
       back:"Back",
       next:"Continue",
+      skip:"Skip",
 
-      startTitle:"Build your quote in 2 minutes",
-      startSubtitle:"Answer a few questions and get recommended bundles + savings simulation.",
-      startCTA:"Start",
+      step:"Step",
+      stepOf:"of",
 
-      q_objective:"1) What's your main goal?",
-      o_sales:"Drive sales / conversions (promos, campaigns, ads)",
-      o_social:"Ongoing social media content (weekly/monthly)",
-      o_branding:"Strengthen brand / branding (professional visuals)",
-      o_edu:"Educate / technical content (explain, teach, tutorials)",
-
-      q_channels:"2) Where will you publish?",
-      ch_instagram:"Instagram (Feed/Stories/Reels)",
+      q_goal:"What's your main goal?",
+      goal_sales:"Drive sales/conversions",
+      goal_social:"Ongoing social content",
+      goal_brand:"Strengthen brand/branding",
+      goal_edu:"Educate/explain (technical)",
+      q_channels:"Where will you publish?",
+      ch_instagram:"Instagram (Feed/Reels/Stories)",
       ch_tiktok:"TikTok",
-      ch_shorts:"YouTube Shorts",
+      ch_youtube:"YouTube Shorts",
       ch_whatsapp:"WhatsApp",
-      ch_site:"Website",
+      ch_site:"Website / Landing page",
       ch_multi:"Multiple channels",
+      q_focus:"What's the priority area right now?",
+      focus_auto:"Auto recommendation",
+      focus_images:"Images / creatives",
+      focus_videos:"Videos",
+      focus_ads:"Ads (creatives)",
+      focus_brand:"Branding (logo/identity)",
+      focus_site:"Website / landing",
+      q_assets:"Do you have assets ready?",
+      as_yes:"Yes (logo/photos/brand)",
+      as_some:"Some, but incomplete",
+      as_no:"No, need to build from scratch",
+      q_volume:"Estimated volume",
+      vol_low:"Small (1–5 items)",
+      vol_mid:"Medium (6–15 items)",
+      vol_high:"High (15+ / premium)",
+      q_budget:"Budget range (approx.)",
+      bud_100:"Up to R$100",
+      bud_300:"Up to R$300",
+      bud_800:"Up to R$800",
+      bud_more:"Above R$800",
+      q_deadline:"Desired deadline",
+      dl_3:"Up to 3 days",
+      dl_7:"Up to 7 days",
+      dl_more:"More than 7 days",
+      q_pref:"How do you prefer to hire?",
+      pref_bundle:"Bundle (combos)",
+      pref_single:"Single service",
+      pref_any:"No preference",
 
-      q_freq:"3) Desired frequency",
-      f_one:"One-off (single campaign/delivery)",
-      f_week:"Weekly (consistency)",
-      f_month:"Monthly (ongoing content)",
-
-      q_type:"4) Do you know what type of service you want?",
-      type_auto:"Not sure (recommend for me)",
-
-      q_assets:"5) Do you have materials ready?",
-      a_logo:"I have a logo/visual identity",
-      a_photos:"I have product/service photos",
-      a_videos:"I have recorded videos",
-      a_text:"I have scripts/texts",
-      a_none:"I have nothing yet",
-
-      q_volume:"6) Estimated volume",
-      v_low:"Small (1–5 designs / short video)",
-      v_mid:"Medium (6–15 designs / 30s)",
-      v_high:"High (>15 designs / premium video)",
-
-      q_style:"7) Preferred style",
-      s_clean:"Minimal / clean",
-      s_promo:"Bold / promotional",
-      s_premium:"Premium / corporate",
-      s_fun:"Creative / fun",
-
-      q_preference:"8) Prefer bundle or single service?",
-      p_combo:"Bundle (with savings)",
-      p_single:"Single service",
-      p_any:"No preference",
-
-      q_budget:"9) Budget range (approx.)",
-      b_100:"Up to R$100",
-      b_300:"Up to R$300",
-      b_800:"Up to R$800",
-      b_more:"Above R$800",
-
-      q_deadline:"10) Deadline (optional)",
-      d_3:"Up to 3 days",
-      d_7:"Up to 7 days",
-      d_more:"More than 7 days",
-      d_skip:"Not sure / no rush",
-
-      clickToAdvance:"Click an option to continue.",
-      pickMulti:"Select one or more, then continue.",
-
-      resultsTitle:"Your quiz results",
-      resultsSub:"Pick a recommended bundle or customize by selecting services.",
-      redo:"Restart",
-      tier_essential:"Essential",
-      tier_recommended:"Recommended",
-      tier_aggressive:"Aggressive",
+      resultsTitle:"Your result",
+      resultsSub:"Pick a ready bundle or customize by selecting services.",
+      pack_essential:"Essential",
+      pack_reco:"Recommended",
+      pack_scale:"Scale",
       badge_essential:"Start fast",
-      badge_recommended:"Best value",
-      badge_aggressive:"Max impact",
-      apply:"Apply",
-      estimatedTotal:"Estimated total",
-      simulated:"*Automatic simulation. You can add/remove items below.",
-      customizeTitle:"Suggested services (customize)",
-      customizeHint:"Tip: 2+ services unlock bundle discount.",
-      planPeriod:"Plan period",
-      saves:"save",
-      summaryAuto:"Auto summary (goes to quote)",
-      finalize:"Finish and go to quote (pre-filled)",
+      badge_reco:"Best value",
+      badge_scale:"Max impact",
+      selectPack:"Select bundle",
+      customize:"Customize services",
+      selected:"Selected",
+      period:"Period",
+      savings:"save",
+      goQuote:"Finish and go to quote",
       copy:"Copy summary",
       copied:"Copied!",
-      notes:"Notes"
+      notes:"Notes",
+      estTotal:"Estimated total",
+      comboHint:"2+ one-offs unlock combo discount (simulated)."
     }
   };
 
-  let currentLang = (localStorage.getItem('comercias_lang') || '').toLowerCase();
-  if(currentLang !== 'pt' && currentLang !== 'en'){
+  // =========================================================
+  // 3) DOM
+  // =========================================================
+  const $ = (id)=>document.getElementById(id);
+  const modal = $('modal');
+  const modalPanel = $('modalPanel');
+  const screen = $('screen');
+  const openModalBtn = $('openModal');
+  const closeModalBtn = $('closeModal');
+  const backdrop = $('backdrop');
+
+  const backBtn = $('backBtn');
+  const nextBtn = $('nextBtn');
+  const skipBtn = $('skipBtn');
+
+  const stepTitle = $('stepTitle');
+  const stepMeta = $('stepMeta');
+  const stepBar = $('stepBar');
+
+  const sideSummary = $('sideSummary');
+  const sideEmpty = $('sideEmpty');
+
+  const vSub = $('vSub');
+  const vDisc = $('vDisc');
+  const vPlans = $('vPlans');
+  const vTotal = $('vTotal');
+
+  const langPTTop = $('langPTTop');
+  const langENTop = $('langENTop');
+  const langPT = $('langPT');
+  const langEN = $('langEN');
+
+  // =========================================================
+  // 4) State & helpers
+  // =========================================================
+  let lang = (localStorage.getItem('comercias_lang') || '').toLowerCase();
+  if(lang !== 'pt' && lang !== 'en'){
     const nav = (navigator.language || 'pt').toLowerCase();
-    currentLang = nav.startsWith('en') ? 'en' : 'pt';
+    lang = nav.startsWith('en') ? 'en' : 'pt';
   }
-  const t = (k)=> i18n[currentLang]?.[k] ?? k;
+  const t = (k)=> I18N[lang]?.[k] ?? k;
 
-  // =========================
-  // 5) Inicialização dos dados
-  // =========================
-  const dadosJSON = EMBEDDED_DATA;
-  const categorias = (dadosJSON.orcamento && Array.isArray(dadosJSON.orcamento.categorias)) ? dadosJSON.orcamento.categorias : [];
-  const observacoes = (dadosJSON.orcamento && dadosJSON.orcamento.observacoes) ? dadosJSON.orcamento.observacoes : '';
+  function escapeHtml(s){ return String(s).replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+  function money(n){
+    const num = Number(n);
+    if(!isFinite(num)) return '—';
+    return new Intl.NumberFormat(lang==='en'?'en-US':'pt-BR',{style:'currency',currency:'BRL'}).format(num);
+  }
 
-  // Normaliza serviços
-  const toArrayText = (arr)=> Array.isArray(arr) ? arr.join(' ') : '';
+  function showModal(){
+    modal.classList.remove('hidden');
+    modal.classList.add('flex');
+    setTimeout(()=>modalPanel.classList.add('show'), 10);
+  }
+  function hideModal(){
+    modalPanel.classList.remove('show');
+    setTimeout(()=>{
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }, 150);
+  }
+
+  openModalBtn.addEventListener('click', showModal);
+  closeModalBtn.addEventListener('click', hideModal);
+  backdrop.addEventListener('click', hideModal);
+  window.addEventListener('keydown', (e)=>{ if(e.key==='Escape' && !modal.classList.contains('hidden')) hideModal(); });
+
+  // Build services index
   const allServices = [];
-  categorias.forEach(cat=>{
+  CATALOG.categorias.forEach((cat)=>{
     (cat.servicos||[]).forEach((s, idx)=>{
       const isPlan = Array.isArray(s.precos_por_periodo) && s.precos_por_periodo.length;
-      const displayTitle = s.titulo_venda || s.titulo || 'Service';
+      const minPrice = isPlan
+        ? Number((s.precos_por_periodo.find(p=>String(p.periodo).toLowerCase().includes('mensal')) || s.precos_por_periodo[0]).preco_total_com_desc || 0)
+        : Number(s.preco || 0);
 
-      const fullText = [
-        displayTitle, s.titulo||'', s.descricao||'', s.extras||'',
-        toArrayText(s.inclui), toArrayText(s.beneficios)
+      const text = [
+        cat.nome, s.titulo||'', s.descricao||'', s.extras||'',
+        (Array.isArray(s.inclui)?s.inclui.join(' '):''),
+        (Array.isArray(s.beneficios)?s.beneficios.join(' '):'')
       ].join(' ').toLowerCase();
 
-      let priceMin = null;
-      if(isPlan){
-        const mensal = s.precos_por_periodo.find(p => String(p.periodo).toLowerCase().includes('mensal')) || s.precos_por_periodo[0];
-        priceMin = mensal ? Number(mensal.preco_total_com_desc) : null;
-      } else if(typeof s.preco === 'number'){
-        priceMin = Number(s.preco);
-      }
-
-      allServices.push(Object.assign({}, s, {
-        __id: `${cat.nome}::${displayTitle}::${idx}`,
-        __categoria: cat.nome,
-        __displayTitle: displayTitle,
+      allServices.push({
+        ...s,
+        __id: `${cat.nome}::${s.titulo || 'Serviço'}::${idx}`,
+        __cat: cat.nome,
         __isPlan: isPlan,
-        __priceMin: priceMin,
-        __fullText: fullText
-      }));
+        __minPrice: isFinite(minPrice) ? minPrice : 0,
+        __text: text
+      });
     });
   });
 
-  // =========================
-  // 6) Questões (agora SEM depender de fetch)
-  // =========================
-  const questions = [
-    { id:'start', type:'screen' },
-    { id:'objetivo', type:'single', textKey:'q_objective', options:[
-      {value:'vendas', labelKey:'o_sales'},
-      {value:'social', labelKey:'o_social'},
-      {value:'branding', labelKey:'o_branding'},
-      {value:'educativo', labelKey:'o_edu'}
-    ]},
-    { id:'canais', type:'multi', min:1, textKey:'q_channels', options:[
-      {value:'instagram', labelKey:'ch_instagram'},
-      {value:'tiktok', labelKey:'ch_tiktok'},
-      {value:'shorts', labelKey:'ch_shorts'},
-      {value:'whatsapp', labelKey:'ch_whatsapp'},
-      {value:'site', labelKey:'ch_site'},
-      {value:'multi', labelKey:'ch_multi'}
-    ]},
-    { id:'frequencia', type:'single', textKey:'q_freq', options:[
-      {value:'pontual', labelKey:'f_one'},
-      {value:'semanal', labelKey:'f_week'},
-      {value:'mensal', labelKey:'f_month'}
-    ]},
-    { id:'tipo', type:'single', textKey:'q_type', options:[
-      {value:'__AUTO__', labelKey:'type_auto'},
-      ...categorias.map(c=>({value:c.nome, label:c.nome}))
-    ]},
-    { id:'materiais', type:'multi', min:1, textKey:'q_assets', options:[
-      {value:'tem_logo', labelKey:'a_logo'},
-      {value:'tem_fotos', labelKey:'a_photos'},
-      {value:'tem_videos', labelKey:'a_videos'},
-      {value:'tem_texto', labelKey:'a_text'},
-      {value:'nada', labelKey:'a_none'}
-    ]},
-    { id:'volume', type:'single', textKey:'q_volume', options:[
-      {value:'baixo', labelKey:'v_low'},
-      {value:'medio', labelKey:'v_mid'},
-      {value:'alto', labelKey:'v_high'}
-    ]},
-    { id:'estilo', type:'single', textKey:'q_style', options:[
-      {value:'clean', labelKey:'s_clean'},
-      {value:'promo', labelKey:'s_promo'},
-      {value:'premium', labelKey:'s_premium'},
-      {value:'criativo', labelKey:'s_fun'}
-    ]},
-    { id:'formato', type:'single', textKey:'q_preference', options:[
-      {value:'pacote', labelKey:'p_combo'},
-      {value:'avulso', labelKey:'p_single'},
-      {value:'indiferente', labelKey:'p_any'}
-    ]},
-    { id:'orcamento', type:'single', textKey:'q_budget', options:[
-      {value:100, labelKey:'b_100'},
-      {value:300, labelKey:'b_300'},
-      {value:800, labelKey:'b_800'},
-      {value:999999, labelKey:'b_more'}
-    ]},
-    { id:'prazo', type:'single', textKey:'q_deadline', options:[
-      {value:'3d', labelKey:'d_3'},
-      {value:'7d', labelKey:'d_7'},
-      {value:'maior', labelKey:'d_more'},
-      {value:'__SKIP__', labelKey:'d_skip'}
-    ]}
+  const state = {
+    step: 0,
+    answers: {
+      goal: null,
+      channels: [],
+      focus: null,
+      assets: null,
+      volume: null,
+      budget: null,
+      deadline: null,
+      pref: null
+    },
+    selected: new Map() // id -> {id, period?}
+  };
+
+  // =========================================================
+  // 5) Questions (premium = menos perguntas, mais decisivas)
+  // =========================================================
+  const steps = [
+    {
+      id:'goal', type:'single', titleKey:'q_goal', required:true,
+      options: [
+        { value:'sales', labelKey:'goal_sales', icon:'💸' },
+        { value:'social', labelKey:'goal_social', icon:'📈' },
+        { value:'brand', labelKey:'goal_brand', icon:'✨' },
+        { value:'edu', labelKey:'goal_edu', icon:'🎓' },
+      ]
+    },
+    {
+      id:'channels', type:'multi', titleKey:'q_channels', required:true, min:1,
+      options: [
+        { value:'instagram', labelKey:'ch_instagram' },
+        { value:'tiktok', labelKey:'ch_tiktok' },
+        { value:'youtube', labelKey:'ch_youtube' },
+        { value:'whatsapp', labelKey:'ch_whatsapp' },
+        { value:'site', labelKey:'ch_site' },
+        { value:'multi', labelKey:'ch_multi' },
+      ]
+    },
+    {
+      id:'focus', type:'single', titleKey:'q_focus', required:true,
+      options: [
+        { value:'auto', labelKey:'focus_auto', icon:'🧠' },
+        { value:'images', labelKey:'focus_images', icon:'🖼️' },
+        { value:'videos', labelKey:'focus_videos', icon:'🎬' },
+        { value:'ads', labelKey:'focus_ads', icon:'📣' },
+        { value:'brand', labelKey:'focus_brand', icon:'🏷️' },
+        { value:'site', labelKey:'focus_site', icon:'🧩' },
+      ]
+    },
+    {
+      id:'assets', type:'single', titleKey:'q_assets', required:true,
+      options: [
+        { value:'yes', labelKey:'as_yes', icon:'✅' },
+        { value:'some', labelKey:'as_some', icon:'🟨' },
+        { value:'no', labelKey:'as_no', icon:'🧱' },
+      ]
+    },
+    {
+      id:'volume', type:'single', titleKey:'q_volume', required:true,
+      options: [
+        { value:'low', labelKey:'vol_low', icon:'🥈' },
+        { value:'mid', labelKey:'vol_mid', icon:'🥇' },
+        { value:'high', labelKey:'vol_high', icon:'🏆' },
+      ]
+    },
+    {
+      id:'budget', type:'single', titleKey:'q_budget', required:true,
+      options: [
+        { value:100, labelKey:'bud_100', icon:'💠' },
+        { value:300, labelKey:'bud_300', icon:'💎' },
+        { value:800, labelKey:'bud_800', icon:'👑' },
+        { value:999999, labelKey:'bud_more', icon:'🚀' },
+      ]
+    },
+    {
+      id:'deadline', type:'single', titleKey:'q_deadline', required:false, skippable:true,
+      options: [
+        { value:'3d', labelKey:'dl_3', icon:'⚡' },
+        { value:'7d', labelKey:'dl_7', icon:'🗓️' },
+        { value:'more', labelKey:'dl_more', icon:'🌿' },
+      ]
+    },
+    {
+      id:'pref', type:'single', titleKey:'q_pref', required:true,
+      options: [
+        { value:'bundle', labelKey:'pref_bundle', icon:'📦' },
+        { value:'single', labelKey:'pref_single', icon:'🧩' },
+        { value:'any', labelKey:'pref_any', icon:'⚖️' },
+      ]
+    }
   ];
 
-  // =========================
-  // 7) Formatação / Totais / Scoring
-  // =========================
-  const state = { answers:{}, index:0 };
-  let selectedMap = new Map();
+  // =========================================================
+  // 6) Scoring & packages (mais “inteligente” e estável)
+  // =========================================================
+  function comboPerc(qtd){
+    if(qtd >= 4) return 12;
+    if(qtd === 3) return 8;
+    if(qtd === 2) return 5;
+    return 0;
+  }
 
-  const formatPrice = (n)=>{
-    const num = Number(n);
-    if(!isFinite(num)) return String(n);
-    return new Intl.NumberFormat(currentLang === 'en' ? 'en-US' : 'pt-BR', {style:'currency', currency:'BRL'}).format(num);
-  };
-
-  const comboDiscountPerc = (qtd)=> (qtd>=4?12:(qtd===3?8:(qtd===2?5:0)));
-
-  const getServiceById = (id)=> allServices.find(s=>s.__id===id);
-
-  const scoreService = (s, a)=>{
+  function scoreService(s){
+    const a = state.answers;
     let score = 0;
-    if(a.tipo && a.tipo !== '__AUTO__' && s.__categoria === a.tipo) score += 6;
 
-    const budget = Number(a.orcamento) || Infinity;
-    if(typeof s.__priceMin === 'number'){
-      if(budget === 999999) score += 1;
-      else {
-        if(s.__priceMin <= budget) score += 4;
-        else score -= 6;
-        if(s.__priceMin <= budget/2) score += 1;
-      }
+    // Budget fit
+    const budget = Number(a.budget || 999999);
+    if(budget !== 999999 && s.__minPrice && s.__minPrice > budget) score -= 10;
+    if(budget !== 999999 && s.__minPrice && s.__minPrice <= budget) score += 3;
+
+    // Focus mapping
+    const cat = (s.__cat||'').toLowerCase();
+    if(a.focus === 'images' && /imagens/.test(cat)) score += 8;
+    if(a.focus === 'videos' && /vídeos|videos/.test(cat)) score += 8;
+    if(a.focus === 'ads' && /anúncios|ads|avulsos/.test(cat)) score += 6;
+    if(a.focus === 'brand' && /avulsos/.test(cat)) score += 3;
+    if(a.focus === 'site' && /avulsos/.test(cat)) score += 3;
+
+    // Keyword based
+    const txt = s.__text || '';
+    if(a.goal === 'sales'){
+      if(/anúnc|ads|promo|oferta|cta|copy|venda|convers/.test(txt)) score += 7;
+      if(/vídeo|video/.test(txt)) score += 2;
+    }
+    if(a.goal === 'social'){
+      if(s.__isPlan) score += 10;
+      if(/imagem|imagens|vídeo|video|conteúdo|reels|tiktok|shorts/.test(txt)) score += 5;
+    }
+    if(a.goal === 'brand'){
+      if(/logo|identidade|marca|branding/.test(txt)) score += 9;
+      if(/website|site|landing/.test(txt)) score += 3;
+    }
+    if(a.goal === 'edu'){
+      if(/roteiro|narração|narracao|vídeo|video/.test(txt)) score += 7;
     }
 
-    const txt = (s.__fullText||'');
-    if(a.objetivo === 'vendas'){
-      if(/\bvenda|vendas|convers|promo|campanh|ads|an[uú]ncio|cta|oferta|reserv/ig.test(txt)) score += 5;
+    // Channels
+    const ch = a.channels || [];
+    if(ch.includes('site') && /website|site|landing/.test(txt)) score += 5;
+    if((ch.includes('instagram')||ch.includes('tiktok')||ch.includes('youtube')||ch.includes('multi')) && /vídeo|video|imagem|reels|shorts|tiktok/.test(txt)) score += 2;
+    if(ch.includes('whatsapp') && /imagem|banner|arte|imagens/.test(txt)) score += 2;
+
+    // Assets upsell
+    if(a.assets === 'no'){
+      if(/logo|identidade/.test(txt)) score += 6;
+      if(/roteiro|copy/.test(txt)) score += 3;
     }
-    if(a.objetivo === 'social'){
-      if(s.__isPlan) score += (a.frequencia === 'mensal' ? 10 : 6);
-      if(/\binstagram|tiktok|reels|shorts|stories|conte[uú]do|feed/ig.test(txt)) score += 4;
-    }
-    if(a.objetivo === 'branding'){
-      if(/\blogo|identidade|brand|marca|website|site|manual/ig.test(txt)) score += 6;
-    }
-    if(a.objetivo === 'educativo'){
-      if(/\btutorial|trein|curso|explic|roteiro/ig.test(txt)) score += 5;
-      if(/\bnarra/ig.test(txt)) score += 2;
+    if(a.assets === 'some'){
+      if(/identidade|copy|roteiro/.test(txt)) score += 3;
     }
 
-    const canais = Array.isArray(a.canais) ? a.canais : [];
-    if(canais.includes('site') && /\bwebsite|site|landing/ig.test(txt)) score += 3;
-    if((canais.includes('instagram')||canais.includes('tiktok')||canais.includes('shorts')) && /\breels|tiktok|shorts|vertical/ig.test(txt)) score += 2;
+    // Volume: favor basic/pro/premium
+    if(!s.__isPlan){
+      if(a.volume === 'low' && /(básic|basic)/.test(txt)) score += 2;
+      if(a.volume === 'mid' && /(profissional|professional)/.test(txt)) score += 2;
+      if(a.volume === 'high' && /(premium)/.test(txt)) score += 2;
+    }
 
-    if(a.prazo === '3d' && /\br[aá]pid|express/ig.test(txt)) score += 2;
-    if(a.estilo === 'premium' && /\bpremium|institucional|corporativo/ig.test(txt)) score += 1;
-    if(a.estilo === 'promo' && /\bpromo|oferta|impact/ig.test(txt)) score += 1;
-    if(a.estilo === 'clean' && /\bminimal|clean|simples/ig.test(txt)) score += 1;
+    // Deadline: slight priority for faster services (if described)
+    if(a.deadline === '3d' && /(rápid|express|fast)/.test(txt)) score += 2;
+
+    // Prefer bundles
+    if(a.pref === 'bundle' && s.__isPlan) score += 3;
 
     return score;
-  };
+  }
 
-  const pickTopServices = (a, limit)=>{
-    const budget = Number(a.orcamento) || Infinity;
-    const scored = allServices.map(s => ({ s, score: scoreService(s, a) }));
-    const filtered = scored.filter(x=>{
-      if(budget === 999999) return true;
-      if(typeof x.s.__priceMin !== 'number') return true;
-      return x.s.__priceMin <= budget;
-    });
-    filtered.sort((A,B)=>{
-      if(B.score !== A.score) return B.score - A.score;
-      const pa = A.s.__priceMin ?? 999999;
-      const pb = B.s.__priceMin ?? 999999;
-      return pa - pb;
-    });
-    const top = filtered.filter(x=>x.score > 0).slice(0, limit).map(x=>x.s);
-    return top.length ? top : filtered.slice(0, limit).map(x=>x.s);
-  };
+  function topServices(limit=14){
+    const budget = Number(state.answers.budget || 999999);
+    const scored = allServices
+      .map(s => ({ s, score: scoreService(s) }))
+      .filter(x => budget === 999999 || !x.s.__minPrice || x.s.__minPrice <= budget || x.s.__isPlan)
+      .sort((a,b)=> (b.score - a.score) || ((a.s.__minPrice||0) - (b.s.__minPrice||0)));
+    const pos = scored.filter(x=>x.score > 0).map(x=>x.s);
+    return (pos.length ? pos : scored.map(x=>x.s)).slice(0, limit);
+  }
 
-  const computeTotals = (selectedArr)=>{
-    let avulsoSubtotal = 0;
-    let planTotal = 0;
-    let planSavings = 0;
+  function findByTitle(re){
+    return allServices.find(s => re.test((s.titulo||'')+' '+(s.descricao||'')));
+  }
 
-    const avulsos = [];
-    const plans = [];
+  function buildPackages(list){
+    const a = state.answers;
 
-    selectedArr.forEach(it=>{
-      const s = getServiceById(it.id);
-      if(!s) return;
-      if(s.__isPlan) plans.push({ s, period: it.period || 'Mensal' });
-      else avulsos.push(s);
-    });
-
-    avulsos.forEach(s=>{
-      const p = Number(s.preco ?? s.__priceMin ?? 0);
-      avulsoSubtotal += (isFinite(p) ? p : 0);
-    });
-
-    const comboPerc = comboDiscountPerc(avulsos.length);
-    const comboDiscount = Math.round((avulsoSubtotal * comboPerc) * 100) / 100;
-    const avulsoTotal = avulsoSubtotal - comboDiscount;
-
-    plans.forEach(({s, period})=>{
-      const opt = Array.isArray(s.precos_por_periodo)
-        ? (s.precos_por_periodo.find(p => String(p.periodo).toLowerCase() === String(period).toLowerCase())
-           || s.precos_por_periodo.find(p => String(p.periodo).toLowerCase().includes(String(period).toLowerCase()))
-           || s.precos_por_periodo[0])
-        : null;
-
-      if(opt){
-        planTotal += Number(opt.preco_total_com_desc || 0);
-        const sem = Number(opt.preco_total_sem_desc || 0);
-        const com = Number(opt.preco_total_com_desc || 0);
-        planSavings += Math.max(0, sem - com);
-      } else {
-        planTotal += Number(s.__priceMin || 0);
-      }
-    });
-
-    const total = avulsoTotal + planTotal;
-    return { avulsoSubtotal, comboPerc, comboDiscount, planTotal, planSavings, total };
-  };
-
-  const renderTotalsBox = (tot)=>{
-    const discLabel = tot.comboPerc ? `-${tot.comboPerc}%` : '—';
-    sideTotals.innerHTML = `
-      <div class="flex justify-between"><span>${escapeHtml(t('lblSub'))}</span><span>${formatPrice(tot.avulsoSubtotal||0)}</span></div>
-      <div class="flex justify-between"><span>${escapeHtml(t('lblDisc'))} ${escapeHtml(discLabel)}</span><span>${tot.comboDiscount ? '-'+formatPrice(tot.comboDiscount) : '—'}</span></div>
-      <div class="flex justify-between"><span>${escapeHtml(t('lblPlans'))}</span><span>${tot.planTotal ? formatPrice(tot.planTotal) : '—'}</span></div>
-      <div class="flex justify-between font-extrabold"><span>${escapeHtml(t('lblTotal'))}</span><span>${formatPrice(tot.total||0)}</span></div>
-    `;
-  };
-
-  // =========================
-  // 8) UI copy + idioma (SEM render antes de init)
-  // =========================
-  let initialized = false;
-
-  const applyCopy = ()=>{
-    document.getElementById('heroBadge').textContent = t('heroBadge');
-    document.getElementById('heroTitle').textContent = t('heroTitle');
-    document.getElementById('heroSub').textContent = t('heroSub');
-    document.getElementById('ctaStart').textContent = t('ctaStart');
-    document.getElementById('miniNoteTitle').textContent = t('miniNoteTitle');
-    document.getElementById('miniNoteText').textContent = t('miniNoteText');
-
-    document.getElementById('b1t').textContent = t('b1t');
-    document.getElementById('b1s').textContent = t('b1s');
-    document.getElementById('b2t').textContent = t('b2t');
-    document.getElementById('b2s').textContent = t('b2s');
-    document.getElementById('b3t').textContent = t('b3t');
-    document.getElementById('b3s').textContent = t('b3s');
-
-    document.getElementById('previewTitle').textContent = t('previewTitle');
-    document.getElementById('previewTime').textContent = t('previewTime');
-    document.getElementById('p1t').textContent = t('p1t');
-    document.getElementById('p1s').textContent = t('p1s');
-    document.getElementById('p2t').textContent = t('p2t');
-    document.getElementById('p2s').textContent = t('p2s');
-    document.getElementById('p3t').textContent = t('p3t');
-    document.getElementById('p3s').textContent = t('p3s');
-    document.getElementById('dealTitle').textContent = t('dealTitle');
-    document.getElementById('dealText').textContent = t('dealText');
-    document.getElementById('footerLine').textContent = t('footerLine');
-
-    document.getElementById('modalTitle').textContent = t('modalTitle');
-    document.getElementById('modalSub').textContent = t('modalSub');
-    document.getElementById('sideTitle').textContent = t('sideTitle');
-    document.getElementById('sideEmpty').textContent = t('sideEmpty');
-    document.getElementById('simTitle').textContent = t('simTitle');
-    document.getElementById('lblSub').textContent = t('lblSub');
-    document.getElementById('lblDisc').textContent = t('lblDisc');
-    document.getElementById('lblPlans').textContent = t('lblPlans');
-    document.getElementById('lblTotal').textContent = t('lblTotal');
-    document.getElementById('sideNote').textContent = t('sideNote');
-    document.getElementById('sideStrategy').textContent = t('sideStrategy');
-    backBtn.textContent = t('back');
-    nextBtn.textContent = t('next');
-  };
-
-  const setLang = (lang)=>{
-    currentLang = lang;
-    localStorage.setItem('comercias_lang', lang);
-
-    // toggles
-    langPTTop.classList.toggle('bg-white/10', lang==='pt');
-    langENTop.classList.toggle('bg-white/10', lang==='en');
-    langPTTop.classList.toggle('text-white/70', lang!=='pt');
-    langENTop.classList.toggle('text-white/70', lang!=='en');
-
-    langPT.classList.toggle('bg-white/10', lang==='pt');
-    langEN.classList.toggle('bg-white/10', lang==='en');
-    langPT.classList.toggle('text-white/70', lang!=='pt');
-    langEN.classList.toggle('text-white/70', lang!=='en');
-
-    applyCopy();
-    renderTotalsBox(computeTotals(Array.from(selectedMap.values())));
-
-    if(initialized){
-      if(state.index >= questions.length) renderResults();
-      else renderQuestion(state.index);
-    }
-  };
-
-  langPTTop.addEventListener('click', ()=>setLang('pt'));
-  langENTop.addEventListener('click', ()=>setLang('en'));
-  langPT.addEventListener('click', ()=>setLang('pt'));
-  langEN.addEventListener('click', ()=>setLang('en'));
-
-  // =========================
-  // 9) Sidebar / progress
-  // =========================
-  const updateProgress = ()=>{
-    const visible = questions.filter(q=>q.type!=='screen').length;
-    const currentVisible = Math.max(0, questions.slice(0, state.index).filter(q=>q.type!=='screen').length);
-    const pct = Math.round((currentVisible / visible) * 100);
-    progressBar.style.width = `${Math.min(100, Math.max(0, pct))}%`;
-    progressText.textContent = `${Math.min(100, Math.max(0, pct))}%`;
-    stepCounter.textContent = state.index === 0 ? '—' : `${currentVisible} / ${visible}`;
-  };
-
-  const renderSideSummary = ()=>{
-    const labels = currentLang === 'en'
-      ? { objetivo:'Goal', canais:'Channels', frequencia:'Frequency', tipo:'Type', materiais:'Assets', volume:'Volume', estilo:'Style', formato:'Preference', orcamento:'Budget', prazo:'Deadline' }
-      : { objetivo:'Objetivo', canais:'Canais', frequencia:'Frequência', tipo:'Tipo', materiais:'Materiais', volume:'Volume', estilo:'Estilo', formato:'Preferência', orcamento:'Orçamento', prazo:'Prazo' };
-
-    const lines = [];
-    Object.keys(labels).forEach(k=>{
-      if(typeof state.answers[k] === 'undefined') return;
-      let v = state.answers[k];
-      if(Array.isArray(v)) v = v.join(', ');
-      if(k === 'orcamento') v = `R$${state.answers[k]}`;
-      if(k === 'tipo' && v === '__AUTO__') v = t('type_auto');
-      if(k === 'prazo' && v === '__SKIP__') v = t('d_skip');
-      lines.push(`
-        <div class="flex justify-between gap-3">
-          <span class="text-white/55">${escapeHtml(labels[k])}</span>
-          <span class="font-semibold text-white/90 text-right">${escapeHtml(String(v))}</span>
-        </div>
-      `);
-    });
-
-    sideSummary.innerHTML = lines.length
-      ? `<div class="space-y-2">${lines.join('')}</div>`
-      : `<div class="text-white/55">${escapeHtml(t('sideEmpty'))}</div>`;
-  };
-
-  const showNavButtons = (showBack, showNext)=>{
-    backBtn.classList.toggle('hidden', !showBack);
-    nextBtn.classList.toggle('hidden', !showNext);
-  };
-
-  // =========================
-  // 10) Render do quiz
-  // =========================
-  const renderQuestion = (index)=>{
-    state.index = index;
-    updateProgress();
-    renderSideSummary();
-    showNavButtons(index > 0, false);
-
-    if(index >= questions.length){ renderResults(); return; }
-    const q = questions[index];
-
-    if(q.type === 'screen'){
-      setFade(`
-        <div class="fade">
-          <div class="rounded-3xl border border-white/10 bg-white/5 p-5 md:p-6">
-            <div class="text-2xl md:text-3xl font-extrabold tracking-tight">${escapeHtml(t('startTitle'))}</div>
-            <div class="mt-2 text-white/70">${escapeHtml(t('startSubtitle'))}</div>
-            <button id="startQuiz" class="mt-6 w-full ring-focus btn-primary px-6 py-3.5 rounded-2xl font-extrabold inline-flex items-center justify-center gap-2">
-              ${escapeHtml(t('startCTA'))}
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" class="opacity-90">
-                <path d="M8 5l8 7-8 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-            </button>
-          </div>
-        </div>
-      `);
-      document.getElementById('startQuiz').addEventListener('click', ()=>renderQuestion(index+1));
-      backBtn.onclick = ()=>{};
-      return;
-    }
-
-    if(q.type === 'single'){
-      const opts = q.options.map(o=>{
-        const label = o.labelKey ? t(o.labelKey) : (o.label || String(o.value));
-        return `
-          <button class="opt ring-focus w-full text-left rounded-3xl px-4 py-4" data-val="${escapeHtml(o.value)}">
-            <div class="flex items-start justify-between gap-3">
-              <div>
-                <div class="font-bold text-white/95">${escapeHtml(label)}</div>
-                <div class="text-sm text-white/60 mt-1">${escapeHtml(t('clickToAdvance'))}</div>
-              </div>
-              <span class="text-white/35 mt-1">→</span>
-            </div>
-          </button>
-        `;
-      }).join('');
-
-      setFade(`
-        <div class="fade">
-          <div class="mb-4">
-            <div class="text-white font-extrabold text-xl tracking-tight">${escapeHtml(t(q.textKey))}</div>
-          </div>
-          <div class="grid gap-3">${opts}</div>
-        </div>
-      `);
-
-      app.querySelectorAll('.opt').forEach(btn=>{
-        btn.addEventListener('click', ()=>{
-          const v = btn.dataset.val;
-          state.answers[q.id] = (isNaN(Number(v)) ? v : Number(v));
-          renderQuestion(index+1);
-        });
-      });
-
-      backBtn.onclick = ()=>renderQuestion(index-1);
-      return;
-    }
-
-    if(q.type === 'multi'){
-      const current = Array.isArray(state.answers[q.id]) ? state.answers[q.id] : [];
-      const min = q.min || 1;
-
-      const chips = q.options.map(o=>{
-        const label = o.labelKey ? t(o.labelKey) : (o.label || String(o.value));
-        const active = current.includes(o.value);
-        return `
-          <button type="button"
-            class="ring-focus px-4 py-3 rounded-2xl border text-sm font-semibold transition-all
-              ${active ? 'bg-white text-slate-900 border-white' : 'bg-white/6 hover:bg-white/10 text-white border-white/10'}"
-            data-val="${escapeHtml(o.value)}">
-            ${escapeHtml(label)}
-          </button>
-        `;
-      }).join('');
-
-      const canContinue = current.length >= min;
-
-      setFade(`
-        <div class="fade">
-          <div class="mb-4">
-            <div class="text-white font-extrabold text-xl tracking-tight">${escapeHtml(t(q.textKey))}</div>
-            <div class="text-white/60 text-sm mt-1">${escapeHtml(t('pickMulti'))}</div>
-          </div>
-
-          <div class="flex flex-wrap gap-2.5 mb-5">${chips}</div>
-
-          <div class="flex items-center justify-between gap-3">
-            <div class="text-xs text-white/55">${escapeHtml(currentLang==='en' ? `Selected: ${current.length}` : `Selecionados: ${current.length}`)}</div>
-            <button id="multiNext"
-              class="ring-focus px-5 py-3 rounded-2xl font-extrabold
-                ${canContinue ? 'btn-primary text-white' : 'bg-white/10 text-white/45 cursor-not-allowed'}"
-              ${canContinue ? '' : 'disabled'}>
-              ${escapeHtml(t('next'))}
-            </button>
-          </div>
-        </div>
-      `);
-
-      app.querySelectorAll('button[data-val]').forEach(ch=>{
-        ch.addEventListener('click', ()=>{
-          const val = ch.dataset.val;
-          let cur = Array.isArray(state.answers[q.id]) ? state.answers[q.id].slice() : [];
-          if(cur.includes(val)) cur = cur.filter(x=>x!==val);
-          else cur.push(val);
-          state.answers[q.id] = cur;
-          renderQuestion(index);
-        });
-      });
-
-      document.getElementById('multiNext').addEventListener('click', ()=>{
-        const cur = Array.isArray(state.answers[q.id]) ? state.answers[q.id] : [];
-        if(cur.length < min) return;
-        renderQuestion(index+1);
-      });
-
-      backBtn.onclick = ()=>renderQuestion(index-1);
-      return;
-    }
-
-    renderQuestion(index+1);
-  };
-
-  // =========================
-  // 11) Resultados + redirect por idioma
-  // =========================
-  const applyPackage = (items)=>{
-    selectedMap.clear();
-    items.forEach(it=>selectedMap.set(it.id, {id:it.id, period:it.period}));
-  };
-
-  const toggleService = (id)=>{
-    if(selectedMap.has(id)) selectedMap.delete(id);
-    else{
-      const s = getServiceById(id);
-      if(!s) return;
-      selectedMap.set(id, {id, period: s.__isPlan ? 'Mensal' : undefined});
-    }
-  };
-
-  const updatePlanPeriod = (id, period)=>{
-    const it = selectedMap.get(id);
-    if(it){ it.period = period; selectedMap.set(id, it); }
-  };
-
-  const findServiceByRegex = (re)=> allServices.find(s => re.test((s.__displayTitle||'')+' '+(s.titulo||'')+' '+(s.descricao||'')));
-
-  const buildPackages = (a, topList)=>{
-    const budget = Number(a.orcamento) || Infinity;
-    const withinBudget = (s)=>{
-      if(!s) return false;
-      if(budget === 999999) return true;
-      if(typeof s.__priceMin !== 'number') return true;
-      return s.__priceMin <= budget;
-    };
-
-    const bestImages = topList.find(s => /imagens/i.test(s.__categoria));
-    const bestVideo  = topList.find(s => /vídeos|videos/i.test(s.__categoria));
-    const bestPlan   = topList.find(s => s.__isPlan);
-
-    const identity = findServiceByRegex(/\bidentidade\b|\blogo\b/i);
-    const website  = findServiceByRegex(/\bwebsite\b|\bsite\b/i);
-    const narra    = findServiceByRegex(/\bnarra/i);
-
-    const mats = Array.isArray(a.materiais) ? a.materiais : [];
-    const needsIdentity = mats.includes('nada') || !mats.includes('tem_logo');
+    const plan = list.find(s => s.__isPlan);
+    const img = list.find(s => /imagens/i.test(s.__cat));
+    const vid = list.find(s => /vídeos|videos/i.test(s.__cat));
+    const logo = findByTitle(/\blogo\b/i);
+    const idv  = findByTitle(/identidade/i);
+    const ads  = findByTitle(/anúncio|ads|pacote de anúncios/i);
+    const site = findByTitle(/website|site/i);
+    const copy = findByTitle(/copy/i);
+    const rot  = findByTitle(/roteiro/i);
 
     const essential = [];
-    if(a.objetivo === 'social' && (a.frequencia === 'mensal' || a.frequencia === 'semanal') && bestPlan && withinBudget(bestPlan)){
-      essential.push({id: bestPlan.__id, period:'Mensal'});
-    } else {
-      if(bestImages && withinBudget(bestImages)) essential.push({id: bestImages.__id});
-      if(bestVideo && withinBudget(bestVideo) && (a.objetivo==='vendas' || a.objetivo==='educativo')) essential.push({id: bestVideo.__id});
-      if(!essential.length && topList[0]) essential.push({id: topList[0].__id});
+    if(a.goal === 'social' && plan) essential.push({id: plan.__id, period: 'Mensal'});
+    else {
+      if(img) essential.push({id: img.__id});
+      if((a.goal === 'sales' || a.goal === 'edu') && vid) essential.push({id: vid.__id});
+      if(!essential.length && list[0]) essential.push({id: list[0].__id});
     }
 
-    const recommended = essential.slice();
-    if(needsIdentity && identity && withinBudget(identity) && !recommended.find(x=>x.id===identity.__id)) recommended.unshift({id: identity.__id});
-    if(narra && withinBudget(narra) && !recommended.find(x=>x.id===narra.__id) && (a.objetivo!=='branding')) recommended.push({id: narra.__id});
-    if(a.objetivo === 'social' && bestPlan && withinBudget(bestPlan) && !recommended.find(x=>x.id===bestPlan.__id)) recommended.unshift({id: bestPlan.__id, period:'Mensal'});
+    const recommended = [...essential];
+    if(a.assets !== 'yes'){
+      if(logo && !recommended.find(x=>x.id===logo.__id)) recommended.unshift({id: logo.__id});
+      else if(idv && !recommended.find(x=>x.id===idv.__id)) recommended.unshift({id: idv.__id});
+    }
+    if(a.goal === 'sales'){
+      if(ads && !recommended.find(x=>x.id===ads.__id)) recommended.push({id: ads.__id});
+      if(copy && !recommended.find(x=>x.id===copy.__id)) recommended.push({id: copy.__id});
+    }
+    if(a.goal === 'edu'){
+      if(rot && !recommended.find(x=>x.id===rot.__id)) recommended.push({id: rot.__id});
+    }
+    if((a.channels||[]).includes('site')){
+      if(site && !recommended.find(x=>x.id===site.__id)) recommended.push({id: site.__id});
+    }
+    if(a.pref === 'bundle' && plan && !recommended.find(x=>x.id===plan.__id)) recommended.unshift({id: plan.__id, period:'Mensal'});
 
-    const aggressive = recommended.slice();
-    if(a.objetivo === 'branding' && website && withinBudget(website) && !aggressive.find(x=>x.id===website.__id)) aggressive.push({id: website.__id});
-    topList.slice(0,6).forEach(s=>{
-      if(aggressive.length >= 6) return;
-      if(!aggressive.find(x=>x.id===s.__id) && withinBudget(s)){
-        aggressive.push({id: s.__id, period: s.__isPlan ? 'Mensal' : undefined});
-      }
+    const scale = [...recommended];
+    // add a couple more top items
+    list.slice(0, 8).forEach(s=>{
+      if(scale.length >= 6) return;
+      if(!scale.find(x=>x.id===s.__id)) scale.push({id: s.__id, period: s.__isPlan ? 'Mensal' : undefined});
     });
 
     return [
-      { tierKey:'tier_essential', badgeKey:'badge_essential', idx:0, items: essential },
-      { tierKey:'tier_recommended', badgeKey:'badge_recommended', idx:1, items: recommended },
-      { tierKey:'tier_aggressive', badgeKey:'badge_aggressive', idx:2, items: aggressive }
+      { key:'essential', titleKey:'pack_essential', badgeKey:'badge_essential', items: essential },
+      { key:'recommended', titleKey:'pack_reco', badgeKey:'badge_reco', items: recommended },
+      { key:'scale', titleKey:'pack_scale', badgeKey:'badge_scale', items: scale }
     ];
-  };
+  }
 
-  const servicesForChecklist = (topList)=>{
-    const seen = new Set();
-    const list = [];
-    const byCat = {};
-    topList.forEach(s=>{
-      byCat[s.__categoria] = byCat[s.__categoria] || [];
-      byCat[s.__categoria].push(s);
-    });
-    Object.keys(byCat).forEach(cat=>{
-      byCat[cat].slice(0,2).forEach(s=>{
-        if(!seen.has(s.__id)){ list.push(s); seen.add(s.__id); }
-      });
-    });
-    topList.forEach(s=>{
-      if(list.length >= 12) return;
-      if(!seen.has(s.__id)){ list.push(s); seen.add(s.__id); }
-    });
-    return list.slice(0,12);
-  };
+  function computeTotals(selectedMap){
+    const selected = Array.from(selectedMap.values());
+    const oneOff = [];
+    const plans = [];
 
-  const buildSummaryText = ()=>{
+    selected.forEach(it=>{
+      const s = allServices.find(x=>x.__id===it.id);
+      if(!s) return;
+      if(s.__isPlan) plans.push({s, period: it.period || 'Mensal'});
+      else oneOff.push(s);
+    });
+
+    let subtotal = 0;
+    oneOff.forEach(s=> subtotal += Number(s.preco || s.__minPrice || 0));
+
+    const perc = comboPerc(oneOff.length);
+    const disc = Math.round(subtotal * (perc/100) * 100)/100;
+
+    let planTotal = 0;
+    plans.forEach(({s, period})=>{
+      const opt = (s.precos_por_periodo||[]).find(p => String(p.periodo).toLowerCase() === String(period).toLowerCase())
+              || (s.precos_por_periodo||[])[0];
+      planTotal += Number(opt?.preco_total_com_desc || s.__minPrice || 0);
+    });
+
+    const total = (subtotal - disc) + planTotal;
+    return { subtotal, disc, planTotal, total, perc, count: selected.length, oneOffCount: oneOff.length };
+  }
+
+  function updateTotalsUI(){
+    const tot = computeTotals(state.selected);
+    vSub.textContent = money(tot.subtotal);
+    vDisc.textContent = tot.disc ? `-${money(tot.disc)} (${tot.perc}%)` : '—';
+    vPlans.textContent = tot.planTotal ? money(tot.planTotal) : '—';
+    vTotal.textContent = money(tot.total);
+  }
+
+  function renderSideSummary(){
     const a = state.answers;
-    const canais = Array.isArray(a.canais) ? a.canais.join(', ') : String(a.canais||'');
-    const mats = Array.isArray(a.materiais) ? a.materiais.join(', ') : String(a.materiais||'');
-    const tipo = (a.tipo === '__AUTO__') ? t('type_auto') : a.tipo;
-    const prazo = (a.prazo === '__SKIP__') ? t('d_skip') : (a.prazo || '—');
+    const lines = [];
 
-    const totals = computeTotals(Array.from(selectedMap.values()));
-    const totalsLine = currentLang === 'en'
-      ? `\n- Estimated total: ${formatPrice(totals.total)}`
-      : `\n- Total estimado: ${formatPrice(totals.total)}`;
+    const label = (kPt, kEn)=> (lang==='en'?kEn:kPt);
 
-    if(currentLang === 'en'){
-      return [
-        `- Goal: ${a.objetivo}`,
-        `- Channels: ${canais}`,
-        `- Frequency: ${a.frequencia}`,
-        `- Type: ${tipo}`,
-        `- Assets: ${mats}`,
-        `- Volume: ${a.volume}`,
-        `- Style: ${a.estilo}`,
-        `- Preference: ${a.formato}`,
-        `- Budget: R$${a.orcamento}`,
-        `- Deadline: ${prazo}`
-      ].join('\n') + totalsLine;
+    if(a.goal) lines.push([label('Objetivo','Goal'), a.goal]);
+    if(a.channels?.length) lines.push([label('Canais','Channels'), a.channels.join(', ')]);
+    if(a.focus) lines.push([label('Prioridade','Priority'), a.focus]);
+    if(a.assets) lines.push([label('Materiais','Assets'), a.assets]);
+    if(a.volume) lines.push([label('Volume','Volume'), a.volume]);
+    if(a.budget) lines.push([label('Orçamento','Budget'), `R$${a.budget}`]);
+    if(a.deadline) lines.push([label('Prazo','Deadline'), a.deadline]);
+    if(a.pref) lines.push([label('Preferência','Preference'), a.pref]);
+
+    if(!lines.length){
+      sideSummary.innerHTML = `<div class="text-white/55">${escapeHtml(t('sideEmpty'))}</div>`;
+      return;
     }
-    return [
-      `- Objetivo: ${a.objetivo}`,
-      `- Canais: ${canais}`,
-      `- Frequência: ${a.frequencia}`,
-      `- Tipo: ${tipo}`,
-      `- Materiais: ${mats}`,
-      `- Volume: ${a.volume}`,
-      `- Estilo: ${a.estilo}`,
-      `- Preferência: ${a.formato}`,
-      `- Orçamento: R$${a.orcamento}`,
-      `- Prazo: ${prazo}`
-    ].join('\n') + totalsLine;
-  };
 
-  const renderResults = ()=>{
-    updateProgress();
+    sideSummary.innerHTML = `
+      <div class="space-y-2">
+        ${lines.map(([k,v])=>`
+          <div class="flex justify-between gap-3">
+            <span class="text-white/55">${escapeHtml(k)}</span>
+            <span class="text-white/90 font-semibold text-right">${escapeHtml(String(v))}</span>
+          </div>
+        `).join('')}
+      </div>
+    `;
+  }
+
+  // =========================================================
+  // 7) Render step UI (sem re-render pesado — só a tela)
+  // =========================================================
+  function setStepUI(){
+    const total = steps.length + 1; // + results
+    const current = Math.min(state.step + 1, total);
+    const pct = Math.round(((current-1)/(total-1))*100);
+
+    stepTitle.textContent = `${t('step')} ${current} ${t('stepOf')} ${total}`;
+    stepMeta.textContent = `${current}/${total}`;
+    stepBar.style.width = `${pct}%`;
+
+    backBtn.classList.toggle('hidden', state.step === 0);
+    skipBtn.classList.toggle('hidden', !(steps[state.step]?.skippable));
+    skipBtn.textContent = t('skip');
+    backBtn.textContent = t('back');
+    nextBtn.textContent = t('next');
+  }
+
+  function setScreen(html){
+    screen.innerHTML = html;
+    const el = screen.querySelector('.fade');
+    if(el) setTimeout(()=>el.classList.add('show'), 10);
+  }
+
+  function canProceed(){
+    if(state.step >= steps.length) return true; // results screen
+    const st = steps[state.step];
+    const v = state.answers[st.id];
+
+    if(st.type === 'single'){
+      return v !== null && v !== undefined;
+    }
+    if(st.type === 'multi'){
+      return Array.isArray(v) && v.length >= (st.min || 1);
+    }
+    return true;
+  }
+
+  function renderCurrent(){
+    setStepUI();
     renderSideSummary();
-    showNavButtons(false, false);
+    updateTotalsUI();
 
-    const required = ['objetivo','canais','frequencia','tipo','materiais','volume','estilo','formato','orcamento','prazo'];
-    for(const r of required){
-      if(typeof state.answers[r] === 'undefined'){
-        const idx = questions.findIndex(q=>q.id===r);
-        renderQuestion(idx >= 0 ? idx : 0);
-        return;
-      }
+    // results
+    if(state.step >= steps.length){
+      renderResults();
+      return;
     }
 
-    const topList = pickTopServices(state.answers, 14);
-    const packages = buildPackages(state.answers, topList);
+    const st = steps[state.step];
+    const title = t(st.titleKey);
 
-    if(selectedMap.size === 0){
-      applyPackage((packages[1] || packages[0]).items);
-    }
-
-    const selectedArr = Array.from(selectedMap.values());
-    const totals = computeTotals(selectedArr);
-    renderTotalsBox(totals);
-
-    const pkgHtml = packages.map(pkg=>{
-      const tier = t(pkg.tierKey);
-      const badge = t(pkg.badgeKey);
-      const highlight = pkg.idx === 1;
-
-      const simTotals = computeTotals(pkg.items);
-      const itemsList = pkg.items.map(it=>{
-        const s = getServiceById(it.id);
-        if(!s) return '';
-        const planTxt = s.__isPlan ? `<span class="text-xs text-white/50">(Mensal)</span>` : '';
-        return `<li class="text-sm text-white/80">${escapeHtml(s.__displayTitle)} ${planTxt}</li>`;
-      }).join('');
-
-      return `
-        <div class="rounded-3xl p-4 md:p-5 border ${highlight ? 'border-white/25 bg-white/10' : 'border-white/10 bg-white/5'}">
-          <div class="flex items-center justify-between gap-3">
-            <div class="text-lg font-extrabold">${escapeHtml(tier)}</div>
-            <span class="text-xs px-2 py-1 rounded-full border border-white/10 bg-white/5 text-white/80 font-semibold">${escapeHtml(badge)}</span>
+    if(st.type === 'single'){
+      const active = state.answers[st.id];
+      setScreen(`
+        <div class="fade">
+          <div class="mb-4">
+            <div class="text-white font-extrabold text-2xl tracking-tight">${escapeHtml(title)}</div>
+            <div class="text-white/60 text-sm mt-1">${escapeHtml(lang==='en' ? 'Pick one option to continue.' : 'Escolha uma opção para continuar.')}</div>
           </div>
 
-          <ul class="mt-3 list-disc list-inside space-y-1">${itemsList}</ul>
+          <div class="grid gap-3">
+            ${st.options.map(o=>{
+              const isActive = String(active) === String(o.value);
+              return `
+                <button class="opt ${isActive?'active':''} ring-focus w-full text-left rounded-3xl px-4 py-4" data-val="${escapeHtml(o.value)}">
+                  <div class="flex items-start justify-between gap-3">
+                    <div class="flex items-start gap-3">
+                      ${o.icon ? `<div class="h-10 w-10 rounded-2xl bg-white/8 border border-white/10 flex items-center justify-center">${escapeHtml(o.icon)}</div>` : ``}
+                      <div>
+                        <div class="font-extrabold text-white/95">${escapeHtml(t(o.labelKey))}</div>
+                        <div class="text-sm text-white/55 mt-1">${escapeHtml(lang==='en' ? 'Tap to select' : 'Toque para selecionar')}</div>
+                      </div>
+                    </div>
+                    <span class="text-white/35 mt-1">→</span>
+                  </div>
+                </button>
+              `;
+            }).join('')}
+          </div>
+
+          <div class="mt-4 text-xs text-white/50">${escapeHtml(CATALOG.observacoes || '')}</div>
+        </div>
+      `);
+
+      screen.querySelectorAll('button[data-val]').forEach(btn=>{
+        btn.addEventListener('click', ()=>{
+          const val = btn.dataset.val;
+          state.answers[st.id] = isNaN(Number(val)) ? val : Number(val);
+          nextBtn.disabled = !canProceed();
+          renderCurrent(); // re-render only this step (small)
+        });
+      });
+    }
+
+    if(st.type === 'multi'){
+      const current = Array.isArray(state.answers[st.id]) ? state.answers[st.id] : [];
+      const min = st.min || 1;
+
+      setScreen(`
+        <div class="fade">
+          <div class="mb-4">
+            <div class="text-white font-extrabold text-2xl tracking-tight">${escapeHtml(title)}</div>
+            <div class="text-white/60 text-sm mt-1">${escapeHtml(lang==='en' ? `Select at least ${min}.` : `Selecione pelo menos ${min}.`)}</div>
+          </div>
+
+          <div class="flex flex-wrap gap-2.5">
+            ${st.options.map(o=>{
+              const isActive = current.includes(o.value);
+              return `
+                <button type="button" class="chip ${isActive?'active':''} ring-focus px-4 py-3 rounded-2xl text-sm font-bold transition-all" data-val="${escapeHtml(o.value)}">
+                  ${escapeHtml(t(o.labelKey))}
+                </button>
+              `;
+            }).join('')}
+          </div>
+
+          <div class="mt-5 rounded-2xl panel p-4 flex items-center justify-between">
+            <div class="text-sm text-white/70">
+              <span class="font-extrabold text-white">${escapeHtml(t('selected'))}</span>: ${current.length}
+              <span class="text-white/45">•</span>
+              <span class="text-white/60">${escapeHtml(t('comboHint'))}</span>
+            </div>
+            <div class="text-xs text-white/55">${escapeHtml(lang==='en'?'You can pick multiple':'Você pode escolher vários')}</div>
+          </div>
+        </div>
+      `);
+
+      screen.querySelectorAll('button[data-val]').forEach(btn=>{
+        btn.addEventListener('click', ()=>{
+          const val = btn.dataset.val;
+          let cur = Array.isArray(state.answers[st.id]) ? [...state.answers[st.id]] : [];
+          if(cur.includes(val)) cur = cur.filter(x=>x!==val);
+          else cur.push(val);
+          state.answers[st.id] = cur;
+          nextBtn.disabled = !canProceed();
+          renderCurrent();
+        });
+      });
+    }
+
+    nextBtn.disabled = !canProceed();
+  }
+
+  // =========================================================
+  // 8) Results (render 1x e atualiza por eventos)
+  // =========================================================
+  function buildSummaryText(){
+    const a = state.answers;
+    const tot = computeTotals(state.selected);
+
+    const linesPt = [
+      `- Objetivo: ${a.goal}`,
+      `- Canais: ${(a.channels||[]).join(', ')}`,
+      `- Prioridade: ${a.focus}`,
+      `- Materiais: ${a.assets}`,
+      `- Volume: ${a.volume}`,
+      `- Orçamento: R$${a.budget}`,
+      `- Prazo: ${a.deadline || '—'}`,
+      `- Preferência: ${a.pref}`,
+      `- Total estimado: ${money(tot.total)}`
+    ];
+
+    const linesEn = [
+      `- Goal: ${a.goal}`,
+      `- Channels: ${(a.channels||[]).join(', ')}`,
+      `- Priority: ${a.focus}`,
+      `- Assets: ${a.assets}`,
+      `- Volume: ${a.volume}`,
+      `- Budget: R$${a.budget}`,
+      `- Deadline: ${a.deadline || '—'}`,
+      `- Preference: ${a.pref}`,
+      `- Estimated total: ${money(tot.total)}`
+    ];
+
+    return (lang==='en'?linesEn:linesPt).join('\n');
+  }
+
+  function serviceCardHTML(s, checked){
+    const priceLabel = s.__isPlan ? money(s.__minPrice) : money(s.preco || s.__minPrice || 0);
+    const periodSel = (s.__isPlan && checked)
+      ? `
+        <div class="mt-3">
+          <label class="text-xs text-white/55">${escapeHtml(t('period'))}</label>
+          <select class="planPeriod ring-focus mt-1 w-full border border-white/10 bg-white/6 rounded-2xl px-3 py-2.5 text-sm text-white" data-id="${escapeHtml(s.__id)}">
+            ${(s.precos_por_periodo||[]).map(p=>{
+              const cur = state.selected.get(s.__id)?.period || 'Mensal';
+              const selected = String(cur).toLowerCase() === String(p.periodo).toLowerCase() ? 'selected' : '';
+              const econ = Math.max(0, Number(p.preco_total_sem_desc||0) - Number(p.preco_total_com_desc||0));
+              const econTxt = econ>0 ? ` • ${t('savings')} ${money(econ)}` : '';
+              return `<option value="${escapeHtml(p.periodo)}" ${selected}>${escapeHtml(p.periodo)} — ${money(p.preco_total_com_desc)}${econTxt}</option>`;
+            }).join('')}
+          </select>
+        </div>
+      ` : '';
+
+    return `
+      <label class="rounded-3xl border border-white/10 bg-white/5 hover:bg-white/10 transition-all p-4 flex gap-3">
+        <input type="checkbox" class="svcCheck mt-1.5 h-4 w-4 accent-indigo-400" data-id="${escapeHtml(s.__id)}" ${checked?'checked':''}>
+        <div class="flex-1">
+          <div class="flex items-start justify-between gap-3">
+            <div>
+              <div class="font-extrabold text-white/95">${escapeHtml(s.titulo || 'Serviço')}</div>
+              <div class="text-xs text-white/50 mt-0.5">${escapeHtml(s.__cat)}</div>
+            </div>
+            <div class="text-emerald-300 font-extrabold whitespace-nowrap">${escapeHtml(priceLabel)}</div>
+          </div>
+          <div class="mt-2 text-sm text-white/70">${escapeHtml((s.descricao||''))}</div>
+          ${s.extras ? `<div class="mt-2 text-xs text-white/55">${escapeHtml(s.extras)}</div>` : ''}
+          ${periodSel}
+        </div>
+      </label>
+    `;
+  }
+
+  function renderResults(){
+    // build default selection once
+    if(state.selected.size === 0){
+      const list = topServices(16);
+      const packs = buildPackages(list);
+      (packs.find(p=>p.key==='recommended') || packs[0]).items.forEach(it=>{
+        state.selected.set(it.id, { id: it.id, period: it.period });
+      });
+    }
+
+    const list = topServices(18);
+    const packs = buildPackages(list);
+
+    const tot = computeTotals(state.selected);
+
+    const packCards = packs.map(p=>{
+      // compute totals if applied
+      const temp = new Map();
+      p.items.forEach(it=> temp.set(it.id, {id:it.id, period: it.period}));
+      const tp = computeTotals(temp);
+      const badgeKey = p.key==='essential'?'badge_essential':(p.key==='recommended'?'badge_reco':'badge_scale');
+
+      const highlight = p.key==='recommended';
+      return `
+        <div class="rounded-3xl p-4 md:p-5 border ${highlight ? 'border-white/28 bg-white/10' : 'border-white/10 bg-white/5'}">
+          <div class="flex items-center justify-between gap-3">
+            <div class="text-lg font-extrabold">${escapeHtml(t(p.key==='essential'?'pack_essential':p.key==='recommended'?'pack_reco':'pack_scale'))}</div>
+            <span class="text-xs px-2 py-1 rounded-full border border-white/10 bg-white/5 text-white/80 font-semibold">${escapeHtml(t(badgeKey))}</span>
+          </div>
+
+          <div class="mt-3 space-y-1">
+            ${p.items.slice(0,6).map(it=>{
+              const s = allServices.find(x=>x.__id===it.id);
+              if(!s) return '';
+              return `<div class="text-sm text-white/80">• ${escapeHtml(s.titulo)}</div>`;
+            }).join('')}
+          </div>
 
           <div class="mt-4 flex items-end justify-between gap-3">
             <div>
-              <div class="text-xs text-white/55">${escapeHtml(t('estimatedTotal'))}</div>
-              <div class="text-xl font-extrabold text-emerald-300">${formatPrice(simTotals.total)}</div>
+              <div class="text-xs text-white/55">${escapeHtml(t('estTotal'))}</div>
+              <div class="text-xl font-extrabold text-emerald-300">${money(tp.total)}</div>
+              <div class="text-xs text-white/55">${tp.disc ? `-${money(tp.disc)} combo` : '—'}</div>
             </div>
-            <button class="applyPkg ring-focus px-4 py-2.5 rounded-2xl font-extrabold ${highlight ? 'btn-primary text-white' : 'bg-white text-slate-900'}"
-              data-idx="${pkg.idx}">
-              ${escapeHtml(t('apply'))}
+            <button class="pickPack ring-focus px-4 py-2.5 rounded-2xl font-extrabold ${highlight ? 'btn-primary text-white' : 'bg-white text-slate-900'}"
+              data-pack="${escapeHtml(p.key)}">
+              ${escapeHtml(t('selectPack'))}
             </button>
           </div>
-
-          <div class="mt-3 text-xs text-white/50">${escapeHtml(t('simulated'))}</div>
         </div>
       `;
     }).join('');
 
-    const checklistItems = servicesForChecklist(topList).map(s=>{
-      const checked = selectedMap.has(s.__id) ? 'checked' : '';
-      const priceLabel = s.__isPlan
-        ? (s.precos_por_periodo?.[0]?.preco_total_com_desc ? `${formatPrice(s.precos_por_periodo[0].preco_total_com_desc)}` : '—')
-        : formatPrice(s.__priceMin ?? s.preco ?? 0);
+    // curated checklist = top list + keep selected at top
+    const selectedIds = new Set(Array.from(state.selected.keys()));
+    const curated = [
+      ...allServices.filter(s=>selectedIds.has(s.__id)),
+      ...list.filter(s=>!selectedIds.has(s.__id))
+    ].slice(0, 16);
 
-      let planSelect = '';
-      if(s.__isPlan && selectedMap.has(s.__id)){
-        const it = selectedMap.get(s.__id);
-        const opts = (Array.isArray(s.precos_por_periodo) ? s.precos_por_periodo : []).map(p=>{
-          const selected = (String(it.period||'Mensal').toLowerCase() === String(p.periodo).toLowerCase()) ? 'selected' : '';
-          const econ = (Number(p.preco_total_sem_desc||0) - Number(p.preco_total_com_desc||0));
-          const econTxt = econ > 0 ? ` • ${t('saves')} ${formatPrice(econ)}` : '';
-          return `<option value="${escapeHtml(p.periodo)}" ${selected}>${escapeHtml(p.periodo)} — ${formatPrice(p.preco_total_com_desc)}${econTxt}</option>`;
-        }).join('');
-        planSelect = `
-          <div class="mt-3">
-            <label class="text-xs text-white/55">${escapeHtml(t('planPeriod'))}</label>
-            <select class="planPeriod ring-focus mt-1 w-full border border-white/10 bg-white/6 rounded-2xl px-3 py-2.5 text-sm text-white"
-              data-id="${escapeHtml(s.__id)}">
-              ${opts}
-            </select>
-          </div>
-        `;
-      }
-
-      return `
-        <label class="rounded-3xl border border-white/10 bg-white/5 hover:bg-white/10 transition-all p-4 flex gap-3">
-          <input type="checkbox" class="svcCheck mt-1.5 h-4 w-4 accent-indigo-400" data-id="${escapeHtml(s.__id)}" ${checked}>
-          <div class="flex-1">
-            <div class="flex items-start justify-between gap-3">
-              <div>
-                <div class="font-bold text-white/95">${escapeHtml(s.__displayTitle)}</div>
-                <div class="text-xs text-white/50 mt-0.5">${escapeHtml(s.__categoria)}</div>
-              </div>
-              <div class="text-emerald-300 font-extrabold whitespace-nowrap">${escapeHtml(priceLabel)}</div>
-            </div>
-            <div class="mt-2 text-sm text-white/70">
-              ${escapeHtml((s.descricao||'').slice(0,165))}${(s.descricao||'').length>165?'…':''}
-            </div>
-            ${planSelect}
-          </div>
-        </label>
-      `;
+    const servicesHTML = curated.map(s=>{
+      const checked = state.selected.has(s.__id);
+      return serviceCardHTML(s, checked);
     }).join('');
 
-    const summaryText = buildSummaryText();
-
-    setFade(`
+    setScreen(`
       <div class="fade">
         <div class="flex items-start justify-between gap-3 mb-5">
           <div>
             <div class="text-2xl md:text-3xl font-extrabold tracking-tight">${escapeHtml(t('resultsTitle'))}</div>
             <div class="text-white/65 text-sm mt-1">${escapeHtml(t('resultsSub'))}</div>
           </div>
-          <button id="redo" class="ring-focus px-4 py-2.5 rounded-2xl btn-ghost font-bold">${escapeHtml(t('redo'))}</button>
+          <button id="restart" class="ring-focus px-4 py-2.5 rounded-2xl btn-ghost font-extrabold">${escapeHtml(lang==='en'?'Restart':'Refazer')}</button>
         </div>
 
         <div class="grid md:grid-cols-3 gap-3 mb-6">
-          ${pkgHtml}
+          ${packCards}
         </div>
 
-        <div class="flex items-center justify-between gap-3 mb-2">
-          <div class="text-white font-extrabold text-lg">${escapeHtml(t('customizeTitle'))}</div>
-          <div class="text-xs text-white/55">${escapeHtml(t('customizeHint'))}</div>
+        <div class="flex items-center justify-between gap-3 mb-3">
+          <div class="text-white font-extrabold text-lg">${escapeHtml(t('customize'))}</div>
+          <div class="text-xs text-white/55">${escapeHtml(t('comboHint'))}</div>
         </div>
 
-        <div class="grid gap-3 mb-6">${checklistItems}</div>
-
-        <div class="rounded-3xl border border-white/10 bg-white/5 p-4 md:p-5 mb-5">
-          <div class="text-white font-extrabold mb-2">${escapeHtml(t('summaryAuto'))}</div>
-          <pre class="whitespace-pre-wrap text-sm text-white/80">${escapeHtml(summaryText)}</pre>
+        <div id="svcList" class="grid gap-3 mb-6">
+          ${servicesHTML}
         </div>
 
-        <div class="flex flex-col sm:flex-row gap-3">
-          <button id="finalize" class="ring-focus btn-primary flex-1 px-6 py-3.5 rounded-2xl font-extrabold inline-flex items-center justify-center gap-2">
-            ${escapeHtml(t('finalize'))}
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" class="opacity-90">
-              <path d="M8 5l8 7-8 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </button>
-          <button id="copy" class="ring-focus btn-ghost px-6 py-3.5 rounded-2xl font-extrabold">${escapeHtml(t('copy'))}</button>
+        <div class="rounded-3xl border border-white/10 bg-white/5 p-4 md:p-5 mb-4">
+          <div class="text-white font-extrabold mb-2">${escapeHtml(lang==='en'?'Auto summary (goes to quote)':'Resumo automático (vai pro orçamento)')}</div>
+          <pre id="summaryText" class="whitespace-pre-wrap text-sm text-white/80">${escapeHtml(buildSummaryText())}</pre>
+          <div class="mt-3 text-xs text-white/55">${escapeHtml(t('notes'))}: ${escapeHtml(CATALOG.observacoes || '')}</div>
         </div>
 
-        <div class="mt-4 text-xs text-white/55">
-          ${escapeHtml(t('notes'))}: ${escapeHtml(observacoes || '—')}
+        <!-- Mobile sticky bar -->
+        <div class="stickyMobileBar rounded-3xl border border-white/10 bg-black/35 p-4 md:hidden">
+          <div class="flex items-center justify-between">
+            <div>
+              <div class="text-xs text-white/55">${escapeHtml(t('selected'))}: <span id="mCount" class="text-white/85 font-extrabold">${tot.count}</span></div>
+              <div class="text-lg font-extrabold text-emerald-300" id="mTotal">${money(tot.total)}</div>
+            </div>
+            <button id="goQuoteMobile" class="ring-focus btn-primary px-4 py-3 rounded-2xl font-extrabold">${escapeHtml(t('goQuote'))}</button>
+          </div>
         </div>
+
+        <!-- Desktop buttons -->
+        <div class="hidden md:flex gap-3">
+          <button id="copySummary" class="ring-focus btn-ghost px-6 py-3.5 rounded-2xl font-extrabold">${escapeHtml(t('copy'))}</button>
+          <button id="goQuote" class="ring-focus btn-primary flex-1 px-6 py-3.5 rounded-2xl font-extrabold">${escapeHtml(t('goQuote'))}</button>
+        </div>
+
+        <div class="md:hidden h-2"></div>
       </div>
     `);
 
-    document.querySelectorAll('.applyPkg').forEach(btn=>{
-      btn.addEventListener('click', ()=>{
-        const idx = Number(btn.dataset.idx);
-        const pkg = packages.find(p=>p.idx===idx);
-        if(pkg){
-          applyPackage(pkg.items);
-          renderResults();
-        }
-      });
+    // Footer buttons on results
+    backBtn.classList.remove('hidden');
+    skipBtn.classList.add('hidden');
+    nextBtn.textContent = lang==='en' ? 'Back to edit' : 'Voltar para editar';
+    nextBtn.disabled = false;
+
+    // Events (delegated-ish)
+    $('restart').addEventListener('click', ()=>{
+      state.step = 0;
+      state.answers = { goal:null, channels:[], focus:null, assets:null, volume:null, budget:null, deadline:null, pref:null };
+      state.selected.clear();
+      renderCurrent();
     });
 
-    document.querySelectorAll('.svcCheck').forEach(ch=>{
-      ch.addEventListener('change', ()=>{
-        toggleService(ch.dataset.id);
-        renderTotalsBox(computeTotals(Array.from(selectedMap.values())));
+    // Pick pack
+    screen.querySelectorAll('.pickPack').forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        const key = btn.dataset.pack;
+        const pack = packs.find(p=>p.key===key);
+        if(!pack) return;
+        state.selected.clear();
+        pack.items.forEach(it=> state.selected.set(it.id, {id:it.id, period:it.period}));
+        updateTotalsUI();
+        renderSideSummary();
         renderResults();
       });
     });
 
-    document.querySelectorAll('.planPeriod').forEach(sel=>{
-      sel.addEventListener('change', ()=>{
-        updatePlanPeriod(sel.dataset.id, sel.value);
-        renderTotalsBox(computeTotals(Array.from(selectedMap.values())));
+    // Checkbox services
+    screen.querySelectorAll('.svcCheck').forEach(ch=>{
+      ch.addEventListener('change', ()=>{
+        const id = ch.dataset.id;
+        if(ch.checked) state.selected.set(id, {id, period: 'Mensal'});
+        else state.selected.delete(id);
+
+        // update UI parts without full heavy redraw
+        updateTotalsUI();
+        renderSideSummary();
+        const newTot = computeTotals(state.selected);
+        const mCount = $('mCount'); const mTotal = $('mTotal');
+        if(mCount) mCount.textContent = newTot.count;
+        if(mTotal) mTotal.textContent = money(newTot.total);
+
+        // update summary text
+        const st = $('summaryText');
+        if(st) st.textContent = buildSummaryText();
+
+        // if this is a plan, we need to re-render that card's select dropdown area -> easiest: re-render results lightly
+        // but only when a plan is toggled (rare)
+        const s = allServices.find(x=>x.__id===id);
+        if(s?.__isPlan) renderResults();
       });
     });
 
-    document.getElementById('redo').addEventListener('click', ()=>{
-      state.answers = {};
-      state.index = 0;
-      selectedMap.clear();
-      renderTotalsBox({avulsoSubtotal:0,comboPerc:0,comboDiscount:0,planTotal:0,planSavings:0,total:0});
-      renderQuestion(0);
+    // Plan period changes
+    screen.querySelectorAll('.planPeriod').forEach(sel=>{
+      sel.addEventListener('change', ()=>{
+        const id = sel.dataset.id;
+        const it = state.selected.get(id);
+        if(it){ it.period = sel.value; state.selected.set(id, it); }
+        updateTotalsUI();
+        const st = $('summaryText');
+        if(st) st.textContent = buildSummaryText();
+      });
     });
 
-    document.getElementById('copy').addEventListener('click', async ()=>{
-      try{
-        await navigator.clipboard.writeText(summaryText);
-        const b = document.getElementById('copy');
-        b.textContent = t('copied');
-        setTimeout(()=>b.textContent = t('copy'), 1200);
-      }catch(e){
-        alert(currentLang==='en'
-          ? 'Could not copy automatically. Please select and copy manually.'
-          : 'Não foi possível copiar automaticamente. Selecione e copie manualmente.');
-      }
-    });
+    // copy
+    const copyBtn = $('copySummary');
+    if(copyBtn){
+      copyBtn.addEventListener('click', async ()=>{
+        try{
+          await navigator.clipboard.writeText(buildSummaryText());
+          copyBtn.textContent = t('copied');
+          setTimeout(()=>copyBtn.textContent = t('copy'), 1100);
+        }catch(e){
+          alert(lang==='en' ? 'Copy failed. Please select and copy manually.' : 'Falha ao copiar. Selecione e copie manualmente.');
+        }
+      });
+    }
 
-    document.getElementById('finalize').addEventListener('click', ()=>{
-      const selectedDetail = Array.from(selectedMap.values()).map(it=>{
-        const s = getServiceById(it.id);
+    // go quote
+    function goToQuote(){
+      const summary = buildSummaryText();
+      const selectedDetail = Array.from(state.selected.values()).map(it=>{
+        const s = allServices.find(x=>x.__id===it.id);
         if(!s) return null;
 
-        let price = s.__priceMin ?? s.preco ?? 0;
-        if(s.__isPlan && Array.isArray(s.precos_por_periodo)){
-          const opt = s.precos_por_periodo.find(p => String(p.periodo).toLowerCase() === String(it.period||'Mensal').toLowerCase())
-                   || s.precos_por_periodo[0];
-          if(opt) price = Number(opt.preco_total_com_desc || price);
+        let price = s.__minPrice;
+        if(s.__isPlan){
+          const opt = (s.precos_por_periodo||[]).find(p=>String(p.periodo).toLowerCase()===String(it.period||'Mensal').toLowerCase())
+                  || (s.precos_por_periodo||[])[0];
+          price = Number(opt?.preco_total_com_desc || s.__minPrice || 0);
+        } else {
+          price = Number(s.preco || s.__minPrice || 0);
         }
 
         return {
-          category: s.__categoria,
-          title: s.__displayTitle,
+          category: s.__cat,
+          title: s.titulo,
           kind: s.__isPlan ? 'plan' : 'one_off',
           period: s.__isPlan ? (it.period || 'Mensal') : undefined,
           price
         };
       }).filter(Boolean);
 
-      const encodedResumo = encodeURIComponent(summaryText);
-      const encodedServices = encodeURIComponent(JSON.stringify(selectedDetail));
-
-      const base = (currentLang === 'en')
+      const base = (lang==='en')
         ? 'https://www.comercias.com.br/en/orcamento'
         : 'https://www.comercias.com.br/pt/orcamento';
 
-      window.location.href = `${base}?servicos=${encodedServices}&resumo=${encodedResumo}`;
-    });
-  };
+      const encodedResumo = encodeURIComponent(summary);
+      const encodedServices = encodeURIComponent(JSON.stringify(selectedDetail));
+      const totalsPayload = computeTotals(state.selected);
+      const encodedTotals = encodeURIComponent(JSON.stringify(totalsPayload));
 
-  // =========================
-  // 12) Init
-  // =========================
-  renderTotalsBox({avulsoSubtotal:0,comboPerc:0,comboDiscount:0,planTotal:0,planSavings:0,total:0});
+      window.location.href = `${base}?servicos=${encodedServices}&resumo=${encodedResumo}&totais=${encodedTotals}`;
+    }
 
-  backBtn.addEventListener('click', ()=>{ if(state.index > 0) renderQuestion(state.index - 1); });
-  nextBtn.addEventListener('click', ()=>{ renderQuestion(state.index + 1); });
+    const goBtn = $('goQuote');
+    if(goBtn) goBtn.addEventListener('click', goToQuote);
+    const goBtnM = $('goQuoteMobile');
+    if(goBtnM) goBtnM.addEventListener('click', goToQuote);
+  }
 
-  // aplica idioma e só depois marca como initialized e renderiza
+  // =========================================================
+  // 9) Navigation
+  // =========================================================
+  backBtn.addEventListener('click', ()=>{
+    if(state.step > 0){
+      state.step -= 1;
+      renderCurrent();
+    }
+  });
+
+  skipBtn.addEventListener('click', ()=>{
+    const st = steps[state.step];
+    if(st?.skippable){
+      state.answers[st.id] = null;
+      state.step += 1;
+      renderCurrent();
+    }
+  });
+
+  nextBtn.addEventListener('click', ()=>{
+    // if on results, go back one step for editing
+    if(state.step >= steps.length){
+      state.step = steps.length - 1;
+      renderCurrent();
+      return;
+    }
+
+    if(!canProceed()) return;
+
+    // advance
+    state.step += 1;
+
+    // pre-build recommended selection once we reach results
+    if(state.step === steps.length){
+      // auto-select recommended pack if empty
+      if(state.selected.size === 0){
+        const list = topServices(16);
+        const packs = buildPackages(list);
+        (packs.find(p=>p.key==='recommended') || packs[0]).items.forEach(it=>{
+          state.selected.set(it.id, {id:it.id, period:it.period});
+        });
+      }
+    }
+
+    renderCurrent();
+  });
+
+  // =========================================================
+  // 10) Language switching
+  // =========================================================
+  function applyCopy(){
+    $('heroBadge').textContent = t('heroBadge');
+    $('heroTitle').textContent = t('heroTitle');
+    $('heroSub').textContent = t('heroSub');
+    $('ctaStart').textContent = t('ctaStart');
+    $('miniNoteTitle').textContent = t('miniNoteTitle');
+    $('miniNoteText').textContent = t('miniNoteText');
+
+    $('b1t').textContent = t('b1t'); $('b1s').textContent = t('b1s');
+    $('b2t').textContent = t('b2t'); $('b2s').textContent = t('b2s');
+    $('b3t').textContent = t('b3t'); $('b3s').textContent = t('b3s');
+
+    $('previewTitle').textContent = t('previewTitle');
+    $('previewTime').textContent = t('previewTime');
+    $('p1t').textContent = t('p1t'); $('p1s').textContent = t('p1s');
+    $('p2t').textContent = t('p2t'); $('p2s').textContent = t('p2s');
+    $('p3t').textContent = t('p3t'); $('p3s').textContent = t('p3s');
+    $('dealTitle').textContent = t('dealTitle');
+    $('dealText').textContent = t('dealText');
+    $('footerLine').textContent = t('footerLine');
+
+    $('modalTitle').textContent = t('modalTitle');
+    $('modalSub').textContent = t('modalSub');
+    $('sideTitle').textContent = t('sideTitle');
+    $('sideEmpty').textContent = t('sideEmpty');
+    $('simTitle').textContent = t('simTitle');
+    $('lblSub').textContent = t('lblSub');
+    $('lblDisc').textContent = t('lblDisc');
+    $('lblPlans').textContent = t('lblPlans');
+    $('lblTotal').textContent = t('lblTotal');
+    $('noteTotals').textContent = t('noteTotals');
+    $('sideStrategy').textContent = t('sideStrategy');
+  }
+
+  function setLang(newLang){
+    lang = newLang;
+    localStorage.setItem('comercias_lang', newLang);
+    document.documentElement.lang = (newLang === 'en') ? 'en' : 'pt-BR';
+
+    // toggle UI
+    langPTTop.classList.toggle('bg-white/10', newLang==='pt');
+    langENTop.classList.toggle('bg-white/10', newLang==='en');
+    langPTTop.classList.toggle('text-white/70', newLang!=='pt');
+    langENTop.classList.toggle('text-white/70', newLang!=='en');
+
+    langPT.classList.toggle('bg-white/10', newLang==='pt');
+    langEN.classList.toggle('bg-white/10', newLang==='en');
+    langPT.classList.toggle('text-white/70', newLang!=='pt');
+    langEN.classList.toggle('text-white/70', newLang!=='en');
+
+    applyCopy();
+    renderCurrent();
+  }
+
+  langPTTop.addEventListener('click', ()=>setLang('pt'));
+  langENTop.addEventListener('click', ()=>setLang('en'));
+  langPT.addEventListener('click', ()=>setLang('pt'));
+  langEN.addEventListener('click', ()=>setLang('en'));
+
+  // =========================================================
+  // 11) Init
+  // =========================================================
   applyCopy();
-  initialized = true;
-  setLang(currentLang);
-  renderQuestion(0);
+  setLang(lang);
+
+  // Start screen render
+  renderCurrent();
+
 })();
 </script>
 </body>
