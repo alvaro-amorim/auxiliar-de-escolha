@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
-  <title>Comercias • Service Finder</title>
+  <title>Comerc IAs • Orçamento</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -16,9 +16,8 @@
         extend: {
           fontFamily: { sans: ['Plus Jakarta Sans', 'ui-sans-serif', 'system-ui'] },
           boxShadow: {
-            premium: '0 26px 80px rgba(0,0,0,.42)',
-            soft: '0 14px 36px rgba(2,6,23,.25)',
-            ringy: '0 0 0 6px rgba(99,102,241,.22)',
+            premium: '0 22px 60px rgba(2, 62, 138, .18)',
+            soft: '0 14px 34px rgba(2, 62, 138, .12)',
           }
         }
       }
@@ -27,78 +26,97 @@
 
   <style>
     :root{
-      --bg1: rgba(2,6,23,1);
-      --panel: rgba(255,255,255,.08);
-      --border: rgba(255,255,255,.12);
-      --muted: rgba(255,255,255,.65);
-      --muted2: rgba(255,255,255,.45);
-      --accent1: rgba(99,102,241,1);
-      --accent2: rgba(14,165,233,1);
+      --ink: #0b1220;
+      --muted: #52627a;
+      --muted2: #73839a;
+      --blue-900:#0b3a7e;
+      --blue-800:#0a4aa0;
+      --blue-700:#0b5ed7;
+      --blue-600:#1d7afc;
+      --blue-200:#cfe5ff;
+      --blue-100:#e8f3ff;
+      --line: rgba(11,94,215,.18);
+      --panel: rgba(255,255,255,.92);
     }
+
     body{
+      color: var(--ink);
       background:
-        radial-gradient(1100px 620px at 12% 12%, rgba(99,102,241,.26), transparent 55%),
-        radial-gradient(900px 520px at 88% 18%, rgba(14,165,233,.18), transparent 55%),
-        radial-gradient(880px 560px at 48% 92%, rgba(168,85,247,.14), transparent 60%),
-        linear-gradient(180deg, rgba(2,6,23,1), rgba(2,6,23,.96));
-      color: white;
+        radial-gradient(1100px 620px at 10% 0%, rgba(29,122,252,.18), transparent 55%),
+        radial-gradient(900px 520px at 92% 12%, rgba(11,94,215,.12), transparent 55%),
+        radial-gradient(880px 560px at 50% 98%, rgba(29,122,252,.10), transparent 60%),
+        linear-gradient(180deg, #f6fbff, #ffffff);
     }
+
     .dots{
-      background-image: radial-gradient(rgba(255,255,255,.08) 1px, transparent 1px);
+      background-image: radial-gradient(rgba(11,94,215,.10) 1px, transparent 1px);
       background-size: 18px 18px;
-      mask-image: radial-gradient(circle at 30% 20%, black 0%, transparent 65%);
+      mask-image: radial-gradient(circle at 30% 18%, black 0%, transparent 65%);
       opacity: .55;
       pointer-events:none;
     }
-    .glass{
-      background: linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.06));
-      border: 1px solid rgba(255,255,255,.12);
-      backdrop-filter: blur(18px);
-      -webkit-backdrop-filter: blur(18px);
-      box-shadow: 0 26px 80px rgba(0,0,0,.42), inset 0 1px 0 rgba(255,255,255,.08);
-    }
-    .panel{
-      background: rgba(0,0,0,.18);
-      border: 1px solid rgba(255,255,255,.10);
-    }
-    .btn-primary{
-      background: linear-gradient(90deg, var(--accent1), var(--accent2));
-      box-shadow: 0 18px 50px rgba(99,102,241,.25);
-    }
-    .btn-primary:hover{ filter: brightness(1.06); transform: translateY(-1px); }
-    .btn-ghost{
-      background: rgba(255,255,255,.06);
-      border: 1px solid rgba(255,255,255,.12);
-    }
-    .btn-ghost:hover{ background: rgba(255,255,255,.10); }
-    .ring-focus:focus{ outline:none; box-shadow: 0 0 0 6px rgba(99,102,241,.22); }
 
-    .fade{ opacity:0; transform: translateY(10px); transition: all .22s ease; }
+    .glass{
+      background: var(--panel);
+      border: 1px solid var(--line);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      box-shadow: 0 22px 60px rgba(2, 62, 138, .18);
+    }
+
+    .panel{
+      background: linear-gradient(180deg, #ffffff, #fbfdff);
+      border: 1px solid rgba(11,94,215,.14);
+      box-shadow: 0 14px 34px rgba(2, 62, 138, .10);
+    }
+
+    .btn-primary{
+      background: linear-gradient(90deg, var(--blue-700), var(--blue-600));
+      color: #fff;
+      box-shadow: 0 16px 42px rgba(29,122,252,.22);
+      transition: transform .14s ease, filter .14s ease;
+    }
+    .btn-primary:hover{ filter: brightness(1.03); transform: translateY(-1px); }
+
+    .btn-ghost{
+      background: #fff;
+      border: 1px solid rgba(11,94,215,.18);
+      color: var(--blue-900);
+      transition: background .14s ease;
+    }
+    .btn-ghost:hover{ background: var(--blue-100); }
+
+    .ring-focus:focus{ outline:none; box-shadow: 0 0 0 6px rgba(29,122,252,.18); }
+
+    .fade{ opacity:0; transform: translateY(10px); transition: all .20s ease; }
     .fade.show{ opacity:1; transform: translateY(0); }
 
     .opt{
-      border: 1px solid rgba(255,255,255,.12);
-      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(11,94,215,.16);
+      background: #fff;
       transition: transform .14s ease, background .14s ease, border-color .14s ease;
     }
     .opt:hover{
       transform: translateY(-1px);
-      background: rgba(255,255,255,.10);
-      border-color: rgba(255,255,255,.22);
+      background: #f3f9ff;
+      border-color: rgba(11,94,215,.26);
     }
     .opt.active{
-      background: linear-gradient(180deg, rgba(255,255,255,.14), rgba(255,255,255,.08));
-      border-color: rgba(255,255,255,.35);
+      background: linear-gradient(180deg, #f1f8ff, #ffffff);
+      border-color: rgba(11,94,215,.40);
     }
 
     .chip{
-      border: 1px solid rgba(255,255,255,.12);
-      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(11,94,215,.18);
+      background: #fff;
+      color: var(--blue-900);
+      transition: background .14s ease, border-color .14s ease, transform .14s ease;
     }
+    .chip:hover{ background: var(--blue-100); transform: translateY(-1px); }
     .chip.active{
-      background: rgba(255,255,255,1);
-      color: rgba(15,23,42,1);
-      border-color: rgba(255,255,255,1);
+      background: linear-gradient(90deg, rgba(11,94,215,.12), rgba(29,122,252,.10));
+      border-color: rgba(11,94,215,.42);
+      color: var(--blue-900);
     }
 
     .grad-border{
@@ -111,19 +129,17 @@
       position:absolute; inset:0;
       padding: 1px;
       border-radius: 22px;
-      background: linear-gradient(135deg, rgba(99,102,241,.95), rgba(14,165,233,.85), rgba(168,85,247,.72));
+      background: linear-gradient(135deg, rgba(11,94,215,.60), rgba(29,122,252,.55), rgba(11,74,160,.55));
       -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
       -webkit-mask-composite: xor;
       mask-composite: exclude;
       pointer-events:none;
-      opacity: .6;
+      opacity: .9;
     }
 
-    /* modal feel */
     #modalPanel{ transform: translateY(10px) scale(.99); opacity:0; transition: all .16s ease; }
     #modalPanel.show{ transform: translateY(0) scale(1); opacity:1; }
 
-    /* bottom sheet on mobile */
     @media (max-width: 767px){
       #modalPanel{
         border-bottom-left-radius: 0 !important;
@@ -135,8 +151,10 @@
         position: sticky;
         bottom: 0;
         z-index: 10;
-        backdrop-filter: blur(14px);
-        -webkit-backdrop-filter: blur(14px);
+        background: rgba(255,255,255,.92);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border-top: 1px solid rgba(11,94,215,.16);
       }
     }
   </style>
@@ -151,18 +169,18 @@
       <!-- Header -->
       <div class="flex items-center justify-between mb-6 md:mb-8">
         <div class="flex items-center gap-3">
-          <div class="h-10 w-10 rounded-2xl bg-white/10 border border-white/15 flex items-center justify-center">
-            <span class="text-lg">✦</span>
+          <div class="h-10 w-10 rounded-2xl bg-white border border-blue-200 flex items-center justify-center shadow-soft">
+            <span class="text-sm font-extrabold text-blue-800">CI</span>
           </div>
           <div>
-            <div class="text-sm text-white/60">Comercias • Smart Quote</div>
-            <div class="text-lg font-extrabold tracking-tight">Service Finder</div>
+            <div class="text-sm text-slate-600">Comerc IAs</div>
+            <div class="text-lg font-extrabold tracking-tight text-slate-900">Orçamento • Seletor de Serviços</div>
           </div>
         </div>
 
         <div class="inline-flex items-center gap-1 p-1 rounded-2xl btn-ghost">
-          <button id="langPTTop" class="ring-focus px-3 py-2 rounded-xl text-sm font-semibold bg-white/10">🇧🇷 PT</button>
-          <button id="langENTop" class="ring-focus px-3 py-2 rounded-xl text-sm font-semibold text-white/70">🇺🇸 EN</button>
+          <button id="langPTTop" class="ring-focus px-3 py-2 rounded-xl text-sm font-semibold bg-blue-50">🇧🇷 PT</button>
+          <button id="langENTop" class="ring-focus px-3 py-2 rounded-xl text-sm font-semibold text-slate-600">🇺🇸 EN</button>
         </div>
       </div>
 
@@ -170,83 +188,83 @@
       <section class="glass rounded-[28px] overflow-hidden">
         <div class="p-6 md:p-10 grid lg:grid-cols-[1.1fr_.9fr] gap-8">
           <div>
-            <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/8 border border-white/12 text-xs text-white/70">
-              <span class="inline-block h-2 w-2 rounded-full bg-emerald-400"></span>
-              <span id="heroBadge">Quiz premium • Pacotes • Economia por combo</span>
+            <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue-50 border border-blue-200 text-xs text-blue-900">
+              <span class="inline-block h-2 w-2 rounded-full bg-blue-600"></span>
+              <span id="heroBadge">Quiz • Pacotes • Economia por combo</span>
             </div>
 
-            <h1 id="heroTitle" class="mt-4 text-3xl md:text-5xl font-extrabold tracking-tight leading-[1.05]">
-              Descubra o melhor pacote para vender mais.
+            <h1 id="heroTitle" class="mt-4 text-3xl md:text-5xl font-extrabold tracking-tight leading-[1.05] text-slate-900">
+              Encontre o pacote ideal para o seu objetivo.
             </h1>
 
-            <p id="heroSub" class="mt-4 text-white/70 text-base md:text-lg max-w-2xl">
+            <p id="heroSub" class="mt-4 text-slate-600 text-base md:text-lg max-w-2xl">
               Responda em ~2 minutos. No final, selecione serviços, veja o total estimado e vá para o orçamento pré-preenchido.
             </p>
 
             <div class="mt-6 flex flex-col sm:flex-row gap-3">
               <button id="openModal" class="ring-focus btn-primary transition-all px-6 py-3.5 rounded-2xl font-extrabold inline-flex items-center justify-center gap-2">
                 <span id="ctaStart">Começar</span>
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" class="opacity-90">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" class="opacity-95">
                   <path d="M8 5l8 7-8 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
               </button>
 
-              <div class="rounded-2xl btn-ghost px-4 py-3 text-sm text-white/70 leading-snug">
-                <div class="font-semibold text-white/85" id="miniNoteTitle">Por que isso converte mais?</div>
+              <div class="rounded-2xl btn-ghost px-4 py-3 text-sm text-slate-700 leading-snug">
+                <div class="font-semibold text-blue-900" id="miniNoteTitle">Comerc IAs</div>
                 <div id="miniNoteText">
-                  Porque mostra 3 caminhos prontos (Essencial/Recomendado/Scale) + economia por combo.
+                  Escolha um pacote pronto ou personalize selecionando serviços.
                 </div>
               </div>
             </div>
 
             <div class="mt-6 grid sm:grid-cols-3 gap-3">
-              <div class="rounded-2xl btn-ghost p-4">
-                <div class="font-semibold" id="b1t">Parece consultoria</div>
-                <div class="text-white/65 text-sm mt-1" id="b1s">Sugestões certeiras, sem parecer “venda forçada”.</div>
+              <div class="rounded-2xl panel p-4">
+                <div class="font-semibold text-slate-900" id="b1t">Direto ao ponto</div>
+                <div class="text-slate-600 text-sm mt-1" id="b1s">Perguntas objetivas para recomendar o melhor caminho.</div>
               </div>
-              <div class="rounded-2xl btn-ghost p-4">
-                <div class="font-semibold" id="b2t">Upsell elegante</div>
-                <div class="text-white/65 text-sm mt-1" id="b2s">Add-ons aparecem só quando aumentam resultado.</div>
+              <div class="rounded-2xl panel p-4">
+                <div class="font-semibold text-slate-900" id="b2t">Pacotes prontos</div>
+                <div class="text-slate-600 text-sm mt-1" id="b2s">Essencial • Recomendado • Scale.</div>
               </div>
-              <div class="rounded-2xl btn-ghost p-4">
-                <div class="font-semibold" id="b3t">Final rápido</div>
-                <div class="text-white/65 text-sm mt-1" id="b3s">Orçamento com dados + serviços já selecionados.</div>
+              <div class="rounded-2xl panel p-4">
+                <div class="font-semibold text-slate-900" id="b3t">Finalização rápida</div>
+                <div class="text-slate-600 text-sm mt-1" id="b3s">Vai para o orçamento com tudo pré-preenchido.</div>
               </div>
             </div>
           </div>
 
           <!-- Preview -->
           <div class="grad-border">
-            <div class="rounded-[22px] bg-black/25 border border-white/10 p-5 md:p-6">
+            <div class="rounded-[22px] bg-white border border-blue-200 p-5 md:p-6 shadow-soft">
               <div class="flex items-center justify-between mb-4">
-                <div class="text-sm text-white/70" id="previewTitle">O que você vai ver</div>
-                <div class="text-xs text-white/55" id="previewTime">~2 min</div>
+                <div class="text-sm text-slate-700" id="previewTitle">O que você recebe</div>
+                <div class="text-xs text-slate-500" id="previewTime">~2 min</div>
               </div>
 
               <div class="space-y-3">
-                <div class="rounded-2xl bg-white/6 border border-white/10 p-4">
-                  <div class="text-white/90 font-semibold" id="p1t">1) Diagnóstico</div>
-                  <div class="text-white/60 text-sm mt-1" id="p1s">Objetivo, canal, volume, prazo e orçamento.</div>
+                <div class="rounded-2xl bg-blue-50 border border-blue-200 p-4">
+                  <div class="text-slate-900 font-semibold" id="p1t">1) Diagnóstico</div>
+                  <div class="text-slate-600 text-sm mt-1" id="p1s">Objetivo, canal, volume, prazo e orçamento.</div>
                 </div>
-                <div class="rounded-2xl bg-white/6 border border-white/10 p-4">
-                  <div class="text-white/90 font-semibold" id="p2t">2) 3 pacotes</div>
-                  <div class="text-white/60 text-sm mt-1" id="p2s">Escolha rápido ou personalize.</div>
+                <div class="rounded-2xl bg-blue-50 border border-blue-200 p-4">
+                  <div class="text-slate-900 font-semibold" id="p2t">2) 3 pacotes</div>
+                  <div class="text-slate-600 text-sm mt-1" id="p2s">Escolha rápido ou personalize.</div>
                 </div>
-                <div class="rounded-2xl bg-white/6 border border-white/10 p-4">
-                  <div class="text-white/90 font-semibold" id="p3t">3) Economia</div>
-                  <div class="text-white/60 text-sm mt-1" id="p3s">Simulação automática de desconto por combo.</div>
+                <div class="rounded-2xl bg-blue-50 border border-blue-200 p-4">
+                  <div class="text-slate-900 font-semibold" id="p3t">3) Economia</div>
+                  <div class="text-slate-600 text-sm mt-1" id="p3s">Simulação de desconto ao combinar serviços.</div>
                 </div>
               </div>
 
-              <div class="mt-5 rounded-2xl bg-gradient-to-r from-indigo-500/20 to-sky-500/20 border border-white/10 p-4">
-                <div class="text-sm font-semibold text-white/90" id="dealTitle">Combo (simulado)</div>
-                <div class="text-white/70 text-sm mt-1" id="dealText">2 serviços: 5% • 3: 8% • 4+: 12%</div>
+              <div class="mt-5 rounded-2xl bg-gradient-to-r from-blue-50 to-white border border-blue-200 p-4">
+                <div class="text-sm font-semibold text-slate-900" id="dealTitle">Combo (simulado)</div>
+                <div class="text-slate-600 text-sm mt-1" id="dealText">2 serviços: 5% • 3: 8% • 4+: 12%</div>
               </div>
             </div>
           </div>
         </div>
 
-        <div class="px-6 md:px-10 py-4 border-t border-white/10 bg-black/15 text-xs text-white/55" id="footerLine">
+        <div class="px-6 md:px-10 py-4 border-t border-blue-200 bg-white text-xs text-slate-500" id="footerLine">
           *Valores e descontos são estimativas para facilitar a decisão.
         </div>
       </section>
@@ -255,77 +273,77 @@
 
   <!-- MODAL -->
   <div id="modal" class="fixed inset-0 hidden items-end md:items-center justify-center p-0 md:p-8">
-    <div id="backdrop" class="absolute inset-0 bg-black/65"></div>
+    <div id="backdrop" class="absolute inset-0 bg-slate-900/40"></div>
 
     <div id="modalPanel" class="relative w-full md:w-[min(1140px,96vw)] glass rounded-t-[28px] md:rounded-[28px] overflow-hidden max-h-[92vh] md:max-h-[90vh] flex flex-col">
 
       <!-- Modal Header -->
-      <div class="px-5 md:px-7 py-4 border-b border-white/10 bg-black/15 flex items-center justify-between gap-3">
+      <div class="px-5 md:px-7 py-4 border-b border-blue-200 bg-white flex items-center justify-between gap-3">
         <div class="flex items-center gap-3">
-          <div class="h-10 w-10 rounded-2xl bg-white/10 border border-white/12 flex items-center justify-center">
-            <span class="text-lg">⚡</span>
+          <div class="h-10 w-10 rounded-2xl bg-blue-50 border border-blue-200 flex items-center justify-center">
+            <span class="text-sm font-extrabold text-blue-800">CI</span>
           </div>
           <div>
-            <div class="font-extrabold tracking-tight" id="modalTitle">Quiz premium</div>
-            <div class="text-xs text-white/60" id="modalSub">Pacotes + personalização + orçamento pré-preenchido</div>
+            <div class="font-extrabold tracking-tight text-slate-900" id="modalTitle">Comerc IAs • Quiz de Orçamento</div>
+            <div class="text-xs text-slate-600" id="modalSub">Pacotes + personalização + orçamento pré-preenchido</div>
           </div>
         </div>
 
         <div class="flex items-center gap-2">
           <div class="hidden sm:inline-flex items-center gap-1 p-1 rounded-2xl btn-ghost">
-            <button id="langPT" class="ring-focus px-3 py-2 rounded-xl text-sm font-semibold bg-white/10">🇧🇷 PT</button>
-            <button id="langEN" class="ring-focus px-3 py-2 rounded-xl text-sm font-semibold text-white/70">🇺🇸 EN</button>
+            <button id="langPT" class="ring-focus px-3 py-2 rounded-xl text-sm font-semibold bg-blue-50">🇧🇷 PT</button>
+            <button id="langEN" class="ring-focus px-3 py-2 rounded-xl text-sm font-semibold text-slate-600">🇺🇸 EN</button>
           </div>
-          <button id="closeModal" class="ring-focus px-3 py-2 rounded-2xl btn-ghost text-white/85">✕</button>
+          <button id="closeModal" class="ring-focus px-3 py-2 rounded-2xl btn-ghost text-blue-900">✕</button>
         </div>
       </div>
 
       <!-- Stepper -->
-      <div class="px-5 md:px-7 py-4 border-b border-white/10 bg-black/10">
+      <div class="px-5 md:px-7 py-4 border-b border-blue-200 bg-white">
         <div class="flex items-center justify-between gap-3">
-          <div class="text-sm font-semibold text-white/85" id="stepTitle">Etapa</div>
-          <div class="text-xs text-white/55" id="stepMeta">0/0</div>
+          <div class="text-sm font-semibold text-slate-900" id="stepTitle">Etapa</div>
+          <div class="text-xs text-slate-500" id="stepMeta">0/0</div>
         </div>
-        <div class="mt-3 h-2 rounded-full bg-white/10 overflow-hidden">
-          <div id="stepBar" class="h-2 rounded-full bg-gradient-to-r from-indigo-400 to-sky-400" style="width:0%"></div>
+        <div class="mt-3 h-2 rounded-full bg-blue-100 overflow-hidden">
+          <div id="stepBar" class="h-2 rounded-full bg-gradient-to-r from-blue-700 to-blue-500" style="width:0%"></div>
         </div>
       </div>
 
       <!-- Body -->
-      <div class="flex-1 overflow-y-auto">
+      <div class="flex-1 overflow-y-auto bg-white">
         <div class="grid md:grid-cols-[1.35fr_.65fr]">
           <div class="p-5 md:p-7">
             <div id="screen"></div>
           </div>
 
-          <aside class="p-5 md:p-7 border-t md:border-t-0 md:border-l border-white/10 bg-black/15">
+          <aside class="p-5 md:p-7 border-t md:border-t-0 md:border-l border-blue-200 bg-blue-50">
             <div class="flex items-center justify-between">
-              <h3 class="font-semibold text-white/90" id="sideTitle">Resumo</h3>
-              <span class="text-xs text-white/55" id="sideHint">live</span>
+              <h3 class="font-semibold text-slate-900" id="sideTitle">Resumo</h3>
+              <span class="text-xs text-slate-500" id="sideHint">live</span>
             </div>
 
-            <div id="sideSummary" class="mt-4 text-sm text-white/85 space-y-2">
-              <div class="text-white/55" id="sideEmpty">Responda para ver recomendações.</div>
+            <div id="sideSummary" class="mt-4 text-sm text-slate-800 space-y-2">
+              <div class="text-slate-500" id="sideEmpty">Responda para ver recomendações.</div>
             </div>
 
-            <div class="mt-5 rounded-3xl border border-white/10 bg-white/5 p-4">
+            <div class="mt-5 rounded-3xl border border-blue-200 bg-white p-4 shadow-soft">
               <div class="flex items-center justify-between mb-2">
-                <div class="text-sm font-semibold text-white/90" id="simTitle">Simulação</div>
-                <span class="text-xs text-white/55" id="simRule">2=5% • 3=8% • 4+=12%</span>
+                <div class="text-sm font-semibold text-slate-900" id="simTitle">Simulação</div>
+                <span class="text-xs text-slate-500" id="simRule">2=5% • 3=8% • 4+=12%</span>
               </div>
-              <div id="totalsBox" class="text-sm text-white/80 space-y-1">
-                <div class="flex justify-between"><span id="lblSub">Subtotal</span><span id="vSub">—</span></div>
-                <div class="flex justify-between"><span id="lblDisc">Desconto</span><span id="vDisc">—</span></div>
+              <div id="totalsBox" class="text-sm text-slate-700 space-y-1">
+                <div class="flex justify-between"><span id="lblSub">Subtotal (avulsos)</span><span id="vSub">—</span></div>
+                <div class="flex justify-between"><span id="lblDisc">Desconto combo</span><span id="vDisc">—</span></div>
                 <div class="flex justify-between"><span id="lblPlans">Planos</span><span id="vPlans">—</span></div>
-                <div class="flex justify-between font-extrabold"><span id="lblTotal">Total</span><span id="vTotal">—</span></div>
+                <div class="flex justify-between font-extrabold text-slate-900"><span id="lblTotal">Total</span><span id="vTotal">—</span></div>
               </div>
 
-              <div class="mt-3 text-xs text-white/55" id="noteTotals">
+              <div class="mt-3 text-xs text-slate-500" id="noteTotals">
                 *Estimativa para acelerar sua decisão.
               </div>
             </div>
 
-            <div class="mt-4 text-xs text-white/50" id="sideStrategy">
+            <div class="mt-4 text-xs text-slate-500" id="sideStrategy">
               Dica: o pacote “Recomendado” costuma ter o melhor custo-benefício.
             </div>
           </aside>
@@ -333,21 +351,16 @@
       </div>
 
       <!-- Footer actions -->
-      <div class="px-5 md:px-7 py-4 border-t border-white/10 bg-black/15 flex items-center justify-between gap-3">
-        <button id="backBtn" class="ring-focus px-4 py-2.5 rounded-2xl btn-ghost text-white/90 hidden">Voltar</button>
-        <button id="skipBtn" class="ring-focus px-4 py-2.5 rounded-2xl btn-ghost text-white/80 hidden">Pular</button>
+      <div class="px-5 md:px-7 py-4 border-t border-blue-200 bg-white flex items-center justify-between gap-3">
+        <button id="backBtn" class="ring-focus px-4 py-2.5 rounded-2xl btn-ghost hidden">Voltar</button>
+        <button id="skipBtn" class="ring-focus px-4 py-2.5 rounded-2xl btn-ghost hidden">Pular</button>
         <button id="nextBtn" class="ring-focus px-5 py-2.5 rounded-2xl btn-primary font-extrabold transition-all disabled:opacity-50 disabled:cursor-not-allowed">Continuar</button>
       </div>
-
     </div>
   </div>
 
 <script>
 (() => {
-  // =========================================================
-  // 1) CATÁLOGO EMBUTIDO (NÃO depende de JSON externo)
-  //    - Você pode substituir por seus serviços reais
-  // =========================================================
   const CATALOG = {
     observacoes: "Valores podem variar conforme briefing, revisões e prazo. O orçamento final confirma tudo.",
     categorias: [
@@ -400,28 +413,25 @@
     ]
   };
 
-  // =========================================================
-  // 2) i18n (UI premium)
-  // =========================================================
   const I18N = {
     pt: {
-      heroBadge:"Quiz premium • Pacotes • Economia por combo",
-      heroTitle:"Descubra o melhor pacote para vender mais.",
+      heroBadge:"Quiz • Pacotes • Economia por combo",
+      heroTitle:"Encontre o pacote ideal para o seu objetivo.",
       heroSub:"Responda em ~2 minutos. No final, selecione serviços, veja o total estimado e vá para o orçamento pré-preenchido.",
       ctaStart:"Começar",
-      miniNoteTitle:"Por que isso converte mais?",
-      miniNoteText:"Porque mostra 3 caminhos prontos (Essencial/Recomendado/Scale) + economia por combo.",
-      b1t:"Parece consultoria", b1s:"Sugestões certeiras, sem parecer “venda forçada”.",
-      b2t:"Upsell elegante", b2s:"Add-ons aparecem só quando aumentam resultado.",
-      b3t:"Final rápido", b3s:"Orçamento com dados + serviços já selecionados.",
-      previewTitle:"O que você vai ver", previewTime:"~2 min",
+      miniNoteTitle:"Comerc IAs",
+      miniNoteText:"Escolha um pacote pronto ou personalize selecionando serviços.",
+      b1t:"Direto ao ponto", b1s:"Perguntas objetivas para recomendar o melhor caminho.",
+      b2t:"Pacotes prontos", b2s:"Essencial • Recomendado • Scale.",
+      b3t:"Finalização rápida", b3s:"Vai para o orçamento com tudo pré-preenchido.",
+      previewTitle:"O que você recebe", previewTime:"~2 min",
       p1t:"1) Diagnóstico", p1s:"Objetivo, canal, volume, prazo e orçamento.",
       p2t:"2) 3 pacotes", p2s:"Escolha rápido ou personalize.",
-      p3t:"3) Economia", p3s:"Simulação automática de desconto por combo.",
+      p3t:"3) Economia", p3s:"Simulação de desconto ao combinar serviços.",
       dealTitle:"Combo (simulado)", dealText:"2 serviços: 5% • 3: 8% • 4+: 12%",
       footerLine:"*Valores e descontos são estimativas para facilitar a decisão.",
 
-      modalTitle:"Quiz premium",
+      modalTitle:"Comerc IAs • Quiz de Orçamento",
       modalSub:"Pacotes + personalização + orçamento pré-preenchido",
       sideTitle:"Resumo",
       sideEmpty:"Responda para ver recomendações.",
@@ -437,15 +447,15 @@
       next:"Continuar",
       skip:"Pular",
 
-      // steps
       step:"Etapa",
       stepOf:"de",
-      // questions
+
       q_goal:"Qual é o seu objetivo principal?",
       goal_sales:"Gerar vendas/conversão",
       goal_social:"Conteúdo contínuo para redes",
       goal_brand:"Fortalecer marca/branding",
       goal_edu:"Educar/explicar (conteúdo técnico)",
+
       q_channels:"Onde você vai publicar?",
       ch_instagram:"Instagram (Feed/Reels/Stories)",
       ch_tiktok:"TikTok",
@@ -453,36 +463,41 @@
       ch_whatsapp:"WhatsApp",
       ch_site:"Site / Landing page",
       ch_multi:"Vários canais",
+
       q_focus:"Qual área é prioridade agora?",
-      focus_auto:"Quero recomendação automática",
+      focus_auto:"Quero recomendação",
       focus_images:"Imagens / artes",
       focus_videos:"Vídeos",
       focus_ads:"Anúncios (criativos)",
       focus_brand:"Branding (logo/identidade)",
       focus_site:"Site / landing",
+
       q_assets:"Você já tem materiais prontos?",
       as_yes:"Sim (logo/fotos/brand)",
       as_some:"Tenho algo, mas incompleto",
       as_no:"Não, preciso criar do zero",
+
       q_volume:"Volume aproximado",
       vol_low:"Pequeno (1–5 peças)",
       vol_mid:"Médio (6–15 peças)",
       vol_high:"Alto (15+ / premium)",
+
       q_budget:"Faixa de orçamento (aprox.)",
       bud_100:"Até R$100",
       bud_300:"Até R$300",
       bud_800:"Até R$800",
       bud_more:"Acima de R$800",
+
       q_deadline:"Prazo desejado",
       dl_3:"Até 3 dias",
       dl_7:"Até 7 dias",
       dl_more:"Mais que 7 dias",
+
       q_pref:"Como prefere contratar?",
       pref_bundle:"Pacote (combos)",
       pref_single:"Avulso (1 serviço)",
       pref_any:"Indiferente",
 
-      // results
       resultsTitle:"Seu resultado",
       resultsSub:"Escolha um pacote pronto ou personalize selecionando serviços.",
       pack_essential:"Essencial",
@@ -505,23 +520,23 @@
     },
 
     en: {
-      heroBadge:"Premium quiz • Bundles • Combo savings",
-      heroTitle:"Find the best package to sell more.",
+      heroBadge:"Quiz • Bundles • Combo savings",
+      heroTitle:"Find the right package for your goal.",
       heroSub:"Answer in ~2 minutes. Then select services, see the estimated total, and go to a pre-filled quote page.",
       ctaStart:"Start",
-      miniNoteTitle:"Why does this convert better?",
-      miniNoteText:"Because it shows 3 ready paths (Essential/Recommended/Scale) + combo savings.",
-      b1t:"Feels like consulting", b1s:"Confident suggestions without pushy sales.",
-      b2t:"Elegant upsell", b2s:"Add-ons appear only when they increase results.",
-      b3t:"Fast finish", b3s:"Quote page already filled with your picks.",
-      previewTitle:"What you'll get", previewTime:"~2 min",
+      miniNoteTitle:"Comerc IAs",
+      miniNoteText:"Pick a bundle or customize by selecting services.",
+      b1t:"Straight to the point", b1s:"Objective questions to guide you to the best option.",
+      b2t:"Ready bundles", b2s:"Essential • Recommended • Scale.",
+      b3t:"Fast finish", b3s:"Go to the quote page with everything pre-filled.",
+      previewTitle:"What you get", previewTime:"~2 min",
       p1t:"1) Diagnosis", p1s:"Goal, channel, volume, deadline and budget.",
       p2t:"2) 3 bundles", p2s:"Pick fast or customize.",
-      p3t:"3) Savings", p3s:"Automatic combo discount simulation.",
+      p3t:"3) Savings", p3s:"Discount simulation when combining services.",
       dealTitle:"Combo (simulated)", dealText:"2 services: 5% • 3: 8% • 4+: 12%",
-      footerLine:"*Prices and discounts are estimates to speed up decision-making.",
+      footerLine:"*Prices and discounts are estimates to speed up decisions.",
 
-      modalTitle:"Premium quiz",
+      modalTitle:"Comerc IAs • Quote Quiz",
       modalSub:"Bundles + customization + pre-filled quote",
       sideTitle:"Summary",
       sideEmpty:"Answer to see recommendations.",
@@ -545,6 +560,7 @@
       goal_social:"Ongoing social content",
       goal_brand:"Strengthen brand/branding",
       goal_edu:"Educate/explain (technical)",
+
       q_channels:"Where will you publish?",
       ch_instagram:"Instagram (Feed/Reels/Stories)",
       ch_tiktok:"TikTok",
@@ -552,30 +568,36 @@
       ch_whatsapp:"WhatsApp",
       ch_site:"Website / Landing page",
       ch_multi:"Multiple channels",
-      q_focus:"What's the priority area right now?",
-      focus_auto:"Auto recommendation",
+
+      q_focus:"What's the priority area now?",
+      focus_auto:"I want recommendations",
       focus_images:"Images / creatives",
       focus_videos:"Videos",
       focus_ads:"Ads (creatives)",
       focus_brand:"Branding (logo/identity)",
       focus_site:"Website / landing",
+
       q_assets:"Do you have assets ready?",
       as_yes:"Yes (logo/photos/brand)",
       as_some:"Some, but incomplete",
       as_no:"No, need to build from scratch",
+
       q_volume:"Estimated volume",
       vol_low:"Small (1–5 items)",
       vol_mid:"Medium (6–15 items)",
       vol_high:"High (15+ / premium)",
+
       q_budget:"Budget range (approx.)",
       bud_100:"Up to R$100",
       bud_300:"Up to R$300",
       bud_800:"Up to R$800",
       bud_more:"Above R$800",
+
       q_deadline:"Desired deadline",
       dl_3:"Up to 3 days",
       dl_7:"Up to 7 days",
       dl_more:"More than 7 days",
+
       q_pref:"How do you prefer to hire?",
       pref_bundle:"Bundle (combos)",
       pref_single:"Single service",
@@ -603,10 +625,8 @@
     }
   };
 
-  // =========================================================
-  // 3) DOM
-  // =========================================================
   const $ = (id)=>document.getElementById(id);
+
   const modal = $('modal');
   const modalPanel = $('modalPanel');
   const screen = $('screen');
@@ -635,9 +655,6 @@
   const langPT = $('langPT');
   const langEN = $('langEN');
 
-  // =========================================================
-  // 4) State & helpers
-  // =========================================================
   let lang = (localStorage.getItem('comercias_lang') || '').toLowerCase();
   if(lang !== 'pt' && lang !== 'en'){
     const nav = (navigator.language || 'pt').toLowerCase();
@@ -670,7 +687,6 @@
   backdrop.addEventListener('click', hideModal);
   window.addEventListener('keydown', (e)=>{ if(e.key==='Escape' && !modal.classList.contains('hidden')) hideModal(); });
 
-  // Build services index
   const allServices = [];
   CATALOG.categorias.forEach((cat)=>{
     (cat.servicos||[]).forEach((s, idx)=>{
@@ -698,30 +714,18 @@
 
   const state = {
     step: 0,
-    answers: {
-      goal: null,
-      channels: [],
-      focus: null,
-      assets: null,
-      volume: null,
-      budget: null,
-      deadline: null,
-      pref: null
-    },
-    selected: new Map() // id -> {id, period?}
+    answers: { goal:null, channels:[], focus:null, assets:null, volume:null, budget:null, deadline:null, pref:null },
+    selected: new Map()
   };
 
-  // =========================================================
-  // 5) Questions (premium = menos perguntas, mais decisivas)
-  // =========================================================
   const steps = [
     {
       id:'goal', type:'single', titleKey:'q_goal', required:true,
       options: [
-        { value:'sales', labelKey:'goal_sales', icon:'💸' },
-        { value:'social', labelKey:'goal_social', icon:'📈' },
-        { value:'brand', labelKey:'goal_brand', icon:'✨' },
-        { value:'edu', labelKey:'goal_edu', icon:'🎓' },
+        { value:'sales', labelKey:'goal_sales', icon:'💼' },
+        { value:'social', labelKey:'goal_social', icon:'📅' },
+        { value:'brand', labelKey:'goal_brand', icon:'🧩' },
+        { value:'edu', labelKey:'goal_edu', icon:'📘' },
       ]
     },
     {
@@ -738,44 +742,44 @@
     {
       id:'focus', type:'single', titleKey:'q_focus', required:true,
       options: [
-        { value:'auto', labelKey:'focus_auto', icon:'🧠' },
+        { value:'auto', labelKey:'focus_auto', icon:'🎯' },
         { value:'images', labelKey:'focus_images', icon:'🖼️' },
         { value:'videos', labelKey:'focus_videos', icon:'🎬' },
         { value:'ads', labelKey:'focus_ads', icon:'📣' },
         { value:'brand', labelKey:'focus_brand', icon:'🏷️' },
-        { value:'site', labelKey:'focus_site', icon:'🧩' },
+        { value:'site', labelKey:'focus_site', icon:'🌐' },
       ]
     },
     {
       id:'assets', type:'single', titleKey:'q_assets', required:true,
       options: [
         { value:'yes', labelKey:'as_yes', icon:'✅' },
-        { value:'some', labelKey:'as_some', icon:'🟨' },
-        { value:'no', labelKey:'as_no', icon:'🧱' },
+        { value:'some', labelKey:'as_some', icon:'🟦' },
+        { value:'no', labelKey:'as_no', icon:'⬜' },
       ]
     },
     {
       id:'volume', type:'single', titleKey:'q_volume', required:true,
       options: [
-        { value:'low', labelKey:'vol_low', icon:'🥈' },
-        { value:'mid', labelKey:'vol_mid', icon:'🥇' },
-        { value:'high', labelKey:'vol_high', icon:'🏆' },
+        { value:'low', labelKey:'vol_low', icon:'①' },
+        { value:'mid', labelKey:'vol_mid', icon:'②' },
+        { value:'high', labelKey:'vol_high', icon:'③' },
       ]
     },
     {
       id:'budget', type:'single', titleKey:'q_budget', required:true,
       options: [
-        { value:100, labelKey:'bud_100', icon:'💠' },
-        { value:300, labelKey:'bud_300', icon:'💎' },
-        { value:800, labelKey:'bud_800', icon:'👑' },
-        { value:999999, labelKey:'bud_more', icon:'🚀' },
+        { value:100, labelKey:'bud_100', icon:'◼︎' },
+        { value:300, labelKey:'bud_300', icon:'◼︎◼︎' },
+        { value:800, labelKey:'bud_800', icon:'◼︎◼︎◼︎' },
+        { value:999999, labelKey:'bud_more', icon:'◼︎◼︎◼︎◼︎' },
       ]
     },
     {
       id:'deadline', type:'single', titleKey:'q_deadline', required:false, skippable:true,
       options: [
-        { value:'3d', labelKey:'dl_3', icon:'⚡' },
-        { value:'7d', labelKey:'dl_7', icon:'🗓️' },
+        { value:'3d', labelKey:'dl_3', icon:'⏱️' },
+        { value:'7d', labelKey:'dl_7', icon:'📆' },
         { value:'more', labelKey:'dl_more', icon:'🌿' },
       ]
     },
@@ -789,9 +793,6 @@
     }
   ];
 
-  // =========================================================
-  // 6) Scoring & packages (mais “inteligente” e estável)
-  // =========================================================
   function comboPerc(qtd){
     if(qtd >= 4) return 12;
     if(qtd === 3) return 8;
@@ -803,20 +804,15 @@
     const a = state.answers;
     let score = 0;
 
-    // Budget fit
     const budget = Number(a.budget || 999999);
     if(budget !== 999999 && s.__minPrice && s.__minPrice > budget) score -= 10;
     if(budget !== 999999 && s.__minPrice && s.__minPrice <= budget) score += 3;
 
-    // Focus mapping
     const cat = (s.__cat||'').toLowerCase();
     if(a.focus === 'images' && /imagens/.test(cat)) score += 8;
     if(a.focus === 'videos' && /vídeos|videos/.test(cat)) score += 8;
-    if(a.focus === 'ads' && /anúncios|ads|avulsos/.test(cat)) score += 6;
-    if(a.focus === 'brand' && /avulsos/.test(cat)) score += 3;
-    if(a.focus === 'site' && /avulsos/.test(cat)) score += 3;
+    if(a.focus === 'ads' && /avulsos/.test(cat)) score += 6;
 
-    // Keyword based
     const txt = s.__text || '';
     if(a.goal === 'sales'){
       if(/anúnc|ads|promo|oferta|cta|copy|venda|convers/.test(txt)) score += 7;
@@ -834,13 +830,11 @@
       if(/roteiro|narração|narracao|vídeo|video/.test(txt)) score += 7;
     }
 
-    // Channels
     const ch = a.channels || [];
     if(ch.includes('site') && /website|site|landing/.test(txt)) score += 5;
     if((ch.includes('instagram')||ch.includes('tiktok')||ch.includes('youtube')||ch.includes('multi')) && /vídeo|video|imagem|reels|shorts|tiktok/.test(txt)) score += 2;
     if(ch.includes('whatsapp') && /imagem|banner|arte|imagens/.test(txt)) score += 2;
 
-    // Assets upsell
     if(a.assets === 'no'){
       if(/logo|identidade/.test(txt)) score += 6;
       if(/roteiro|copy/.test(txt)) score += 3;
@@ -849,19 +843,11 @@
       if(/identidade|copy|roteiro/.test(txt)) score += 3;
     }
 
-    // Volume: favor basic/pro/premium
     if(!s.__isPlan){
       if(a.volume === 'low' && /(básic|basic)/.test(txt)) score += 2;
       if(a.volume === 'mid' && /(profissional|professional)/.test(txt)) score += 2;
       if(a.volume === 'high' && /(premium)/.test(txt)) score += 2;
     }
-
-    // Deadline: slight priority for faster services (if described)
-    if(a.deadline === '3d' && /(rápid|express|fast)/.test(txt)) score += 2;
-
-    // Prefer bundles
-    if(a.pref === 'bundle' && s.__isPlan) score += 3;
-
     return score;
   }
 
@@ -918,7 +904,6 @@
     if(a.pref === 'bundle' && plan && !recommended.find(x=>x.id===plan.__id)) recommended.unshift({id: plan.__id, period:'Mensal'});
 
     const scale = [...recommended];
-    // add a couple more top items
     list.slice(0, 8).forEach(s=>{
       if(scale.length >= 6) return;
       if(!scale.find(x=>x.id===s.__id)) scale.push({id: s.__id, period: s.__isPlan ? 'Mensal' : undefined});
@@ -984,7 +969,7 @@
     if(a.pref) lines.push([label('Preferência','Preference'), a.pref]);
 
     if(!lines.length){
-      sideSummary.innerHTML = `<div class="text-white/55">${escapeHtml(t('sideEmpty'))}</div>`;
+      sideSummary.innerHTML = `<div class="text-slate-500">${escapeHtml(t('sideEmpty'))}</div>`;
       return;
     }
 
@@ -992,19 +977,16 @@
       <div class="space-y-2">
         ${lines.map(([k,v])=>`
           <div class="flex justify-between gap-3">
-            <span class="text-white/55">${escapeHtml(k)}</span>
-            <span class="text-white/90 font-semibold text-right">${escapeHtml(String(v))}</span>
+            <span class="text-slate-500">${escapeHtml(k)}</span>
+            <span class="text-slate-900 font-semibold text-right">${escapeHtml(String(v))}</span>
           </div>
         `).join('')}
       </div>
     `;
   }
 
-  // =========================================================
-  // 7) Render step UI (sem re-render pesado — só a tela)
-  // =========================================================
   function setStepUI(){
-    const total = steps.length + 1; // + results
+    const total = steps.length + 1;
     const current = Math.min(state.step + 1, total);
     const pct = Math.round(((current-1)/(total-1))*100);
 
@@ -1026,16 +1008,11 @@
   }
 
   function canProceed(){
-    if(state.step >= steps.length) return true; // results screen
+    if(state.step >= steps.length) return true;
     const st = steps[state.step];
     const v = state.answers[st.id];
-
-    if(st.type === 'single'){
-      return v !== null && v !== undefined;
-    }
-    if(st.type === 'multi'){
-      return Array.isArray(v) && v.length >= (st.min || 1);
-    }
+    if(st.type === 'single') return v !== null && v !== undefined;
+    if(st.type === 'multi') return Array.isArray(v) && v.length >= (st.min || 1);
     return true;
   }
 
@@ -1044,7 +1021,6 @@
     renderSideSummary();
     updateTotalsUI();
 
-    // results
     if(state.step >= steps.length){
       renderResults();
       return;
@@ -1058,8 +1034,8 @@
       setScreen(`
         <div class="fade">
           <div class="mb-4">
-            <div class="text-white font-extrabold text-2xl tracking-tight">${escapeHtml(title)}</div>
-            <div class="text-white/60 text-sm mt-1">${escapeHtml(lang==='en' ? 'Pick one option to continue.' : 'Escolha uma opção para continuar.')}</div>
+            <div class="text-slate-900 font-extrabold text-2xl tracking-tight">${escapeHtml(title)}</div>
+            <div class="text-slate-600 text-sm mt-1">${escapeHtml(lang==='en' ? 'Pick one option to continue.' : 'Escolha uma opção para continuar.')}</div>
           </div>
 
           <div class="grid gap-3">
@@ -1069,20 +1045,20 @@
                 <button class="opt ${isActive?'active':''} ring-focus w-full text-left rounded-3xl px-4 py-4" data-val="${escapeHtml(o.value)}">
                   <div class="flex items-start justify-between gap-3">
                     <div class="flex items-start gap-3">
-                      ${o.icon ? `<div class="h-10 w-10 rounded-2xl bg-white/8 border border-white/10 flex items-center justify-center">${escapeHtml(o.icon)}</div>` : ``}
+                      ${o.icon ? `<div class="h-10 w-10 rounded-2xl bg-blue-50 border border-blue-200 flex items-center justify-center text-blue-900 font-extrabold">${escapeHtml(o.icon)}</div>` : ``}
                       <div>
-                        <div class="font-extrabold text-white/95">${escapeHtml(t(o.labelKey))}</div>
-                        <div class="text-sm text-white/55 mt-1">${escapeHtml(lang==='en' ? 'Tap to select' : 'Toque para selecionar')}</div>
+                        <div class="font-extrabold text-slate-900">${escapeHtml(t(o.labelKey))}</div>
+                        <div class="text-sm text-slate-600 mt-1">${escapeHtml(lang==='en' ? 'Tap to select' : 'Toque para selecionar')}</div>
                       </div>
                     </div>
-                    <span class="text-white/35 mt-1">→</span>
+                    <span class="text-slate-400 mt-1">→</span>
                   </div>
                 </button>
               `;
             }).join('')}
           </div>
 
-          <div class="mt-4 text-xs text-white/50">${escapeHtml(CATALOG.observacoes || '')}</div>
+          <div class="mt-4 text-xs text-slate-500">${escapeHtml(CATALOG.observacoes || '')}</div>
         </div>
       `);
 
@@ -1091,7 +1067,7 @@
           const val = btn.dataset.val;
           state.answers[st.id] = isNaN(Number(val)) ? val : Number(val);
           nextBtn.disabled = !canProceed();
-          renderCurrent(); // re-render only this step (small)
+          renderCurrent();
         });
       });
     }
@@ -1103,28 +1079,28 @@
       setScreen(`
         <div class="fade">
           <div class="mb-4">
-            <div class="text-white font-extrabold text-2xl tracking-tight">${escapeHtml(title)}</div>
-            <div class="text-white/60 text-sm mt-1">${escapeHtml(lang==='en' ? `Select at least ${min}.` : `Selecione pelo menos ${min}.`)}</div>
+            <div class="text-slate-900 font-extrabold text-2xl tracking-tight">${escapeHtml(title)}</div>
+            <div class="text-slate-600 text-sm mt-1">${escapeHtml(lang==='en' ? `Select at least ${min}.` : `Selecione pelo menos ${min}.`)}</div>
           </div>
 
           <div class="flex flex-wrap gap-2.5">
             ${st.options.map(o=>{
               const isActive = current.includes(o.value);
               return `
-                <button type="button" class="chip ${isActive?'active':''} ring-focus px-4 py-3 rounded-2xl text-sm font-bold transition-all" data-val="${escapeHtml(o.value)}">
+                <button type="button" class="chip ${isActive?'active':''} ring-focus px-4 py-3 rounded-2xl text-sm font-bold" data-val="${escapeHtml(o.value)}">
                   ${escapeHtml(t(o.labelKey))}
                 </button>
               `;
             }).join('')}
           </div>
 
-          <div class="mt-5 rounded-2xl panel p-4 flex items-center justify-between">
-            <div class="text-sm text-white/70">
-              <span class="font-extrabold text-white">${escapeHtml(t('selected'))}</span>: ${current.length}
-              <span class="text-white/45">•</span>
-              <span class="text-white/60">${escapeHtml(t('comboHint'))}</span>
+          <div class="mt-5 rounded-2xl bg-blue-50 border border-blue-200 p-4 flex items-center justify-between">
+            <div class="text-sm text-slate-700">
+              <span class="font-extrabold text-slate-900">${escapeHtml(t('selected'))}</span>: ${current.length}
+              <span class="text-slate-400">•</span>
+              <span class="text-slate-600">${escapeHtml(t('comboHint'))}</span>
             </div>
-            <div class="text-xs text-white/55">${escapeHtml(lang==='en'?'You can pick multiple':'Você pode escolher vários')}</div>
+            <div class="text-xs text-slate-500">${escapeHtml(lang==='en'?'You can pick multiple':'Você pode escolher vários')}</div>
           </div>
         </div>
       `);
@@ -1145,14 +1121,12 @@
     nextBtn.disabled = !canProceed();
   }
 
-  // =========================================================
-  // 8) Results (render 1x e atualiza por eventos)
-  // =========================================================
   function buildSummaryText(){
     const a = state.answers;
     const tot = computeTotals(state.selected);
 
     const linesPt = [
+      `- Comerc IAs`,
       `- Objetivo: ${a.goal}`,
       `- Canais: ${(a.channels||[]).join(', ')}`,
       `- Prioridade: ${a.focus}`,
@@ -1165,6 +1139,7 @@
     ];
 
     const linesEn = [
+      `- Comerc IAs`,
       `- Goal: ${a.goal}`,
       `- Channels: ${(a.channels||[]).join(', ')}`,
       `- Priority: ${a.focus}`,
@@ -1184,8 +1159,8 @@
     const periodSel = (s.__isPlan && checked)
       ? `
         <div class="mt-3">
-          <label class="text-xs text-white/55">${escapeHtml(t('period'))}</label>
-          <select class="planPeriod ring-focus mt-1 w-full border border-white/10 bg-white/6 rounded-2xl px-3 py-2.5 text-sm text-white" data-id="${escapeHtml(s.__id)}">
+          <label class="text-xs text-slate-600">${escapeHtml(t('period'))}</label>
+          <select class="planPeriod ring-focus mt-1 w-full border border-blue-200 bg-white rounded-2xl px-3 py-2.5 text-sm text-slate-900" data-id="${escapeHtml(s.__id)}">
             ${(s.precos_por_periodo||[]).map(p=>{
               const cur = state.selected.get(s.__id)?.period || 'Mensal';
               const selected = String(cur).toLowerCase() === String(p.periodo).toLowerCase() ? 'selected' : '';
@@ -1198,18 +1173,18 @@
       ` : '';
 
     return `
-      <label class="rounded-3xl border border-white/10 bg-white/5 hover:bg-white/10 transition-all p-4 flex gap-3">
-        <input type="checkbox" class="svcCheck mt-1.5 h-4 w-4 accent-indigo-400" data-id="${escapeHtml(s.__id)}" ${checked?'checked':''}>
+      <label class="rounded-3xl border border-blue-200 bg-white hover:bg-blue-50 transition-all p-4 flex gap-3 shadow-soft">
+        <input type="checkbox" class="svcCheck mt-1.5 h-4 w-4 accent-blue-600" data-id="${escapeHtml(s.__id)}" ${checked?'checked':''}>
         <div class="flex-1">
           <div class="flex items-start justify-between gap-3">
             <div>
-              <div class="font-extrabold text-white/95">${escapeHtml(s.titulo || 'Serviço')}</div>
-              <div class="text-xs text-white/50 mt-0.5">${escapeHtml(s.__cat)}</div>
+              <div class="font-extrabold text-slate-900">${escapeHtml(s.titulo || 'Serviço')}</div>
+              <div class="text-xs text-slate-500 mt-0.5">${escapeHtml(s.__cat)}</div>
             </div>
-            <div class="text-emerald-300 font-extrabold whitespace-nowrap">${escapeHtml(priceLabel)}</div>
+            <div class="text-blue-800 font-extrabold whitespace-nowrap">${escapeHtml(priceLabel)}</div>
           </div>
-          <div class="mt-2 text-sm text-white/70">${escapeHtml((s.descricao||''))}</div>
-          ${s.extras ? `<div class="mt-2 text-xs text-white/55">${escapeHtml(s.extras)}</div>` : ''}
+          <div class="mt-2 text-sm text-slate-700">${escapeHtml((s.descricao||''))}</div>
+          ${s.extras ? `<div class="mt-2 text-xs text-slate-600">${escapeHtml(s.extras)}</div>` : ''}
           ${periodSel}
         </div>
       </label>
@@ -1217,7 +1192,6 @@
   }
 
   function renderResults(){
-    // build default selection once
     if(state.selected.size === 0){
       const list = topServices(16);
       const packs = buildPackages(list);
@@ -1232,35 +1206,34 @@
     const tot = computeTotals(state.selected);
 
     const packCards = packs.map(p=>{
-      // compute totals if applied
       const temp = new Map();
       p.items.forEach(it=> temp.set(it.id, {id:it.id, period: it.period}));
       const tp = computeTotals(temp);
       const badgeKey = p.key==='essential'?'badge_essential':(p.key==='recommended'?'badge_reco':'badge_scale');
-
       const highlight = p.key==='recommended';
+
       return `
-        <div class="rounded-3xl p-4 md:p-5 border ${highlight ? 'border-white/28 bg-white/10' : 'border-white/10 bg-white/5'}">
+        <div class="rounded-3xl p-4 md:p-5 border ${highlight ? 'border-blue-400 bg-blue-50' : 'border-blue-200 bg-white'} shadow-soft">
           <div class="flex items-center justify-between gap-3">
-            <div class="text-lg font-extrabold">${escapeHtml(t(p.key==='essential'?'pack_essential':p.key==='recommended'?'pack_reco':'pack_scale'))}</div>
-            <span class="text-xs px-2 py-1 rounded-full border border-white/10 bg-white/5 text-white/80 font-semibold">${escapeHtml(t(badgeKey))}</span>
+            <div class="text-lg font-extrabold text-slate-900">${escapeHtml(t(p.titleKey))}</div>
+            <span class="text-xs px-2 py-1 rounded-full border border-blue-200 bg-white text-blue-900 font-semibold">${escapeHtml(t(badgeKey))}</span>
           </div>
 
           <div class="mt-3 space-y-1">
             ${p.items.slice(0,6).map(it=>{
               const s = allServices.find(x=>x.__id===it.id);
               if(!s) return '';
-              return `<div class="text-sm text-white/80">• ${escapeHtml(s.titulo)}</div>`;
+              return `<div class="text-sm text-slate-700">• ${escapeHtml(s.titulo)}</div>`;
             }).join('')}
           </div>
 
           <div class="mt-4 flex items-end justify-between gap-3">
             <div>
-              <div class="text-xs text-white/55">${escapeHtml(t('estTotal'))}</div>
-              <div class="text-xl font-extrabold text-emerald-300">${money(tp.total)}</div>
-              <div class="text-xs text-white/55">${tp.disc ? `-${money(tp.disc)} combo` : '—'}</div>
+              <div class="text-xs text-slate-500">${escapeHtml(t('estTotal'))}</div>
+              <div class="text-xl font-extrabold text-blue-800">${money(tp.total)}</div>
+              <div class="text-xs text-slate-500">${tp.disc ? `-${money(tp.disc)} combo` : '—'}</div>
             </div>
-            <button class="pickPack ring-focus px-4 py-2.5 rounded-2xl font-extrabold ${highlight ? 'btn-primary text-white' : 'bg-white text-slate-900'}"
+            <button class="pickPack ring-focus px-4 py-2.5 rounded-2xl font-extrabold ${highlight ? 'btn-primary' : 'btn-ghost'}"
               data-pack="${escapeHtml(p.key)}">
               ${escapeHtml(t('selectPack'))}
             </button>
@@ -1269,7 +1242,6 @@
       `;
     }).join('');
 
-    // curated checklist = top list + keep selected at top
     const selectedIds = new Set(Array.from(state.selected.keys()));
     const curated = [
       ...allServices.filter(s=>selectedIds.has(s.__id)),
@@ -1285,8 +1257,8 @@
       <div class="fade">
         <div class="flex items-start justify-between gap-3 mb-5">
           <div>
-            <div class="text-2xl md:text-3xl font-extrabold tracking-tight">${escapeHtml(t('resultsTitle'))}</div>
-            <div class="text-white/65 text-sm mt-1">${escapeHtml(t('resultsSub'))}</div>
+            <div class="text-2xl md:text-3xl font-extrabold tracking-tight text-slate-900">${escapeHtml(t('resultsTitle'))}</div>
+            <div class="text-slate-600 text-sm mt-1">${escapeHtml(t('resultsSub'))}</div>
           </div>
           <button id="restart" class="ring-focus px-4 py-2.5 rounded-2xl btn-ghost font-extrabold">${escapeHtml(lang==='en'?'Restart':'Refazer')}</button>
         </div>
@@ -1296,32 +1268,30 @@
         </div>
 
         <div class="flex items-center justify-between gap-3 mb-3">
-          <div class="text-white font-extrabold text-lg">${escapeHtml(t('customize'))}</div>
-          <div class="text-xs text-white/55">${escapeHtml(t('comboHint'))}</div>
+          <div class="text-slate-900 font-extrabold text-lg">${escapeHtml(t('customize'))}</div>
+          <div class="text-xs text-slate-500">${escapeHtml(t('comboHint'))}</div>
         </div>
 
         <div id="svcList" class="grid gap-3 mb-6">
           ${servicesHTML}
         </div>
 
-        <div class="rounded-3xl border border-white/10 bg-white/5 p-4 md:p-5 mb-4">
-          <div class="text-white font-extrabold mb-2">${escapeHtml(lang==='en'?'Auto summary (goes to quote)':'Resumo automático (vai pro orçamento)')}</div>
-          <pre id="summaryText" class="whitespace-pre-wrap text-sm text-white/80">${escapeHtml(buildSummaryText())}</pre>
-          <div class="mt-3 text-xs text-white/55">${escapeHtml(t('notes'))}: ${escapeHtml(CATALOG.observacoes || '')}</div>
+        <div class="rounded-3xl border border-blue-200 bg-white p-4 md:p-5 mb-4 shadow-soft">
+          <div class="text-slate-900 font-extrabold mb-2">${escapeHtml(lang==='en'?'Summary (goes to quote)':'Resumo (vai pro orçamento)')}</div>
+          <pre id="summaryText" class="whitespace-pre-wrap text-sm text-slate-700">${escapeHtml(buildSummaryText())}</pre>
+          <div class="mt-3 text-xs text-slate-500">${escapeHtml(t('notes'))}: ${escapeHtml(CATALOG.observacoes || '')}</div>
         </div>
 
-        <!-- Mobile sticky bar -->
-        <div class="stickyMobileBar rounded-3xl border border-white/10 bg-black/35 p-4 md:hidden">
+        <div class="stickyMobileBar rounded-3xl p-4 md:hidden">
           <div class="flex items-center justify-between">
             <div>
-              <div class="text-xs text-white/55">${escapeHtml(t('selected'))}: <span id="mCount" class="text-white/85 font-extrabold">${tot.count}</span></div>
-              <div class="text-lg font-extrabold text-emerald-300" id="mTotal">${money(tot.total)}</div>
+              <div class="text-xs text-slate-500">${escapeHtml(t('selected'))}: <span id="mCount" class="text-slate-900 font-extrabold">${tot.count}</span></div>
+              <div class="text-lg font-extrabold text-blue-800" id="mTotal">${money(tot.total)}</div>
             </div>
             <button id="goQuoteMobile" class="ring-focus btn-primary px-4 py-3 rounded-2xl font-extrabold">${escapeHtml(t('goQuote'))}</button>
           </div>
         </div>
 
-        <!-- Desktop buttons -->
         <div class="hidden md:flex gap-3">
           <button id="copySummary" class="ring-focus btn-ghost px-6 py-3.5 rounded-2xl font-extrabold">${escapeHtml(t('copy'))}</button>
           <button id="goQuote" class="ring-focus btn-primary flex-1 px-6 py-3.5 rounded-2xl font-extrabold">${escapeHtml(t('goQuote'))}</button>
@@ -1331,13 +1301,11 @@
       </div>
     `);
 
-    // Footer buttons on results
     backBtn.classList.remove('hidden');
     skipBtn.classList.add('hidden');
     nextBtn.textContent = lang==='en' ? 'Back to edit' : 'Voltar para editar';
     nextBtn.disabled = false;
 
-    // Events (delegated-ish)
     $('restart').addEventListener('click', ()=>{
       state.step = 0;
       state.answers = { goal:null, channels:[], focus:null, assets:null, volume:null, budget:null, deadline:null, pref:null };
@@ -1345,7 +1313,6 @@
       renderCurrent();
     });
 
-    // Pick pack
     screen.querySelectorAll('.pickPack').forEach(btn=>{
       btn.addEventListener('click', ()=>{
         const key = btn.dataset.pack;
@@ -1359,33 +1326,28 @@
       });
     });
 
-    // Checkbox services
     screen.querySelectorAll('.svcCheck').forEach(ch=>{
       ch.addEventListener('change', ()=>{
         const id = ch.dataset.id;
         if(ch.checked) state.selected.set(id, {id, period: 'Mensal'});
         else state.selected.delete(id);
 
-        // update UI parts without full heavy redraw
         updateTotalsUI();
         renderSideSummary();
+
         const newTot = computeTotals(state.selected);
         const mCount = $('mCount'); const mTotal = $('mTotal');
         if(mCount) mCount.textContent = newTot.count;
         if(mTotal) mTotal.textContent = money(newTot.total);
 
-        // update summary text
         const st = $('summaryText');
         if(st) st.textContent = buildSummaryText();
 
-        // if this is a plan, we need to re-render that card's select dropdown area -> easiest: re-render results lightly
-        // but only when a plan is toggled (rare)
         const s = allServices.find(x=>x.__id===id);
         if(s?.__isPlan) renderResults();
       });
     });
 
-    // Plan period changes
     screen.querySelectorAll('.planPeriod').forEach(sel=>{
       sel.addEventListener('change', ()=>{
         const id = sel.dataset.id;
@@ -1397,7 +1359,6 @@
       });
     });
 
-    // copy
     const copyBtn = $('copySummary');
     if(copyBtn){
       copyBtn.addEventListener('click', async ()=>{
@@ -1411,7 +1372,6 @@
       });
     }
 
-    // go quote
     function goToQuote(){
       const summary = buildSummaryText();
       const selectedDetail = Array.from(state.selected.values()).map(it=>{
@@ -1454,9 +1414,6 @@
     if(goBtnM) goBtnM.addEventListener('click', goToQuote);
   }
 
-  // =========================================================
-  // 9) Navigation
-  // =========================================================
   backBtn.addEventListener('click', ()=>{
     if(state.step > 0){
       state.step -= 1;
@@ -1474,21 +1431,16 @@
   });
 
   nextBtn.addEventListener('click', ()=>{
-    // if on results, go back one step for editing
     if(state.step >= steps.length){
       state.step = steps.length - 1;
       renderCurrent();
       return;
     }
-
     if(!canProceed()) return;
 
-    // advance
     state.step += 1;
 
-    // pre-build recommended selection once we reach results
     if(state.step === steps.length){
-      // auto-select recommended pack if empty
       if(state.selected.size === 0){
         const list = topServices(16);
         const packs = buildPackages(list);
@@ -1497,13 +1449,18 @@
         });
       }
     }
-
     renderCurrent();
   });
 
-  // =========================================================
-  // 10) Language switching
-  // =========================================================
+  function canProceed(){
+    if(state.step >= steps.length) return true;
+    const st = steps[state.step];
+    const v = state.answers[st.id];
+    if(st.type === 'single') return v !== null && v !== undefined;
+    if(st.type === 'multi') return Array.isArray(v) && v.length >= (st.min || 1);
+    return true;
+  }
+
   function applyCopy(){
     $('heroBadge').textContent = t('heroBadge');
     $('heroTitle').textContent = t('heroTitle');
@@ -1536,6 +1493,10 @@
     $('lblTotal').textContent = t('lblTotal');
     $('noteTotals').textContent = t('noteTotals');
     $('sideStrategy').textContent = t('sideStrategy');
+
+    backBtn.textContent = t('back');
+    nextBtn.textContent = t('next');
+    skipBtn.textContent = t('skip');
   }
 
   function setLang(newLang){
@@ -1543,16 +1504,15 @@
     localStorage.setItem('comercias_lang', newLang);
     document.documentElement.lang = (newLang === 'en') ? 'en' : 'pt-BR';
 
-    // toggle UI
-    langPTTop.classList.toggle('bg-white/10', newLang==='pt');
-    langENTop.classList.toggle('bg-white/10', newLang==='en');
-    langPTTop.classList.toggle('text-white/70', newLang!=='pt');
-    langENTop.classList.toggle('text-white/70', newLang!=='en');
+    langPTTop.classList.toggle('bg-blue-50', newLang==='pt');
+    langENTop.classList.toggle('bg-blue-50', newLang==='en');
+    langPTTop.classList.toggle('text-slate-600', newLang!=='pt');
+    langENTop.classList.toggle('text-slate-600', newLang!=='en');
 
-    langPT.classList.toggle('bg-white/10', newLang==='pt');
-    langEN.classList.toggle('bg-white/10', newLang==='en');
-    langPT.classList.toggle('text-white/70', newLang!=='pt');
-    langEN.classList.toggle('text-white/70', newLang!=='en');
+    langPT.classList.toggle('bg-blue-50', newLang==='pt');
+    langEN.classList.toggle('bg-blue-50', newLang==='en');
+    langPT.classList.toggle('text-slate-600', newLang!=='pt');
+    langEN.classList.toggle('text-slate-600', newLang!=='en');
 
     applyCopy();
     renderCurrent();
@@ -1563,13 +1523,8 @@
   langPT.addEventListener('click', ()=>setLang('pt'));
   langEN.addEventListener('click', ()=>setLang('en'));
 
-  // =========================================================
-  // 11) Init
-  // =========================================================
   applyCopy();
   setLang(lang);
-
-  // Start screen render
   renderCurrent();
 
 })();
