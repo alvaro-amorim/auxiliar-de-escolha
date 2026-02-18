@@ -166,15 +166,14 @@
   <main class="relative min-h-screen flex items-center justify-center px-4 py-10">
     <div class="w-full max-w-6xl">
 
-      <!-- Header -->
       <div class="flex items-center justify-between mb-6 md:mb-8">
         <div class="flex items-center gap-3">
           <div class="h-10 w-10 rounded-2xl bg-white border border-blue-200 flex items-center justify-center shadow-soft">
             <span class="text-sm font-extrabold text-blue-800">CI</span>
           </div>
           <div>
-            <div class="text-sm text-slate-600">Comerc IAs</div>
-            <div class="text-lg font-extrabold tracking-tight text-slate-900">Orçamento • Seletor de Serviços</div>
+            <div class="text-sm text-slate-600" id="brandName">Comerc IAs</div>
+            <div class="text-lg font-extrabold tracking-tight text-slate-900" id="headerTitle">Orçamento • Seletor de Serviços</div>
           </div>
         </div>
 
@@ -184,7 +183,6 @@
         </div>
       </div>
 
-      <!-- Hero -->
       <section class="glass rounded-[28px] overflow-hidden">
         <div class="p-6 md:p-10 grid lg:grid-cols-[1.1fr_.9fr] gap-8">
           <div>
@@ -211,9 +209,7 @@
 
               <div class="rounded-2xl btn-ghost px-4 py-3 text-sm text-slate-700 leading-snug">
                 <div class="font-semibold text-blue-900" id="miniNoteTitle">Comerc IAs</div>
-                <div id="miniNoteText">
-                  Escolha um pacote pronto ou personalize selecionando serviços.
-                </div>
+                <div id="miniNoteText">Escolha um pacote pronto ou personalize selecionando serviços.</div>
               </div>
             </div>
 
@@ -233,7 +229,6 @@
             </div>
           </div>
 
-          <!-- Preview -->
           <div class="grad-border">
             <div class="rounded-[22px] bg-white border border-blue-200 p-5 md:p-6 shadow-soft">
               <div class="flex items-center justify-between mb-4">
@@ -271,13 +266,11 @@
     </div>
   </main>
 
-  <!-- MODAL -->
   <div id="modal" class="fixed inset-0 hidden items-end md:items-center justify-center p-0 md:p-8">
     <div id="backdrop" class="absolute inset-0 bg-slate-900/40"></div>
 
     <div id="modalPanel" class="relative w-full md:w-[min(1140px,96vw)] glass rounded-t-[28px] md:rounded-[28px] overflow-hidden max-h-[92vh] md:max-h-[90vh] flex flex-col">
 
-      <!-- Modal Header -->
       <div class="px-5 md:px-7 py-4 border-b border-blue-200 bg-white flex items-center justify-between gap-3">
         <div class="flex items-center gap-3">
           <div class="h-10 w-10 rounded-2xl bg-blue-50 border border-blue-200 flex items-center justify-center">
@@ -298,7 +291,6 @@
         </div>
       </div>
 
-      <!-- Stepper -->
       <div class="px-5 md:px-7 py-4 border-b border-blue-200 bg-white">
         <div class="flex items-center justify-between gap-3">
           <div class="text-sm font-semibold text-slate-900" id="stepTitle">Etapa</div>
@@ -309,7 +301,6 @@
         </div>
       </div>
 
-      <!-- Body -->
       <div class="flex-1 overflow-y-auto bg-white">
         <div class="grid md:grid-cols-[1.35fr_.65fr]">
           <div class="p-5 md:p-7">
@@ -319,7 +310,7 @@
           <aside class="p-5 md:p-7 border-t md:border-t-0 md:border-l border-blue-200 bg-blue-50">
             <div class="flex items-center justify-between">
               <h3 class="font-semibold text-slate-900" id="sideTitle">Resumo</h3>
-              <span class="text-xs text-slate-500" id="sideHint">live</span>
+              <span class="text-xs text-slate-500" id="sideHint">ao vivo</span>
             </div>
 
             <div id="sideSummary" class="mt-4 text-sm text-slate-800 space-y-2">
@@ -350,7 +341,6 @@
         </div>
       </div>
 
-      <!-- Footer actions -->
       <div class="px-5 md:px-7 py-4 border-t border-blue-200 bg-white flex items-center justify-between gap-3">
         <button id="backBtn" class="ring-focus px-4 py-2.5 rounded-2xl btn-ghost hidden">Voltar</button>
         <button id="skipBtn" class="ring-focus px-4 py-2.5 rounded-2xl btn-ghost hidden">Pular</button>
@@ -415,6 +405,8 @@
 
   const I18N = {
     pt: {
+      pageTitle: "Comerc IAs • Orçamento",
+      headerTitle: "Orçamento • Seletor de Serviços",
       heroBadge:"Quiz • Pacotes • Economia por combo",
       heroTitle:"Encontre o pacote ideal para o seu objetivo.",
       heroSub:"Responda em ~2 minutos. No final, selecione serviços, veja o total estimado e vá para o orçamento pré-preenchido.",
@@ -434,8 +426,10 @@
       modalTitle:"Comerc IAs • Quiz de Orçamento",
       modalSub:"Pacotes + personalização + orçamento pré-preenchido",
       sideTitle:"Resumo",
+      sideHint:"ao vivo",
       sideEmpty:"Responda para ver recomendações.",
       simTitle:"Simulação",
+      simRule:"2=5% • 3=8% • 4+=12%",
       lblSub:"Subtotal (avulsos)",
       lblDisc:"Desconto combo",
       lblPlans:"Planos",
@@ -446,9 +440,15 @@
       back:"Voltar",
       next:"Continuar",
       skip:"Pular",
+      backToEdit:"Voltar para editar",
+      restart:"Refazer",
 
       step:"Etapa",
       stepOf:"de",
+
+      selectOneHint:"Escolha uma opção para continuar.",
+      tapToSelect:"Toque para selecionar",
+      multiHint:"Você pode escolher vários",
 
       q_goal:"Qual é o seu objetivo principal?",
       goal_sales:"Gerar vendas/conversão",
@@ -516,10 +516,20 @@
       copied:"Copiado!",
       notes:"Observações",
       estTotal:"Total estimado",
-      comboHint:"2+ avulsos liberam desconto de combo (simulado)."
+      comboHint:"2+ avulsos liberam desconto de combo (simulado).",
+      comboWord:"combo",
+
+      summaryTitle:"Resumo (vai pro orçamento)",
+
+      period_mensal:"Mensal",
+      period_trimestral:"Trimestral",
+      period_semestral:"Semestral",
+      period_anual:"Anual"
     },
 
     en: {
+      pageTitle: "Comerc IAs • Quote",
+      headerTitle: "Quote • Service Selector",
       heroBadge:"Quiz • Bundles • Combo savings",
       heroTitle:"Find the right package for your goal.",
       heroSub:"Answer in ~2 minutes. Then select services, see the estimated total, and go to a pre-filled quote page.",
@@ -539,8 +549,10 @@
       modalTitle:"Comerc IAs • Quote Quiz",
       modalSub:"Bundles + customization + pre-filled quote",
       sideTitle:"Summary",
+      sideHint:"live",
       sideEmpty:"Answer to see recommendations.",
       simTitle:"Simulation",
+      simRule:"2=5% • 3=8% • 4+=12%",
       lblSub:"Subtotal (one-offs)",
       lblDisc:"Combo discount",
       lblPlans:"Plans",
@@ -551,9 +563,15 @@
       back:"Back",
       next:"Continue",
       skip:"Skip",
+      backToEdit:"Back to edit",
+      restart:"Restart",
 
       step:"Step",
       stepOf:"of",
+
+      selectOneHint:"Pick one option to continue.",
+      tapToSelect:"Tap to select",
+      multiHint:"You can pick multiple",
 
       q_goal:"What's your main goal?",
       goal_sales:"Drive sales/conversions",
@@ -621,7 +639,15 @@
       copied:"Copied!",
       notes:"Notes",
       estTotal:"Estimated total",
-      comboHint:"2+ one-offs unlock combo discount (simulated)."
+      comboHint:"2+ one-offs unlock combo discount (simulated).",
+      comboWord:"combo",
+
+      summaryTitle:"Summary (goes to quote)",
+
+      period_mensal:"Monthly",
+      period_trimestral:"Quarterly",
+      period_semestral:"Semiannual",
+      period_anual:"Yearly"
     }
   };
 
@@ -667,6 +693,15 @@
     const num = Number(n);
     if(!isFinite(num)) return '—';
     return new Intl.NumberFormat(lang==='en'?'en-US':'pt-BR',{style:'currency',currency:'BRL'}).format(num);
+  }
+
+  function periodLabel(periodo){
+    const p = String(periodo || '').toLowerCase();
+    if(p.includes('mensal')) return t('period_mensal');
+    if(p.includes('trimestral')) return t('period_trimestral');
+    if(p.includes('semestral')) return t('period_semestral');
+    if(p.includes('anual')) return t('period_anual');
+    return String(periodo);
   }
 
   function showModal(){
@@ -998,7 +1033,7 @@
     skipBtn.classList.toggle('hidden', !(steps[state.step]?.skippable));
     skipBtn.textContent = t('skip');
     backBtn.textContent = t('back');
-    nextBtn.textContent = t('next');
+    nextBtn.textContent = (state.step >= steps.length) ? t('backToEdit') : t('next');
   }
 
   function setScreen(html){
@@ -1014,6 +1049,21 @@
     if(st.type === 'single') return v !== null && v !== undefined;
     if(st.type === 'multi') return Array.isArray(v) && v.length >= (st.min || 1);
     return true;
+  }
+
+  function ensureDefaultSelectionOnResults(){
+    if(state.selected.size !== 0) return;
+    const list = topServices(16);
+    const packs = buildPackages(list);
+    (packs.find(p=>p.key==='recommended') || packs[0]).items.forEach(it=>{
+      state.selected.set(it.id, { id: it.id, period: it.period });
+    });
+  }
+
+  function goNextStep(){
+    if(state.step < steps.length) state.step += 1;
+    if(state.step === steps.length) ensureDefaultSelectionOnResults();
+    renderCurrent();
   }
 
   function renderCurrent(){
@@ -1035,7 +1085,7 @@
         <div class="fade">
           <div class="mb-4">
             <div class="text-slate-900 font-extrabold text-2xl tracking-tight">${escapeHtml(title)}</div>
-            <div class="text-slate-600 text-sm mt-1">${escapeHtml(lang==='en' ? 'Pick one option to continue.' : 'Escolha uma opção para continuar.')}</div>
+            <div class="text-slate-600 text-sm mt-1">${escapeHtml(t('selectOneHint'))}</div>
           </div>
 
           <div class="grid gap-3">
@@ -1048,7 +1098,7 @@
                       ${o.icon ? `<div class="h-10 w-10 rounded-2xl bg-blue-50 border border-blue-200 flex items-center justify-center text-blue-900 font-extrabold">${escapeHtml(o.icon)}</div>` : ``}
                       <div>
                         <div class="font-extrabold text-slate-900">${escapeHtml(t(o.labelKey))}</div>
-                        <div class="text-sm text-slate-600 mt-1">${escapeHtml(lang==='en' ? 'Tap to select' : 'Toque para selecionar')}</div>
+                        <div class="text-sm text-slate-600 mt-1">${escapeHtml(t('tapToSelect'))}</div>
                       </div>
                     </div>
                     <span class="text-slate-400 mt-1">→</span>
@@ -1062,14 +1112,18 @@
         </div>
       `);
 
+      // ✅ FIX: auto-advance on single-choice click
       screen.querySelectorAll('button[data-val]').forEach(btn=>{
         btn.addEventListener('click', ()=>{
           const val = btn.dataset.val;
           state.answers[st.id] = isNaN(Number(val)) ? val : Number(val);
-          nextBtn.disabled = !canProceed();
-          renderCurrent();
+
+          // pequena pausa só pra dar "feedback" visual
+          setTimeout(()=>goNextStep(), 60);
         });
       });
+
+      nextBtn.disabled = !canProceed();
     }
 
     if(st.type === 'multi'){
@@ -1100,7 +1154,7 @@
               <span class="text-slate-400">•</span>
               <span class="text-slate-600">${escapeHtml(t('comboHint'))}</span>
             </div>
-            <div class="text-xs text-slate-500">${escapeHtml(lang==='en'?'You can pick multiple':'Você pode escolher vários')}</div>
+            <div class="text-xs text-slate-500">${escapeHtml(t('multiHint'))}</div>
           </div>
         </div>
       `);
@@ -1116,9 +1170,9 @@
           renderCurrent();
         });
       });
-    }
 
-    nextBtn.disabled = !canProceed();
+      nextBtn.disabled = !canProceed();
+    }
   }
 
   function buildSummaryText(){
@@ -1166,7 +1220,7 @@
               const selected = String(cur).toLowerCase() === String(p.periodo).toLowerCase() ? 'selected' : '';
               const econ = Math.max(0, Number(p.preco_total_sem_desc||0) - Number(p.preco_total_com_desc||0));
               const econTxt = econ>0 ? ` • ${t('savings')} ${money(econ)}` : '';
-              return `<option value="${escapeHtml(p.periodo)}" ${selected}>${escapeHtml(p.periodo)} — ${money(p.preco_total_com_desc)}${econTxt}</option>`;
+              return `<option value="${escapeHtml(p.periodo)}" ${selected}>${escapeHtml(periodLabel(p.periodo))} — ${money(p.preco_total_com_desc)}${econTxt}</option>`;
             }).join('')}
           </select>
         </div>
@@ -1192,13 +1246,7 @@
   }
 
   function renderResults(){
-    if(state.selected.size === 0){
-      const list = topServices(16);
-      const packs = buildPackages(list);
-      (packs.find(p=>p.key==='recommended') || packs[0]).items.forEach(it=>{
-        state.selected.set(it.id, { id: it.id, period: it.period });
-      });
-    }
+    ensureDefaultSelectionOnResults();
 
     const list = topServices(18);
     const packs = buildPackages(list);
@@ -1209,14 +1257,13 @@
       const temp = new Map();
       p.items.forEach(it=> temp.set(it.id, {id:it.id, period: it.period}));
       const tp = computeTotals(temp);
-      const badgeKey = p.key==='essential'?'badge_essential':(p.key==='recommended'?'badge_reco':'badge_scale');
       const highlight = p.key==='recommended';
 
       return `
         <div class="rounded-3xl p-4 md:p-5 border ${highlight ? 'border-blue-400 bg-blue-50' : 'border-blue-200 bg-white'} shadow-soft">
           <div class="flex items-center justify-between gap-3">
             <div class="text-lg font-extrabold text-slate-900">${escapeHtml(t(p.titleKey))}</div>
-            <span class="text-xs px-2 py-1 rounded-full border border-blue-200 bg-white text-blue-900 font-semibold">${escapeHtml(t(badgeKey))}</span>
+            <span class="text-xs px-2 py-1 rounded-full border border-blue-200 bg-white text-blue-900 font-semibold">${escapeHtml(t(p.badgeKey))}</span>
           </div>
 
           <div class="mt-3 space-y-1">
@@ -1231,7 +1278,7 @@
             <div>
               <div class="text-xs text-slate-500">${escapeHtml(t('estTotal'))}</div>
               <div class="text-xl font-extrabold text-blue-800">${money(tp.total)}</div>
-              <div class="text-xs text-slate-500">${tp.disc ? `-${money(tp.disc)} combo` : '—'}</div>
+              <div class="text-xs text-slate-500">${tp.disc ? `-${money(tp.disc)} ${escapeHtml(t('comboWord'))}` : '—'}</div>
             </div>
             <button class="pickPack ring-focus px-4 py-2.5 rounded-2xl font-extrabold ${highlight ? 'btn-primary' : 'btn-ghost'}"
               data-pack="${escapeHtml(p.key)}">
@@ -1260,7 +1307,7 @@
             <div class="text-2xl md:text-3xl font-extrabold tracking-tight text-slate-900">${escapeHtml(t('resultsTitle'))}</div>
             <div class="text-slate-600 text-sm mt-1">${escapeHtml(t('resultsSub'))}</div>
           </div>
-          <button id="restart" class="ring-focus px-4 py-2.5 rounded-2xl btn-ghost font-extrabold">${escapeHtml(lang==='en'?'Restart':'Refazer')}</button>
+          <button id="restart" class="ring-focus px-4 py-2.5 rounded-2xl btn-ghost font-extrabold">${escapeHtml(t('restart'))}</button>
         </div>
 
         <div class="grid md:grid-cols-3 gap-3 mb-6">
@@ -1277,7 +1324,7 @@
         </div>
 
         <div class="rounded-3xl border border-blue-200 bg-white p-4 md:p-5 mb-4 shadow-soft">
-          <div class="text-slate-900 font-extrabold mb-2">${escapeHtml(lang==='en'?'Summary (goes to quote)':'Resumo (vai pro orçamento)')}</div>
+          <div class="text-slate-900 font-extrabold mb-2">${escapeHtml(t('summaryTitle'))}</div>
           <pre id="summaryText" class="whitespace-pre-wrap text-sm text-slate-700">${escapeHtml(buildSummaryText())}</pre>
           <div class="mt-3 text-xs text-slate-500">${escapeHtml(t('notes'))}: ${escapeHtml(CATALOG.observacoes || '')}</div>
         </div>
@@ -1303,7 +1350,7 @@
 
     backBtn.classList.remove('hidden');
     skipBtn.classList.add('hidden');
-    nextBtn.textContent = lang==='en' ? 'Back to edit' : 'Voltar para editar';
+    nextBtn.textContent = t('backToEdit');
     nextBtn.disabled = false;
 
     $('restart').addEventListener('click', ()=>{
@@ -1426,6 +1473,7 @@
     if(st?.skippable){
       state.answers[st.id] = null;
       state.step += 1;
+      if(state.step === steps.length) ensureDefaultSelectionOnResults();
       renderCurrent();
     }
   });
@@ -1439,29 +1487,14 @@
     if(!canProceed()) return;
 
     state.step += 1;
-
-    if(state.step === steps.length){
-      if(state.selected.size === 0){
-        const list = topServices(16);
-        const packs = buildPackages(list);
-        (packs.find(p=>p.key==='recommended') || packs[0]).items.forEach(it=>{
-          state.selected.set(it.id, {id:it.id, period:it.period});
-        });
-      }
-    }
+    if(state.step === steps.length) ensureDefaultSelectionOnResults();
     renderCurrent();
   });
 
-  function canProceed(){
-    if(state.step >= steps.length) return true;
-    const st = steps[state.step];
-    const v = state.answers[st.id];
-    if(st.type === 'single') return v !== null && v !== undefined;
-    if(st.type === 'multi') return Array.isArray(v) && v.length >= (st.min || 1);
-    return true;
-  }
-
   function applyCopy(){
+    document.title = t('pageTitle');
+    $('headerTitle').textContent = t('headerTitle');
+
     $('heroBadge').textContent = t('heroBadge');
     $('heroTitle').textContent = t('heroTitle');
     $('heroSub').textContent = t('heroSub');
@@ -1485,8 +1518,10 @@
     $('modalTitle').textContent = t('modalTitle');
     $('modalSub').textContent = t('modalSub');
     $('sideTitle').textContent = t('sideTitle');
+    $('sideHint').textContent = t('sideHint');
     $('sideEmpty').textContent = t('sideEmpty');
     $('simTitle').textContent = t('simTitle');
+    $('simRule').textContent = t('simRule');
     $('lblSub').textContent = t('lblSub');
     $('lblDisc').textContent = t('lblDisc');
     $('lblPlans').textContent = t('lblPlans');
@@ -1495,8 +1530,8 @@
     $('sideStrategy').textContent = t('sideStrategy');
 
     backBtn.textContent = t('back');
-    nextBtn.textContent = t('next');
     skipBtn.textContent = t('skip');
+    nextBtn.textContent = (state.step >= steps.length) ? t('backToEdit') : t('next');
   }
 
   function setLang(newLang){
@@ -1526,7 +1561,6 @@
   applyCopy();
   setLang(lang);
   renderCurrent();
-
 })();
 </script>
 </body>
