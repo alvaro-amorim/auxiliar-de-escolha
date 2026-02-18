@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
   <title>Comercias • Service Finder</title>
 
-  <!-- Premium fonts -->
+  <!-- Premium font -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -27,8 +27,6 @@
   </script>
 
   <style>
-    :root { color-scheme: light; }
-    /* Background: premium gradient + subtle dot */
     body{
       background:
         radial-gradient(1200px 680px at 15% 10%, rgba(99,102,241,.25), transparent 55%),
@@ -55,25 +53,21 @@
     .panel-enter { opacity: 0; transform: translateY(10px) scale(.985); transition: all .18s ease; }
     .panel-enter.show { opacity: 1; transform: translateY(0) scale(1); }
     .ring-focus:focus { outline: none; box-shadow: 0 0 0 5px rgba(99,102,241,.25); }
-    .grad-border{
-      position: relative;
-      border-radius: 22px;
-      overflow: hidden;
-    }
+
+    .grad-border{ position: relative; border-radius: 22px; overflow: hidden; }
     .grad-border:before{
       content:"";
       position:absolute; inset:0;
       padding: 1px;
       border-radius: 22px;
       background: linear-gradient(135deg, rgba(99,102,241,.9), rgba(14,165,233,.85), rgba(168,85,247,.70));
-      -webkit-mask:
-        linear-gradient(#000 0 0) content-box,
-        linear-gradient(#000 0 0);
+      -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
       -webkit-mask-composite: xor;
       mask-composite: exclude;
       pointer-events:none;
       opacity: .55;
     }
+
     .btn-primary{
       background: linear-gradient(90deg, rgba(99,102,241,1), rgba(14,165,233,1));
       box-shadow: 0 18px 45px rgba(99,102,241,.22);
@@ -85,7 +79,6 @@
     }
     .btn-ghost:hover{ background: rgba(255,255,255,.10); }
 
-    /* option cards */
     .opt{
       border: 1px solid rgba(255,255,255,.12);
       background: rgba(255,255,255,.06);
@@ -97,7 +90,6 @@
       border-color: rgba(255,255,255,.22);
     }
 
-    /* mobile modal: bottom-sheet feel */
     @media (max-width: 767px){
       #modalPanel{
         align-self: flex-end;
@@ -112,30 +104,25 @@
 <body class="min-h-screen font-sans text-white">
   <div class="fixed inset-0 dots"></div>
 
-  <!-- Shell -->
   <main class="relative min-h-screen flex items-center justify-center px-4 py-10">
     <div class="w-full max-w-6xl">
-
-      <!-- Header row -->
       <div class="flex items-center justify-between mb-6 md:mb-8">
         <div class="flex items-center gap-3">
           <div class="h-10 w-10 rounded-2xl bg-white/10 border border-white/12 flex items-center justify-center">
             <span class="text-lg">✦</span>
           </div>
           <div>
-            <div class="text-sm text-white/60" id="brandLine">Comercias • Smart Quote</div>
+            <div class="text-sm text-white/60">Comercias • Smart Quote</div>
             <div class="text-lg font-extrabold tracking-tight">Service Finder</div>
           </div>
         </div>
 
-        <!-- Language switch -->
         <div class="inline-flex items-center gap-1 p-1 rounded-2xl btn-ghost">
           <button id="langPTTop" class="ring-focus px-3 py-2 rounded-xl text-sm font-semibold bg-white/10">🇧🇷 PT</button>
           <button id="langENTop" class="ring-focus px-3 py-2 rounded-xl text-sm font-semibold text-white/70">🇺🇸 EN</button>
         </div>
       </div>
 
-      <!-- Hero -->
       <section class="glass rounded-[28px] overflow-hidden">
         <div class="p-6 md:p-10 grid lg:grid-cols-[1.1fr_.9fr] gap-8">
           <div>
@@ -162,7 +149,7 @@
               <div class="rounded-2xl btn-ghost px-4 py-3 text-sm text-white/70 leading-snug">
                 <div class="font-semibold text-white/85" id="miniNoteTitle">Dica rápida</div>
                 <div id="miniNoteText">
-                  Para carregar <code class="px-1.5 py-0.5 rounded bg-white/10 border border-white/12">precos.json</code>, rode via servidor (ex.: Live Server).
+                  Sem arquivo externo: os serviços já estão embutidos no HTML.
                 </div>
               </div>
             </div>
@@ -183,7 +170,6 @@
             </div>
           </div>
 
-          <!-- Right preview -->
           <div class="grad-border">
             <div class="rounded-[22px] bg-black/25 border border-white/10 p-5 md:p-6">
               <div class="flex items-center justify-between mb-4">
@@ -226,7 +212,6 @@
     <div id="backdrop" class="absolute inset-0 bg-black/65"></div>
 
     <div id="modalPanel" class="panel-enter relative w-full md:w-[min(1120px,96vw)] glass rounded-t-[28px] md:rounded-[28px] overflow-hidden max-h-[92vh] md:max-h-[90vh] flex flex-col">
-      <!-- Modal Header -->
       <div class="px-5 md:px-7 py-4 border-b border-white/10 bg-black/15 flex items-center justify-between gap-3">
         <div class="flex items-center gap-3">
           <div class="h-10 w-10 rounded-2xl bg-white/10 border border-white/12 flex items-center justify-center">
@@ -244,23 +229,16 @@
             <button id="langEN" class="ring-focus px-3 py-2 rounded-xl text-sm font-semibold text-white/70">🇺🇸 EN</button>
           </div>
 
-          <button id="closeModal" class="ring-focus px-3 py-2 rounded-2xl btn-ghost text-white/85">
-            ✕
-          </button>
+          <button id="closeModal" class="ring-focus px-3 py-2 rounded-2xl btn-ghost text-white/85">✕</button>
         </div>
       </div>
 
-      <!-- Modal Body -->
       <div class="flex-1 overflow-y-auto">
         <div class="grid md:grid-cols-[1.35fr_.65fr]">
-          <!-- Main content -->
           <div class="p-5 md:p-7">
-            <div id="app">
-              <div class="text-white/70 text-center py-12">Loading…</div>
-            </div>
+            <div id="app"></div>
           </div>
 
-          <!-- Summary panel -->
           <aside class="p-5 md:p-7 border-t md:border-t-0 md:border-l border-white/10 bg-black/15">
             <div class="flex items-center justify-between">
               <h3 class="font-semibold text-white/90" id="sideTitle">Seu resumo</h3>
@@ -278,11 +256,12 @@
             <div class="mt-5 rounded-3xl border border-white/10 bg-white/5 p-4">
               <div class="flex items-center justify-between mb-2">
                 <div class="text-sm font-semibold text-white/90" id="simTitle">Simulação</div>
-                <span class="text-xs text-white/55" id="simHint">live</span>
+                <span class="text-xs text-white/55">live</span>
               </div>
               <div id="sideTotals" class="text-sm text-white/80 space-y-1">
                 <div class="flex justify-between"><span id="lblSub">Subtotal</span><span>—</span></div>
                 <div class="flex justify-between"><span id="lblDisc">Desconto</span><span>—</span></div>
+                <div class="flex justify-between"><span id="lblPlans">Planos</span><span>—</span></div>
                 <div class="flex justify-between font-extrabold"><span id="lblTotal">Total</span><span>—</span></div>
               </div>
               <div class="mt-2 text-xs text-white/55" id="sideNote">*Combos: 2=5%, 3=8%, 4+=12% (simulado).</div>
@@ -295,24 +274,25 @@
         </div>
       </div>
 
-      <!-- Modal Footer (sticky) -->
       <div class="px-5 md:px-7 py-4 border-t border-white/10 bg-black/15 flex items-center justify-between gap-3">
-        <button id="backBtn" class="hidden ring-focus px-4 py-2.5 rounded-2xl btn-ghost text-white/90">
-          Voltar
-        </button>
-
+        <button id="backBtn" class="hidden ring-focus px-4 py-2.5 rounded-2xl btn-ghost text-white/90">Voltar</button>
         <div class="text-xs text-white/55" id="stepCounter">—</div>
-
-        <button id="nextBtn" class="hidden ring-focus px-4 py-2.5 rounded-2xl btn-primary font-bold">
-          Continuar
-        </button>
+        <button id="nextBtn" class="hidden ring-focus px-4 py-2.5 rounded-2xl btn-primary font-bold">Continuar</button>
       </div>
     </div>
   </div>
 
 <script>
-(async function(){
-  // ---------------- DOM ----------------
+(() => {
+  // =========================
+  // 1) DADOS EMBUTIDOS (SEM JSON EXTERNO)
+  // =========================
+  // Se quiser editar preços/serviços, edite SOMENTE este objeto.
+  const EMBEDDED_DATA = {"orcamento":{"observacoes":"Preços podem variar conforme briefing, complexidade, revisões e prazo. Peça orçamento para confirmação.","categorias":[{"nome":"Imagens","servicos":[{"titulo":"Criação de Imagem (Básica)","titulo_venda":"Imagem (Básica)","descricao":"Ideal para posts simples, anúncios e artes rápidas.","extras":"Entrega em alta resolução, 1 variação.","preco":50},{"titulo":"Criação de Imagem (Profissional)","titulo_venda":"Imagem (Profissional)","descricao":"Artes mais elaboradas para campanhas, carrosséis e conteúdo premium.","extras":"2 variações + ajustes finos.","preco":90},{"titulo":"Criação de Imagem (Premium)","titulo_venda":"Imagem (Premium)","descricao":"Direção de arte completa, alto impacto e acabamento premium.","extras":"3 variações + refinamento detalhado.","preco":140}]},{"nome":"Vídeos","servicos":[{"titulo":"Edição de Vídeo (Básica)","titulo_venda":"Vídeo (Básico)","descricao":"Cortes, legenda simples e ajustes básicos.","extras":"Até 30s.","preco":120},{"titulo":"Edição de Vídeo (Profissional)","titulo_venda":"Vídeo (Profissional)","descricao":"Ritmo, cortes avançados, motion e legendas melhores.","extras":"Até 60s.","preco":250},{"titulo":"Edição de Vídeo (Premium)","titulo_venda":"Vídeo (Premium)","descricao":"Edição avançada com estética premium, motion e storytelling.","extras":"Até 90s.","preco":420},{"titulo":"Edição de Vídeo (Sob Consulta)","titulo_venda":"Vídeo (Sob Consulta)","descricao":"Projetos longos, complexos ou com demanda específica.","extras":"Orçamento personalizado.","preco":0}]},{"nome":"Planos de Social Media (Conteúdo Mensal)","servicos":[{"titulo":"Plano Social Media (Básico)","titulo_venda":"Plano Mensal (Básico)","descricao":"Conteúdo mensal para manter presença e consistência.","inclui":["10 imagens por mês","2 vídeos curtos por mês"],"beneficios":["Consistência","Aparência profissional"],"precos_por_periodo":[{"periodo":"Mensal","preco_total_sem_desc":750,"desconto_percentual":0,"preco_total_com_desc":750},{"periodo":"Trimestral","preco_total_sem_desc":2250,"desconto_percentual":10,"preco_total_com_desc":2025},{"periodo":"Semestral","preco_total_sem_desc":4500,"desconto_percentual":15,"preco_total_com_desc":3825},{"periodo":"Anual","preco_total_sem_desc":9000,"desconto_percentual":20,"preco_total_com_desc":7200}]},{"titulo":"Plano Social Media (Profissional)","titulo_venda":"Plano Mensal (Profissional)","descricao":"Para crescer com mais volume e variedade.","inclui":["20 imagens por mês","4 vídeos curtos por mês"],"beneficios":["Maior volume","Melhor performance"],"precos_por_periodo":[{"periodo":"Mensal","preco_total_sem_desc":1400,"desconto_percentual":0,"preco_total_com_desc":1400},{"periodo":"Trimestral","preco_total_sem_desc":4200,"desconto_percentual":10,"preco_total_com_desc":3780},{"periodo":"Semestral","preco_total_sem_desc":8400,"desconto_percentual":15,"preco_total_com_desc":7140},{"periodo":"Anual","preco_total_sem_desc":16800,"desconto_percentual":20,"preco_total_com_desc":13440}]},{"titulo":"Plano Social Media (Premium)","titulo_venda":"Plano Mensal (Premium)","descricao":"Máximo impacto com estética premium + volume alto.","inclui":["30 imagens por mês","8 vídeos curtos por mês"],"beneficios":["Altíssima consistência","Presença forte"],"precos_por_periodo":[{"periodo":"Mensal","preco_total_sem_desc":2500,"desconto_percentual":0,"preco_total_com_desc":2500},{"periodo":"Trimestral","preco_total_sem_desc":7500,"desconto_percentual":10,"preco_total_com_desc":6750},{"periodo":"Semestral","preco_total_sem_desc":15000,"desconto_percentual":15,"preco_total_com_desc":12750},{"periodo":"Anual","preco_total_sem_desc":30000,"desconto_percentual":20,"preco_total_com_desc":24000}]}]},{"nome":"Serviços Avulsos","servicos":[{"titulo":"Criação de Logo","titulo_venda":"Logo","descricao":"Logo profissional para a sua marca.","extras":"2 opções + ajustes.","preco":220},{"titulo":"Identidade Visual","titulo_venda":"Identidade Visual","descricao":"Identidade completa com padrões, cores e tipografia.","extras":"Guia de marca.","preco":480},{"titulo":"Website","titulo_venda":"Website","descricao":"Site institucional simples e elegante.","extras":"Página única / landing.","preco":650},{"titulo":"Roteiro","titulo_venda":"Roteiro","descricao":"Roteiro para vídeos curtos e campanhas.","extras":"Estrutura + CTA.","preco":120},{"titulo":"Narração","titulo_venda":"Narração","descricao":"Narração para vídeos e anúncios.","extras":"Áudio limpo.","preco":150},{"titulo":"Trilha Sonora","titulo_venda":"Trilha Sonora","descricao":"Trilha adequada ao seu conteúdo.","extras":"Escolha/edição.","preco":90},{"titulo":"Copywriting","titulo_venda":"Copywriting","descricao":"Texto persuasivo para anúncios e páginas.","extras":"1 versão + variação.","preco":180},{"titulo":"Pacote de Anúncios","titulo_venda":"Pacote de Anúncios","descricao":"Criativos para campanhas de tráfego pago.","extras":"3 peças.","preco":300}]},{"nome":"Criação de Personagem Personalizado","servicos":[{"titulo":"Personagem (Básico)","titulo_venda":"Personagem (Básico)","descricao":"Criação simples do personagem.","extras":"1 pose.","preco":180},{"titulo":"Personagem (Profissional)","titulo_venda":"Personagem (Profissional)","descricao":"Mais detalhes e acabamento.","extras":"2 poses.","preco":280},{"titulo":"Personagem (Premium)","titulo_venda":"Personagem (Premium)","descricao":"Acabamento premium e mais detalhes.","extras":"3 poses.","preco":380}]},{"nome":"Pacotes de Personagem Personalizado","servicos":[{"titulo":"Pacote Personagem Starter","titulo_venda":"Pacote Starter","descricao":"Personagem + variações para começar.","extras":"4 poses.","preco":520},{"titulo":"Pacote Personagem Pro","titulo_venda":"Pacote Pro","descricao":"Mais poses e expressões.","extras":"8 poses.","preco":920},{"titulo":"Pacote Personagem Premium","titulo_venda":"Pacote Premium","descricao":"Conteúdo completo do personagem.","extras":"12 poses + expressões.","preco":1380},{"titulo":"Pacote Personagem Max","titulo_venda":"Pacote Max","descricao":"Pacote completo sob demanda.","extras":"20 poses + expressões.","preco":2200}]}]}};
+
+  // =========================
+  // 2) DOM
+  // =========================
   const modal = document.getElementById('modal');
   const modalPanel = document.getElementById('modalPanel');
   const openModalBtn = document.getElementById('openModal');
@@ -333,37 +313,36 @@
   const langPT = document.getElementById('langPT');
   const langEN = document.getElementById('langEN');
 
-  // ---------------- utils ----------------
-  function escapeHtml(s){ return String(s).replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
-  function setFade(html){
+  // =========================
+  // 3) Utils
+  // =========================
+  const escapeHtml = (s)=> String(s).replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const setFade = (html)=>{
     app.innerHTML = html;
     const el = app.querySelector('.fade');
     if(el) setTimeout(()=>el.classList.add('show'), 10);
-  }
-  function formatPrice(n){
-    const num = Number(n);
-    if(!isFinite(num)) return String(n);
-    return new Intl.NumberFormat(currentLang === 'en' ? 'en-US' : 'pt-BR', {style:'currency', currency:'BRL'}).format(num);
-  }
-  function showModal(){
+  };
+  const showModal = ()=>{
     modal.classList.remove('hidden');
     modal.classList.add('flex');
     setTimeout(()=>modalPanel.classList.add('show'), 10);
-  }
-  function hideModal(){
+  };
+  const hideModal = ()=>{
     modalPanel.classList.remove('show');
     setTimeout(()=>{
       modal.classList.add('hidden');
       modal.classList.remove('flex');
     }, 160);
-  }
+  };
 
   openModalBtn.addEventListener('click', showModal);
   closeModalBtn.addEventListener('click', hideModal);
   backdrop.addEventListener('click', hideModal);
   window.addEventListener('keydown', (e)=>{ if(e.key === 'Escape' && !modal.classList.contains('hidden')) hideModal(); });
 
-  // ---------------- i18n ----------------
+  // =========================
+  // 4) i18n
+  // =========================
   const i18n = {
     pt: {
       heroBadge:"Quiz inteligente • Combos • Simulação de desconto",
@@ -371,7 +350,7 @@
       heroSub:"Responda em ~2 minutos. No final, selecione os serviços e vá para o orçamento já preenchido.",
       ctaStart:"Começar quiz",
       miniNoteTitle:"Dica rápida",
-      miniNoteText:"Para carregar precos.json, rode via servidor (ex.: Live Server).",
+      miniNoteText:"Sem arquivo externo: os serviços já estão embutidos no HTML.",
       b1t:"Recomendação automática", b1s:"Sugere serviços e pacotes com base no objetivo.",
       b2t:"Upsell inteligente", b2s:"Planos e add-ons aparecem só quando fazem sentido.",
       b3t:"Finaliza com 1 clique", b3s:"Direciona para o orçamento com tudo preenchido.",
@@ -389,13 +368,13 @@
       simTitle:"Simulação",
       lblSub:"Subtotal (avulsos)",
       lblDisc:"Desconto combo",
+      lblPlans:"Planos",
       lblTotal:"Total",
       sideNote:"*Combos: 2=5%, 3=8%, 4+=12% (simulado).",
       sideStrategy:"Estratégia: começamos no essencial e evoluímos para maior impacto.",
       back:"Voltar",
       next:"Continuar",
 
-      // quiz
       startTitle:"Monte seu orçamento em 2 minutos",
       startSubtitle:"Responda algumas perguntas e receba pacotes recomendados + simulação de economia.",
       startCTA:"Começar",
@@ -489,7 +468,7 @@
       heroSub:"Answer in ~2 minutes. Then select services and go to a pre-filled quote form.",
       ctaStart:"Start quiz",
       miniNoteTitle:"Quick tip",
-      miniNoteText:"To load precos.json, run via a local server (e.g., Live Server).",
+      miniNoteText:"No external file: services are embedded in this HTML.",
       b1t:"Auto recommendations", b1s:"Suggests services and bundles based on your goal.",
       b2t:"Smart upsell", b2s:"Plans and add-ons appear only when it makes sense.",
       b3t:"Finish in 1 click", b3s:"Redirects to a pre-filled quote page.",
@@ -507,6 +486,7 @@
       simTitle:"Simulation",
       lblSub:"Subtotal (one-offs)",
       lblDisc:"Bundle discount",
+      lblPlans:"Plans",
       lblTotal:"Total",
       sideNote:"*Bundles: 2=5%, 3=8%, 4+=12% (simulated).",
       sideStrategy:"Strategy: start with essentials, then boost impact.",
@@ -606,113 +586,22 @@
     const nav = (navigator.language || 'pt').toLowerCase();
     currentLang = nav.startsWith('en') ? 'en' : 'pt';
   }
-  function t(k){ return i18n[currentLang]?.[k] ?? k; }
+  const t = (k)=> i18n[currentLang]?.[k] ?? k;
 
-  function setLang(lang){
-    currentLang = lang;
-    localStorage.setItem('comercias_lang', lang);
-
-    // top toggles
-    langPTTop.classList.toggle('bg-white/10', lang==='pt');
-    langENTop.classList.toggle('bg-white/10', lang==='en');
-    langPTTop.classList.toggle('text-white/70', lang!=='pt');
-    langENTop.classList.toggle('text-white/70', lang!=='en');
-
-    // modal toggles
-    langPT.classList.toggle('bg-white/10', lang==='pt');
-    langEN.classList.toggle('bg-white/10', lang==='en');
-    langPT.classList.toggle('text-white/70', lang!=='pt');
-    langEN.classList.toggle('text-white/70', lang!=='en');
-
-    applyCopy();
-    // re-render current screen / results
-    if(state.index >= questions.length) renderResults(true);
-    else renderQuestion(state.index, true);
-  }
-
-  langPTTop.addEventListener('click', ()=>setLang('pt'));
-  langENTop.addEventListener('click', ()=>setLang('en'));
-  langPT.addEventListener('click', ()=>setLang('pt'));
-  langEN.addEventListener('click', ()=>setLang('en'));
-
-  function applyCopy(){
-    document.getElementById('heroBadge').textContent = t('heroBadge');
-    document.getElementById('heroTitle').textContent = t('heroTitle');
-    document.getElementById('heroSub').textContent = t('heroSub');
-    document.getElementById('ctaStart').textContent = t('ctaStart');
-    document.getElementById('miniNoteTitle').textContent = t('miniNoteTitle');
-    document.getElementById('miniNoteText').innerHTML = t('miniNoteText')
-      .replace('precos.json', `<code class="px-1.5 py-0.5 rounded bg-white/10 border border-white/12">precos.json</code>`);
-    document.getElementById('b1t').textContent = t('b1t');
-    document.getElementById('b1s').textContent = t('b1s');
-    document.getElementById('b2t').textContent = t('b2t');
-    document.getElementById('b2s').textContent = t('b2s');
-    document.getElementById('b3t').textContent = t('b3t');
-    document.getElementById('b3s').textContent = t('b3s');
-    document.getElementById('previewTitle').textContent = t('previewTitle');
-    document.getElementById('previewTime').textContent = t('previewTime');
-    document.getElementById('p1t').textContent = t('p1t');
-    document.getElementById('p1s').textContent = t('p1s');
-    document.getElementById('p2t').textContent = t('p2t');
-    document.getElementById('p2s').textContent = t('p2s');
-    document.getElementById('p3t').textContent = t('p3t');
-    document.getElementById('p3s').textContent = t('p3s');
-    document.getElementById('dealTitle').textContent = t('dealTitle');
-    document.getElementById('dealText').textContent = t('dealText');
-    document.getElementById('footerLine').textContent = t('footerLine');
-
-    document.getElementById('modalTitle').textContent = t('modalTitle');
-    document.getElementById('modalSub').textContent = t('modalSub');
-    document.getElementById('sideTitle').textContent = t('sideTitle');
-    document.getElementById('sideEmpty').textContent = t('sideEmpty');
-    document.getElementById('simTitle').textContent = t('simTitle');
-    document.getElementById('lblSub').textContent = t('lblSub');
-    document.getElementById('lblDisc').textContent = t('lblDisc');
-    document.getElementById('lblTotal').textContent = t('lblTotal');
-    document.getElementById('sideNote').textContent = t('sideNote');
-    document.getElementById('sideStrategy').textContent = t('sideStrategy');
-    backBtn.textContent = t('back');
-    nextBtn.textContent = t('next');
-  }
-
-  // init copy + toggles state
-  setLang(currentLang);
-
-  // ---------------- Load precos.json ----------------
-  let dadosJSON;
-  try {
-    const res = await fetch('precos.json');
-    if(!res.ok) throw new Error('Falha ao carregar precos.json — abra via servidor ou coloque o arquivo na mesma pasta.');
-    dadosJSON = await res.json();
-  } catch(err) {
-    setFade(`<div class="fade">
-      <div class="rounded-3xl border border-red-500/30 bg-red-500/10 p-4 md:p-5">
-        <div class="font-extrabold text-lg">Oops</div>
-        <div class="text-white/75 text-sm mt-1">${escapeHtml(err.message)}</div>
-      </div>
-    </div>`);
-    console.error(err);
-    return;
-  }
-
+  // =========================
+  // 5) Inicialização dos dados
+  // =========================
+  const dadosJSON = EMBEDDED_DATA;
   const categorias = (dadosJSON.orcamento && Array.isArray(dadosJSON.orcamento.categorias)) ? dadosJSON.orcamento.categorias : [];
   const observacoes = (dadosJSON.orcamento && dadosJSON.orcamento.observacoes) ? dadosJSON.orcamento.observacoes : '';
-  if(!categorias.length){
-    setFade(`<div class="fade">
-      <div class="rounded-3xl border border-red-500/30 bg-red-500/10 p-5">
-        JSON loaded but no categories found in <code>orcamento.categorias</code>.
-      </div>
-    </div>`);
-    return;
-  }
 
-  // ---------------- Normalize services ----------------
-  function toArrayText(arr){ return Array.isArray(arr) ? arr.join(' ') : ''; }
+  // Normaliza serviços
+  const toArrayText = (arr)=> Array.isArray(arr) ? arr.join(' ') : '';
   const allServices = [];
   categorias.forEach(cat=>{
     (cat.servicos||[]).forEach((s, idx)=>{
       const isPlan = Array.isArray(s.precos_por_periodo) && s.precos_por_periodo.length;
-      const displayTitle = s.titulo_venda || s.titulo || 'Serviço';
+      const displayTitle = s.titulo_venda || s.titulo || 'Service';
 
       const fullText = [
         displayTitle, s.titulo||'', s.descricao||'', s.extras||'',
@@ -738,7 +627,9 @@
     });
   });
 
-  // ---------------- Quiz questions ----------------
+  // =========================
+  // 6) Questões (agora SEM depender de fetch)
+  // =========================
   const questions = [
     { id:'start', type:'screen' },
     { id:'objetivo', type:'single', textKey:'q_objective', options:[
@@ -801,13 +692,23 @@
     ]}
   ];
 
+  // =========================
+  // 7) Formatação / Totais / Scoring
+  // =========================
   const state = { answers:{}, index:0 };
-  let selectedMap = new Map(); // id -> {id,kind,period?}
+  let selectedMap = new Map();
 
-  // ---------------- Scoring / bundles ----------------
-  function textForService(s){ return s.__fullText || ''; }
+  const formatPrice = (n)=>{
+    const num = Number(n);
+    if(!isFinite(num)) return String(n);
+    return new Intl.NumberFormat(currentLang === 'en' ? 'en-US' : 'pt-BR', {style:'currency', currency:'BRL'}).format(num);
+  };
 
-  function scoreService(s, a){
+  const comboDiscountPerc = (qtd)=> (qtd>=4?12:(qtd===3?8:(qtd===2?5:0)));
+
+  const getServiceById = (id)=> allServices.find(s=>s.__id===id);
+
+  const scoreService = (s, a)=>{
     let score = 0;
     if(a.tipo && a.tipo !== '__AUTO__' && s.__categoria === a.tipo) score += 6;
 
@@ -821,69 +722,35 @@
       }
     }
 
-    const txt = textForService(s);
+    const txt = (s.__fullText||'');
     if(a.objetivo === 'vendas'){
       if(/\bvenda|vendas|convers|promo|campanh|ads|an[uú]ncio|cta|oferta|reserv/ig.test(txt)) score += 5;
-      if(/\bshort|storytelling|reels|tiktok|impact/ig.test(txt)) score += 2;
     }
     if(a.objetivo === 'social'){
       if(s.__isPlan) score += (a.frequencia === 'mensal' ? 10 : 6);
       if(/\binstagram|tiktok|reels|shorts|stories|conte[uú]do|feed/ig.test(txt)) score += 4;
-      if(/\bimagem|artes?|pack\b|v[ií]deo/ig.test(txt)) score += 2;
     }
     if(a.objetivo === 'branding'){
-      if(/\blogo|identidade|brand|marca|website|site|manual|mascote|personagem/ig.test(txt)) score += 6;
-      if(/\bpremium|institucional|corporativo/ig.test(txt)) score += 2;
+      if(/\blogo|identidade|brand|marca|website|site|manual/ig.test(txt)) score += 6;
     }
     if(a.objetivo === 'educativo'){
-      if(/\btutorial|trein|curso|explic|ensaio|podcast|roteiro/ig.test(txt)) score += 5;
-      if(/\bv[ií]deo|narra|dublag/ig.test(txt)) score += 2;
+      if(/\btutorial|trein|curso|explic|roteiro/ig.test(txt)) score += 5;
+      if(/\bnarra/ig.test(txt)) score += 2;
     }
 
     const canais = Array.isArray(a.canais) ? a.canais : [];
-    if(canais.includes('instagram') || canais.includes('tiktok') || canais.includes('shorts')){
-      if(/\breels|tiktok|shorts|stories|vertical|15s|30s/ig.test(txt)) score += 2;
-    }
-    if(canais.includes('site')){
-      if(/\bwebsite|site|landing|corporativo/ig.test(txt)) score += 3;
-    }
-    if(canais.includes('whatsapp')){
-      if(/\bpack|imagem|arte|card|story|stories|banner/ig.test(txt)) score += 2;
-    }
+    if(canais.includes('site') && /\bwebsite|site|landing/ig.test(txt)) score += 3;
+    if((canais.includes('instagram')||canais.includes('tiktok')||canais.includes('shorts')) && /\breels|tiktok|shorts|vertical/ig.test(txt)) score += 2;
 
-    const mats = Array.isArray(a.materiais) ? a.materiais : [];
-    if(mats.includes('nada') && /\bidentidade|logo/ig.test(txt)) score += 4;
-
-    if(a.volume){
-      if(/imagens/i.test((s.__categoria||'').toLowerCase())){
-        if(a.volume === 'baixo' && /\b5\b|visual r[aá]pido/ig.test(txt)) score += 3;
-        if(a.volume === 'medio' && /\b10\b|engajamento/ig.test(txt)) score += 3;
-        if(a.volume === 'alto' && /\b15\b|crescimento/ig.test(txt)) score += 3;
-      }
-      if(/v[ií]deos/i.test((s.__categoria||'').toLowerCase())){
-        if(a.volume === 'baixo' && /\b15\b|short/ig.test(txt)) score += 3;
-        if(a.volume === 'medio' && /\b30\b|storytelling/ig.test(txt)) score += 3;
-        if(a.volume === 'alto' && /\b60\b|premium/ig.test(txt)) score += 3;
-      }
-    }
-
-    if(a.prazo === '3d' && /\br[aá]pid|express|1 dia|prazo acelerado/ig.test(txt)) score += 2;
-    if(a.estilo === 'premium' && /\bpremium|corporativo|institucional/ig.test(txt)) score += 1;
+    if(a.prazo === '3d' && /\br[aá]pid|express/ig.test(txt)) score += 2;
+    if(a.estilo === 'premium' && /\bpremium|institucional|corporativo/ig.test(txt)) score += 1;
     if(a.estilo === 'promo' && /\bpromo|oferta|impact/ig.test(txt)) score += 1;
     if(a.estilo === 'clean' && /\bminimal|clean|simples/ig.test(txt)) score += 1;
-    if(a.estilo === 'criativo' && /\bcriativ|divertid|mascote|personagem/ig.test(txt)) score += 1;
 
     return score;
-  }
+  };
 
-  function comboDiscountPerc(qtd){
-    if(qtd >= 4) return 12;
-    if(qtd === 3) return 8;
-    if(qtd === 2) return 5;
-    return 0;
-  }
-
-  function pickTopServices(a, limit){
+  const pickTopServices = (a, limit)=>{
     const budget = Number(a.orcamento) || Infinity;
     const scored = allServices.map(s => ({ s, score: scoreService(s, a) }));
     const filtered = scored.filter(x=>{
@@ -899,78 +766,17 @@
     });
     const top = filtered.filter(x=>x.score > 0).slice(0, limit).map(x=>x.s);
     return top.length ? top : filtered.slice(0, limit).map(x=>x.s);
-  }
+  };
 
-  function getServiceById(id){ return allServices.find(s=>s.__id===id); }
-
-  function findServiceByRegex(re){
-    return allServices.find(s => re.test((s.__displayTitle||'')+' '+(s.titulo||'')+' '+(s.descricao||'')));
-  }
-
-  function buildPackages(a, topList){
-    const budget = Number(a.orcamento) || Infinity;
-    const bestImages = topList.find(s => /imagens/i.test(s.__categoria));
-    const bestVideo  = topList.find(s => /v[ií]deos/i.test(s.__categoria));
-    const bestPlan   = topList.find(s => s.__isPlan);
-
-    const identity = findServiceByRegex(/\bidentidade|logo\b/i);
-    const website  = findServiceByRegex(/\bwebsite|site\b/i);
-    const narra    = findServiceByRegex(/\bnarra/i);
-    const trilha   = findServiceByRegex(/\btrilha/i);
-
-    function withinBudget(s){
-      if(!s) return false;
-      if(budget === 999999) return true;
-      if(typeof s.__priceMin !== 'number') return true;
-      return s.__priceMin <= budget;
-    }
-
-    const mats = Array.isArray(a.materiais) ? a.materiais : [];
-    const needsIdentity = mats.includes('nada') || !mats.includes('tem_logo');
-
-    const essential = [];
-    if(a.objetivo === 'social' && (a.frequencia === 'mensal' || a.frequencia === 'semanal') && bestPlan && withinBudget(bestPlan)){
-      essential.push({id: bestPlan.__id, kind:'plan', period:'Mensal'});
-    } else {
-      if(bestImages && withinBudget(bestImages)) essential.push({id: bestImages.__id, kind:'service'});
-      if(bestVideo && withinBudget(bestVideo) && (a.objetivo==='vendas' || a.objetivo==='educativo')) essential.push({id: bestVideo.__id, kind:'service'});
-      if(!essential.length && topList[0]) essential.push({id: topList[0].__id, kind:'service'});
-    }
-
-    const recommended = essential.slice();
-    if(needsIdentity && identity && withinBudget(identity)) recommended.unshift({id: identity.__id, kind:'service'});
-    if(narra && withinBudget(narra) && !recommended.find(x=>x.id===narra.__id) && (a.objetivo!=='branding')) recommended.push({id: narra.__id, kind:'service'});
-    if(trilha && withinBudget(trilha) && !recommended.find(x=>x.id===trilha.__id) && (a.objetivo==='vendas' || a.objetivo==='social')) recommended.push({id: trilha.__id, kind:'service'});
-    if(a.objetivo === 'social' && bestPlan && withinBudget(bestPlan) && !recommended.find(x=>x.id===bestPlan.__id)){
-      recommended.unshift({id: bestPlan.__id, kind:'plan', period:'Mensal'});
-    }
-
-    const aggressive = recommended.slice();
-    if(a.objetivo === 'branding' && website && withinBudget(website) && !aggressive.find(x=>x.id===website.__id)){
-      aggressive.push({id: website.__id, kind:'service'});
-    }
-    topList.slice(0,6).forEach(s=>{
-      if(aggressive.length >= 6) return;
-      if(!aggressive.find(x=>x.id===s.__id) && withinBudget(s)){
-        aggressive.push({id: s.__id, kind: s.__isPlan ? 'plan' : 'service', period: s.__isPlan ? 'Mensal' : undefined});
-      }
-    });
-
-    return [
-      { tierKey:'tier_essential', badgeKey:'badge_essential', idx:0, items: essential },
-      { tierKey:'tier_recommended', badgeKey:'badge_recommended', idx:1, items: recommended },
-      { tierKey:'tier_aggressive', badgeKey:'badge_aggressive', idx:2, items: aggressive }
-    ];
-  }
-
-  function computeTotals(selected){
+  const computeTotals = (selectedArr)=>{
     let avulsoSubtotal = 0;
     let planTotal = 0;
     let planSavings = 0;
+
     const avulsos = [];
     const plans = [];
 
-    selected.forEach(it=>{
+    selectedArr.forEach(it=>{
       const s = getServiceById(it.id);
       if(!s) return;
       if(s.__isPlan) plans.push({ s, period: it.period || 'Mensal' });
@@ -1005,29 +811,107 @@
 
     const total = avulsoTotal + planTotal;
     return { avulsoSubtotal, comboPerc, comboDiscount, planTotal, planSavings, total };
-  }
+  };
 
-  function renderTotalsBox(tot){
+  const renderTotalsBox = (tot)=>{
     const discLabel = tot.comboPerc ? `-${tot.comboPerc}%` : '—';
     sideTotals.innerHTML = `
-      <div class="flex justify-between"><span>${escapeHtml(t('lblSub'))}</span><span>${formatPrice(tot.avulsoSubtotal)}</span></div>
+      <div class="flex justify-between"><span>${escapeHtml(t('lblSub'))}</span><span>${formatPrice(tot.avulsoSubtotal||0)}</span></div>
       <div class="flex justify-between"><span>${escapeHtml(t('lblDisc'))} ${escapeHtml(discLabel)}</span><span>${tot.comboDiscount ? '-'+formatPrice(tot.comboDiscount) : '—'}</span></div>
-      <div class="flex justify-between"><span>Plans</span><span>${tot.planTotal ? formatPrice(tot.planTotal) : '—'}</span></div>
-      <div class="flex justify-between font-extrabold"><span>${escapeHtml(t('lblTotal'))}</span><span>${formatPrice(tot.total)}</span></div>
+      <div class="flex justify-between"><span>${escapeHtml(t('lblPlans'))}</span><span>${tot.planTotal ? formatPrice(tot.planTotal) : '—'}</span></div>
+      <div class="flex justify-between font-extrabold"><span>${escapeHtml(t('lblTotal'))}</span><span>${formatPrice(tot.total||0)}</span></div>
     `;
-  }
+  };
 
-  // ---------------- Sidebar summary + progress ----------------
-  function updateProgress(){
+  // =========================
+  // 8) UI copy + idioma (SEM render antes de init)
+  // =========================
+  let initialized = false;
+
+  const applyCopy = ()=>{
+    document.getElementById('heroBadge').textContent = t('heroBadge');
+    document.getElementById('heroTitle').textContent = t('heroTitle');
+    document.getElementById('heroSub').textContent = t('heroSub');
+    document.getElementById('ctaStart').textContent = t('ctaStart');
+    document.getElementById('miniNoteTitle').textContent = t('miniNoteTitle');
+    document.getElementById('miniNoteText').textContent = t('miniNoteText');
+
+    document.getElementById('b1t').textContent = t('b1t');
+    document.getElementById('b1s').textContent = t('b1s');
+    document.getElementById('b2t').textContent = t('b2t');
+    document.getElementById('b2s').textContent = t('b2s');
+    document.getElementById('b3t').textContent = t('b3t');
+    document.getElementById('b3s').textContent = t('b3s');
+
+    document.getElementById('previewTitle').textContent = t('previewTitle');
+    document.getElementById('previewTime').textContent = t('previewTime');
+    document.getElementById('p1t').textContent = t('p1t');
+    document.getElementById('p1s').textContent = t('p1s');
+    document.getElementById('p2t').textContent = t('p2t');
+    document.getElementById('p2s').textContent = t('p2s');
+    document.getElementById('p3t').textContent = t('p3t');
+    document.getElementById('p3s').textContent = t('p3s');
+    document.getElementById('dealTitle').textContent = t('dealTitle');
+    document.getElementById('dealText').textContent = t('dealText');
+    document.getElementById('footerLine').textContent = t('footerLine');
+
+    document.getElementById('modalTitle').textContent = t('modalTitle');
+    document.getElementById('modalSub').textContent = t('modalSub');
+    document.getElementById('sideTitle').textContent = t('sideTitle');
+    document.getElementById('sideEmpty').textContent = t('sideEmpty');
+    document.getElementById('simTitle').textContent = t('simTitle');
+    document.getElementById('lblSub').textContent = t('lblSub');
+    document.getElementById('lblDisc').textContent = t('lblDisc');
+    document.getElementById('lblPlans').textContent = t('lblPlans');
+    document.getElementById('lblTotal').textContent = t('lblTotal');
+    document.getElementById('sideNote').textContent = t('sideNote');
+    document.getElementById('sideStrategy').textContent = t('sideStrategy');
+    backBtn.textContent = t('back');
+    nextBtn.textContent = t('next');
+  };
+
+  const setLang = (lang)=>{
+    currentLang = lang;
+    localStorage.setItem('comercias_lang', lang);
+
+    // toggles
+    langPTTop.classList.toggle('bg-white/10', lang==='pt');
+    langENTop.classList.toggle('bg-white/10', lang==='en');
+    langPTTop.classList.toggle('text-white/70', lang!=='pt');
+    langENTop.classList.toggle('text-white/70', lang!=='en');
+
+    langPT.classList.toggle('bg-white/10', lang==='pt');
+    langEN.classList.toggle('bg-white/10', lang==='en');
+    langPT.classList.toggle('text-white/70', lang!=='pt');
+    langEN.classList.toggle('text-white/70', lang!=='en');
+
+    applyCopy();
+    renderTotalsBox(computeTotals(Array.from(selectedMap.values())));
+
+    if(initialized){
+      if(state.index >= questions.length) renderResults();
+      else renderQuestion(state.index);
+    }
+  };
+
+  langPTTop.addEventListener('click', ()=>setLang('pt'));
+  langENTop.addEventListener('click', ()=>setLang('en'));
+  langPT.addEventListener('click', ()=>setLang('pt'));
+  langEN.addEventListener('click', ()=>setLang('en'));
+
+  // =========================
+  // 9) Sidebar / progress
+  // =========================
+  const updateProgress = ()=>{
     const visible = questions.filter(q=>q.type!=='screen').length;
     const currentVisible = Math.max(0, questions.slice(0, state.index).filter(q=>q.type!=='screen').length);
     const pct = Math.round((currentVisible / visible) * 100);
     progressBar.style.width = `${Math.min(100, Math.max(0, pct))}%`;
     progressText.textContent = `${Math.min(100, Math.max(0, pct))}%`;
     stepCounter.textContent = state.index === 0 ? '—' : `${currentVisible} / ${visible}`;
-  }
+  };
 
-  function renderSideSummary(){
+  const renderSideSummary = ()=>{
     const labels = currentLang === 'en'
       ? { objetivo:'Goal', canais:'Channels', frequencia:'Frequency', tipo:'Type', materiais:'Assets', volume:'Volume', estilo:'Style', formato:'Preference', orcamento:'Budget', prazo:'Deadline' }
       : { objetivo:'Objetivo', canais:'Canais', frequencia:'Frequência', tipo:'Tipo', materiais:'Materiais', volume:'Volume', estilo:'Estilo', formato:'Preferência', orcamento:'Orçamento', prazo:'Prazo' };
@@ -1051,50 +935,31 @@
     sideSummary.innerHTML = lines.length
       ? `<div class="space-y-2">${lines.join('')}</div>`
       : `<div class="text-white/55">${escapeHtml(t('sideEmpty'))}</div>`;
-  }
+  };
 
-  function showNavButtons(showBack, showNext){
+  const showNavButtons = (showBack, showNext)=>{
     backBtn.classList.toggle('hidden', !showBack);
     nextBtn.classList.toggle('hidden', !showNext);
-  }
+  };
 
-  // ---------------- Render questions ----------------
-  function renderQuestion(index, silent){
+  // =========================
+  // 10) Render do quiz
+  // =========================
+  const renderQuestion = (index)=>{
     state.index = index;
     updateProgress();
     renderSideSummary();
-
-    if(index >= questions.length){
-      renderResults(silent);
-      return;
-    }
-
-    const q = questions[index];
     showNavButtons(index > 0, false);
 
-    // start screen
+    if(index >= questions.length){ renderResults(); return; }
+    const q = questions[index];
+
     if(q.type === 'screen'){
       setFade(`
         <div class="fade">
           <div class="rounded-3xl border border-white/10 bg-white/5 p-5 md:p-6">
             <div class="text-2xl md:text-3xl font-extrabold tracking-tight">${escapeHtml(t('startTitle'))}</div>
             <div class="mt-2 text-white/70">${escapeHtml(t('startSubtitle'))}</div>
-
-            <div class="mt-5 grid md:grid-cols-3 gap-3">
-              <div class="rounded-2xl border border-white/10 bg-white/5 p-4">
-                <div class="font-semibold">${escapeHtml(t('b1t'))}</div>
-                <div class="text-sm text-white/65 mt-1">${escapeHtml(t('b1s'))}</div>
-              </div>
-              <div class="rounded-2xl border border-white/10 bg-white/5 p-4">
-                <div class="font-semibold">${escapeHtml(t('b2t'))}</div>
-                <div class="text-sm text-white/65 mt-1">${escapeHtml(t('b2s'))}</div>
-              </div>
-              <div class="rounded-2xl border border-white/10 bg-white/5 p-4">
-                <div class="font-semibold">${escapeHtml(t('b3t'))}</div>
-                <div class="text-sm text-white/65 mt-1">${escapeHtml(t('b3s'))}</div>
-              </div>
-            </div>
-
             <button id="startQuiz" class="mt-6 w-full ring-focus btn-primary px-6 py-3.5 rounded-2xl font-extrabold inline-flex items-center justify-center gap-2">
               ${escapeHtml(t('startCTA'))}
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" class="opacity-90">
@@ -1105,16 +970,15 @@
         </div>
       `);
       document.getElementById('startQuiz').addEventListener('click', ()=>renderQuestion(index+1));
+      backBtn.onclick = ()=>{};
       return;
     }
 
-    // single
     if(q.type === 'single'){
       const opts = q.options.map(o=>{
         const label = o.labelKey ? t(o.labelKey) : (o.label || String(o.value));
         return `
-          <button class="opt ring-focus w-full text-left rounded-3xl px-4 py-4"
-            data-val="${escapeHtml(o.value)}">
+          <button class="opt ring-focus w-full text-left rounded-3xl px-4 py-4" data-val="${escapeHtml(o.value)}">
             <div class="flex items-start justify-between gap-3">
               <div>
                 <div class="font-bold text-white/95">${escapeHtml(label)}</div>
@@ -1147,7 +1011,6 @@
       return;
     }
 
-    // multi
     if(q.type === 'multi'){
       const current = Array.isArray(state.answers[q.id]) ? state.answers[q.id] : [];
       const min = q.min || 1;
@@ -1195,7 +1058,7 @@
           if(cur.includes(val)) cur = cur.filter(x=>x!==val);
           else cur.push(val);
           state.answers[q.id] = cur;
-          renderQuestion(index); // re-render to update chips
+          renderQuestion(index);
         });
       });
 
@@ -1210,64 +1073,83 @@
     }
 
     renderQuestion(index+1);
-  }
+  };
 
-  // ---------------- Results rendering ----------------
-  function applyPackage(pkg){
+  // =========================
+  // 11) Resultados + redirect por idioma
+  // =========================
+  const applyPackage = (items)=>{
     selectedMap.clear();
-    pkg.items.forEach(it=>selectedMap.set(it.id, {id:it.id, kind:it.kind, period:it.period}));
-  }
+    items.forEach(it=>selectedMap.set(it.id, {id:it.id, period:it.period}));
+  };
 
-  function toggleService(id){
+  const toggleService = (id)=>{
     if(selectedMap.has(id)) selectedMap.delete(id);
     else{
       const s = getServiceById(id);
       if(!s) return;
-      selectedMap.set(id, {id, kind: s.__isPlan ? 'plan' : 'service', period: s.__isPlan ? 'Mensal' : undefined});
+      selectedMap.set(id, {id, period: s.__isPlan ? 'Mensal' : undefined});
     }
-  }
+  };
 
-  function updatePlanPeriod(id, period){
+  const updatePlanPeriod = (id, period)=>{
     const it = selectedMap.get(id);
     if(it){ it.period = period; selectedMap.set(id, it); }
-  }
+  };
 
-  function buildSummaryText(){
-    const a = state.answers;
-    const canais = Array.isArray(a.canais) ? a.canais.join(', ') : String(a.canais||'');
-    const mats = Array.isArray(a.materiais) ? a.materiais.join(', ') : String(a.materiais||'');
-    const tipo = (a.tipo === '__AUTO__') ? t('type_auto') : a.tipo;
-    const prazo = (a.prazo === '__SKIP__') ? t('d_skip') : (a.prazo || '—');
+  const findServiceByRegex = (re)=> allServices.find(s => re.test((s.__displayTitle||'')+' '+(s.titulo||'')+' '+(s.descricao||'')));
 
-    if(currentLang === 'en'){
-      return [
-        `- Goal: ${a.objetivo}`,
-        `- Channels: ${canais}`,
-        `- Frequency: ${a.frequencia}`,
-        `- Type: ${tipo}`,
-        `- Assets: ${mats}`,
-        `- Volume: ${a.volume}`,
-        `- Style: ${a.estilo}`,
-        `- Preference: ${a.formato}`,
-        `- Budget: R$${a.orcamento}`,
-        `- Deadline: ${prazo}`
-      ].join('\n');
+  const buildPackages = (a, topList)=>{
+    const budget = Number(a.orcamento) || Infinity;
+    const withinBudget = (s)=>{
+      if(!s) return false;
+      if(budget === 999999) return true;
+      if(typeof s.__priceMin !== 'number') return true;
+      return s.__priceMin <= budget;
+    };
+
+    const bestImages = topList.find(s => /imagens/i.test(s.__categoria));
+    const bestVideo  = topList.find(s => /vídeos|videos/i.test(s.__categoria));
+    const bestPlan   = topList.find(s => s.__isPlan);
+
+    const identity = findServiceByRegex(/\bidentidade\b|\blogo\b/i);
+    const website  = findServiceByRegex(/\bwebsite\b|\bsite\b/i);
+    const narra    = findServiceByRegex(/\bnarra/i);
+
+    const mats = Array.isArray(a.materiais) ? a.materiais : [];
+    const needsIdentity = mats.includes('nada') || !mats.includes('tem_logo');
+
+    const essential = [];
+    if(a.objetivo === 'social' && (a.frequencia === 'mensal' || a.frequencia === 'semanal') && bestPlan && withinBudget(bestPlan)){
+      essential.push({id: bestPlan.__id, period:'Mensal'});
+    } else {
+      if(bestImages && withinBudget(bestImages)) essential.push({id: bestImages.__id});
+      if(bestVideo && withinBudget(bestVideo) && (a.objetivo==='vendas' || a.objetivo==='educativo')) essential.push({id: bestVideo.__id});
+      if(!essential.length && topList[0]) essential.push({id: topList[0].__id});
     }
-    return [
-      `- Objetivo: ${a.objetivo}`,
-      `- Canais: ${canais}`,
-      `- Frequência: ${a.frequencia}`,
-      `- Tipo: ${tipo}`,
-      `- Materiais: ${mats}`,
-      `- Volume: ${a.volume}`,
-      `- Estilo: ${a.estilo}`,
-      `- Preferência: ${a.formato}`,
-      `- Orçamento: R$${a.orcamento}`,
-      `- Prazo: ${prazo}`
-    ].join('\n');
-  }
 
-  function servicesForChecklist(topList){
+    const recommended = essential.slice();
+    if(needsIdentity && identity && withinBudget(identity) && !recommended.find(x=>x.id===identity.__id)) recommended.unshift({id: identity.__id});
+    if(narra && withinBudget(narra) && !recommended.find(x=>x.id===narra.__id) && (a.objetivo!=='branding')) recommended.push({id: narra.__id});
+    if(a.objetivo === 'social' && bestPlan && withinBudget(bestPlan) && !recommended.find(x=>x.id===bestPlan.__id)) recommended.unshift({id: bestPlan.__id, period:'Mensal'});
+
+    const aggressive = recommended.slice();
+    if(a.objetivo === 'branding' && website && withinBudget(website) && !aggressive.find(x=>x.id===website.__id)) aggressive.push({id: website.__id});
+    topList.slice(0,6).forEach(s=>{
+      if(aggressive.length >= 6) return;
+      if(!aggressive.find(x=>x.id===s.__id) && withinBudget(s)){
+        aggressive.push({id: s.__id, period: s.__isPlan ? 'Mensal' : undefined});
+      }
+    });
+
+    return [
+      { tierKey:'tier_essential', badgeKey:'badge_essential', idx:0, items: essential },
+      { tierKey:'tier_recommended', badgeKey:'badge_recommended', idx:1, items: recommended },
+      { tierKey:'tier_aggressive', badgeKey:'badge_aggressive', idx:2, items: aggressive }
+    ];
+  };
+
+  const servicesForChecklist = (topList)=>{
     const seen = new Set();
     const list = [];
     const byCat = {};
@@ -1285,9 +1167,49 @@
       if(!seen.has(s.__id)){ list.push(s); seen.add(s.__id); }
     });
     return list.slice(0,12);
-  }
+  };
 
-  function renderResults(silent){
+  const buildSummaryText = ()=>{
+    const a = state.answers;
+    const canais = Array.isArray(a.canais) ? a.canais.join(', ') : String(a.canais||'');
+    const mats = Array.isArray(a.materiais) ? a.materiais.join(', ') : String(a.materiais||'');
+    const tipo = (a.tipo === '__AUTO__') ? t('type_auto') : a.tipo;
+    const prazo = (a.prazo === '__SKIP__') ? t('d_skip') : (a.prazo || '—');
+
+    const totals = computeTotals(Array.from(selectedMap.values()));
+    const totalsLine = currentLang === 'en'
+      ? `\n- Estimated total: ${formatPrice(totals.total)}`
+      : `\n- Total estimado: ${formatPrice(totals.total)}`;
+
+    if(currentLang === 'en'){
+      return [
+        `- Goal: ${a.objetivo}`,
+        `- Channels: ${canais}`,
+        `- Frequency: ${a.frequencia}`,
+        `- Type: ${tipo}`,
+        `- Assets: ${mats}`,
+        `- Volume: ${a.volume}`,
+        `- Style: ${a.estilo}`,
+        `- Preference: ${a.formato}`,
+        `- Budget: R$${a.orcamento}`,
+        `- Deadline: ${prazo}`
+      ].join('\n') + totalsLine;
+    }
+    return [
+      `- Objetivo: ${a.objetivo}`,
+      `- Canais: ${canais}`,
+      `- Frequência: ${a.frequencia}`,
+      `- Tipo: ${tipo}`,
+      `- Materiais: ${mats}`,
+      `- Volume: ${a.volume}`,
+      `- Estilo: ${a.estilo}`,
+      `- Preferência: ${a.formato}`,
+      `- Orçamento: R$${a.orcamento}`,
+      `- Prazo: ${prazo}`
+    ].join('\n') + totalsLine;
+  };
+
+  const renderResults = ()=>{
     updateProgress();
     renderSideSummary();
     showNavButtons(false, false);
@@ -1296,7 +1218,8 @@
     for(const r of required){
       if(typeof state.answers[r] === 'undefined'){
         const idx = questions.findIndex(q=>q.id===r);
-        return renderQuestion(idx >= 0 ? idx : 0);
+        renderQuestion(idx >= 0 ? idx : 0);
+        return;
       }
     }
 
@@ -1304,21 +1227,196 @@
     const packages = buildPackages(state.answers, topList);
 
     if(selectedMap.size === 0){
-      applyPackage(packages[1] || packages[0]); // start with Recommended
+      applyPackage((packages[1] || packages[0]).items);
     }
 
-    function computePayload(){
-      const selectedArr = Array.from(selectedMap.values());
-      const totals = computeTotals(selectedArr);
+    const selectedArr = Array.from(selectedMap.values());
+    const totals = computeTotals(selectedArr);
+    renderTotalsBox(totals);
 
-      const selectedDetail = selectedArr.map(it=>{
+    const pkgHtml = packages.map(pkg=>{
+      const tier = t(pkg.tierKey);
+      const badge = t(pkg.badgeKey);
+      const highlight = pkg.idx === 1;
+
+      const simTotals = computeTotals(pkg.items);
+      const itemsList = pkg.items.map(it=>{
+        const s = getServiceById(it.id);
+        if(!s) return '';
+        const planTxt = s.__isPlan ? `<span class="text-xs text-white/50">(Mensal)</span>` : '';
+        return `<li class="text-sm text-white/80">${escapeHtml(s.__displayTitle)} ${planTxt}</li>`;
+      }).join('');
+
+      return `
+        <div class="rounded-3xl p-4 md:p-5 border ${highlight ? 'border-white/25 bg-white/10' : 'border-white/10 bg-white/5'}">
+          <div class="flex items-center justify-between gap-3">
+            <div class="text-lg font-extrabold">${escapeHtml(tier)}</div>
+            <span class="text-xs px-2 py-1 rounded-full border border-white/10 bg-white/5 text-white/80 font-semibold">${escapeHtml(badge)}</span>
+          </div>
+
+          <ul class="mt-3 list-disc list-inside space-y-1">${itemsList}</ul>
+
+          <div class="mt-4 flex items-end justify-between gap-3">
+            <div>
+              <div class="text-xs text-white/55">${escapeHtml(t('estimatedTotal'))}</div>
+              <div class="text-xl font-extrabold text-emerald-300">${formatPrice(simTotals.total)}</div>
+            </div>
+            <button class="applyPkg ring-focus px-4 py-2.5 rounded-2xl font-extrabold ${highlight ? 'btn-primary text-white' : 'bg-white text-slate-900'}"
+              data-idx="${pkg.idx}">
+              ${escapeHtml(t('apply'))}
+            </button>
+          </div>
+
+          <div class="mt-3 text-xs text-white/50">${escapeHtml(t('simulated'))}</div>
+        </div>
+      `;
+    }).join('');
+
+    const checklistItems = servicesForChecklist(topList).map(s=>{
+      const checked = selectedMap.has(s.__id) ? 'checked' : '';
+      const priceLabel = s.__isPlan
+        ? (s.precos_por_periodo?.[0]?.preco_total_com_desc ? `${formatPrice(s.precos_por_periodo[0].preco_total_com_desc)}` : '—')
+        : formatPrice(s.__priceMin ?? s.preco ?? 0);
+
+      let planSelect = '';
+      if(s.__isPlan && selectedMap.has(s.__id)){
+        const it = selectedMap.get(s.__id);
+        const opts = (Array.isArray(s.precos_por_periodo) ? s.precos_por_periodo : []).map(p=>{
+          const selected = (String(it.period||'Mensal').toLowerCase() === String(p.periodo).toLowerCase()) ? 'selected' : '';
+          const econ = (Number(p.preco_total_sem_desc||0) - Number(p.preco_total_com_desc||0));
+          const econTxt = econ > 0 ? ` • ${t('saves')} ${formatPrice(econ)}` : '';
+          return `<option value="${escapeHtml(p.periodo)}" ${selected}>${escapeHtml(p.periodo)} — ${formatPrice(p.preco_total_com_desc)}${econTxt}</option>`;
+        }).join('');
+        planSelect = `
+          <div class="mt-3">
+            <label class="text-xs text-white/55">${escapeHtml(t('planPeriod'))}</label>
+            <select class="planPeriod ring-focus mt-1 w-full border border-white/10 bg-white/6 rounded-2xl px-3 py-2.5 text-sm text-white"
+              data-id="${escapeHtml(s.__id)}">
+              ${opts}
+            </select>
+          </div>
+        `;
+      }
+
+      return `
+        <label class="rounded-3xl border border-white/10 bg-white/5 hover:bg-white/10 transition-all p-4 flex gap-3">
+          <input type="checkbox" class="svcCheck mt-1.5 h-4 w-4 accent-indigo-400" data-id="${escapeHtml(s.__id)}" ${checked}>
+          <div class="flex-1">
+            <div class="flex items-start justify-between gap-3">
+              <div>
+                <div class="font-bold text-white/95">${escapeHtml(s.__displayTitle)}</div>
+                <div class="text-xs text-white/50 mt-0.5">${escapeHtml(s.__categoria)}</div>
+              </div>
+              <div class="text-emerald-300 font-extrabold whitespace-nowrap">${escapeHtml(priceLabel)}</div>
+            </div>
+            <div class="mt-2 text-sm text-white/70">
+              ${escapeHtml((s.descricao||'').slice(0,165))}${(s.descricao||'').length>165?'…':''}
+            </div>
+            ${planSelect}
+          </div>
+        </label>
+      `;
+    }).join('');
+
+    const summaryText = buildSummaryText();
+
+    setFade(`
+      <div class="fade">
+        <div class="flex items-start justify-between gap-3 mb-5">
+          <div>
+            <div class="text-2xl md:text-3xl font-extrabold tracking-tight">${escapeHtml(t('resultsTitle'))}</div>
+            <div class="text-white/65 text-sm mt-1">${escapeHtml(t('resultsSub'))}</div>
+          </div>
+          <button id="redo" class="ring-focus px-4 py-2.5 rounded-2xl btn-ghost font-bold">${escapeHtml(t('redo'))}</button>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-3 mb-6">
+          ${pkgHtml}
+        </div>
+
+        <div class="flex items-center justify-between gap-3 mb-2">
+          <div class="text-white font-extrabold text-lg">${escapeHtml(t('customizeTitle'))}</div>
+          <div class="text-xs text-white/55">${escapeHtml(t('customizeHint'))}</div>
+        </div>
+
+        <div class="grid gap-3 mb-6">${checklistItems}</div>
+
+        <div class="rounded-3xl border border-white/10 bg-white/5 p-4 md:p-5 mb-5">
+          <div class="text-white font-extrabold mb-2">${escapeHtml(t('summaryAuto'))}</div>
+          <pre class="whitespace-pre-wrap text-sm text-white/80">${escapeHtml(summaryText)}</pre>
+        </div>
+
+        <div class="flex flex-col sm:flex-row gap-3">
+          <button id="finalize" class="ring-focus btn-primary flex-1 px-6 py-3.5 rounded-2xl font-extrabold inline-flex items-center justify-center gap-2">
+            ${escapeHtml(t('finalize'))}
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" class="opacity-90">
+              <path d="M8 5l8 7-8 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+          <button id="copy" class="ring-focus btn-ghost px-6 py-3.5 rounded-2xl font-extrabold">${escapeHtml(t('copy'))}</button>
+        </div>
+
+        <div class="mt-4 text-xs text-white/55">
+          ${escapeHtml(t('notes'))}: ${escapeHtml(observacoes || '—')}
+        </div>
+      </div>
+    `);
+
+    document.querySelectorAll('.applyPkg').forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        const idx = Number(btn.dataset.idx);
+        const pkg = packages.find(p=>p.idx===idx);
+        if(pkg){
+          applyPackage(pkg.items);
+          renderResults();
+        }
+      });
+    });
+
+    document.querySelectorAll('.svcCheck').forEach(ch=>{
+      ch.addEventListener('change', ()=>{
+        toggleService(ch.dataset.id);
+        renderTotalsBox(computeTotals(Array.from(selectedMap.values())));
+        renderResults();
+      });
+    });
+
+    document.querySelectorAll('.planPeriod').forEach(sel=>{
+      sel.addEventListener('change', ()=>{
+        updatePlanPeriod(sel.dataset.id, sel.value);
+        renderTotalsBox(computeTotals(Array.from(selectedMap.values())));
+      });
+    });
+
+    document.getElementById('redo').addEventListener('click', ()=>{
+      state.answers = {};
+      state.index = 0;
+      selectedMap.clear();
+      renderTotalsBox({avulsoSubtotal:0,comboPerc:0,comboDiscount:0,planTotal:0,planSavings:0,total:0});
+      renderQuestion(0);
+    });
+
+    document.getElementById('copy').addEventListener('click', async ()=>{
+      try{
+        await navigator.clipboard.writeText(summaryText);
+        const b = document.getElementById('copy');
+        b.textContent = t('copied');
+        setTimeout(()=>b.textContent = t('copy'), 1200);
+      }catch(e){
+        alert(currentLang==='en'
+          ? 'Could not copy automatically. Please select and copy manually.'
+          : 'Não foi possível copiar automaticamente. Selecione e copie manualmente.');
+      }
+    });
+
+    document.getElementById('finalize').addEventListener('click', ()=>{
+      const selectedDetail = Array.from(selectedMap.values()).map(it=>{
         const s = getServiceById(it.id);
         if(!s) return null;
 
         let price = s.__priceMin ?? s.preco ?? 0;
         if(s.__isPlan && Array.isArray(s.precos_por_periodo)){
           const opt = s.precos_por_periodo.find(p => String(p.periodo).toLowerCase() === String(it.period||'Mensal').toLowerCase())
-                   || s.precos_por_periodo.find(p => String(p.periodo).toLowerCase().includes(String(it.period||'Mensal').toLowerCase()))
                    || s.precos_por_periodo[0];
           if(opt) price = Number(opt.preco_total_com_desc || price);
         }
@@ -1332,231 +1430,31 @@
         };
       }).filter(Boolean);
 
-      const totalsPayload = {
-        avulsoSubtotal: totals.avulsoSubtotal,
-        comboPerc: totals.comboPerc,
-        comboDiscount: totals.comboDiscount,
-        planTotal: totals.planTotal,
-        planSavings: totals.planSavings,
-        total: totals.total
-      };
+      const encodedResumo = encodeURIComponent(summaryText);
+      const encodedServices = encodeURIComponent(JSON.stringify(selectedDetail));
 
-      return { totals, selectedDetail, totalsPayload };
-    }
+      const base = (currentLang === 'en')
+        ? 'https://www.comercias.com.br/en/orcamento'
+        : 'https://www.comercias.com.br/pt/orcamento';
 
-    function renderAll(){
-      const { totals, selectedDetail, totalsPayload } = computePayload();
-      renderTotalsBox(totals);
+      window.location.href = `${base}?servicos=${encodedServices}&resumo=${encodedResumo}`;
+    });
+  };
 
-      const pkgHtml = packages.map(pkg=>{
-        const tier = t(pkg.tierKey);
-        const badge = t(pkg.badgeKey);
-        const isHighlight = pkg.idx === 1;
+  // =========================
+  // 12) Init
+  // =========================
+  renderTotalsBox({avulsoSubtotal:0,comboPerc:0,comboDiscount:0,planTotal:0,planSavings:0,total:0});
 
-        const simulatedTotals = computeTotals(pkg.items);
-        const savingBits = [];
-        if(simulatedTotals.comboDiscount > 0) savingBits.push(`combo: -${formatPrice(simulatedTotals.comboDiscount)}`);
-        if(simulatedTotals.planSavings > 0) savingBits.push(`plan: -${formatPrice(simulatedTotals.planSavings)}`);
-
-        const itemsList = pkg.items.map(it=>{
-          const s = getServiceById(it.id);
-          if(!s) return '';
-          const planTxt = s.__isPlan ? `<span class="text-xs text-white/50">(Mensal)</span>` : '';
-          return `<li class="text-sm text-white/80">${escapeHtml(s.__displayTitle)} ${planTxt}</li>`;
-        }).join('');
-
-        return `
-          <div class="rounded-3xl p-4 md:p-5 border ${isHighlight ? 'border-white/25 bg-white/10' : 'border-white/10 bg-white/5'}">
-            <div class="flex items-center justify-between gap-3">
-              <div class="text-lg font-extrabold">${escapeHtml(tier)}</div>
-              <span class="text-xs px-2 py-1 rounded-full border border-white/10 bg-white/5 text-white/80 font-semibold">${escapeHtml(badge)}</span>
-            </div>
-
-            <ul class="mt-3 list-disc list-inside space-y-1">${itemsList}</ul>
-
-            <div class="mt-4 flex items-end justify-between gap-3">
-              <div>
-                <div class="text-xs text-white/55">${escapeHtml(t('estimatedTotal'))}</div>
-                <div class="text-xl font-extrabold text-emerald-300">${formatPrice(simulatedTotals.total)}</div>
-                <div class="text-xs text-white/55">${savingBits.length ? `(${savingBits.join(' + ')})` : '—'}</div>
-              </div>
-              <button class="applyPkg ring-focus px-4 py-2.5 rounded-2xl font-extrabold ${isHighlight ? 'btn-primary text-white' : 'bg-white text-slate-900'}"
-                data-idx="${pkg.idx}">
-                ${escapeHtml(t('apply'))}
-              </button>
-            </div>
-
-            <div class="mt-3 text-xs text-white/50">${escapeHtml(t('simulated'))}</div>
-          </div>
-        `;
-      }).join('');
-
-      const checklistItems = servicesForChecklist(topList).map(s=>{
-        const checked = selectedMap.has(s.__id) ? 'checked' : '';
-        const priceLabel = s.__isPlan
-          ? (s.precos_por_periodo?.[0]?.preco_total_com_desc ? `${formatPrice(s.precos_por_periodo[0].preco_total_com_desc)}` : '—')
-          : formatPrice(s.__priceMin ?? s.preco ?? 0);
-
-        let planSelect = '';
-        if(s.__isPlan && selectedMap.has(s.__id)){
-          const it = selectedMap.get(s.__id);
-          const opts = (Array.isArray(s.precos_por_periodo) ? s.precos_por_periodo : []).map(p=>{
-            const selected = (String(it.period||'Mensal').toLowerCase() === String(p.periodo).toLowerCase()) ? 'selected' : '';
-            const econ = (Number(p.preco_total_sem_desc||0) - Number(p.preco_total_com_desc||0));
-            const econTxt = econ > 0 ? ` • ${t('saves')} ${formatPrice(econ)}` : '';
-            return `<option value="${escapeHtml(p.periodo)}" ${selected}>${escapeHtml(p.periodo)} — ${formatPrice(p.preco_total_com_desc)}${econTxt}</option>`;
-          }).join('');
-          planSelect = `
-            <div class="mt-3">
-              <label class="text-xs text-white/55">${escapeHtml(t('planPeriod'))}</label>
-              <select class="planPeriod ring-focus mt-1 w-full border border-white/10 bg-white/6 rounded-2xl px-3 py-2.5 text-sm text-white"
-                data-id="${escapeHtml(s.__id)}">
-                ${opts}
-              </select>
-            </div>
-          `;
-        }
-
-        return `
-          <label class="rounded-3xl border border-white/10 bg-white/5 hover:bg-white/10 transition-all p-4 flex gap-3">
-            <input type="checkbox" class="svcCheck mt-1.5 h-4 w-4 accent-indigo-400" data-id="${escapeHtml(s.__id)}" ${checked}>
-            <div class="flex-1">
-              <div class="flex items-start justify-between gap-3">
-                <div>
-                  <div class="font-bold text-white/95">${escapeHtml(s.__displayTitle)}</div>
-                  <div class="text-xs text-white/50 mt-0.5">${escapeHtml(s.__categoria)}</div>
-                </div>
-                <div class="text-emerald-300 font-extrabold whitespace-nowrap">${escapeHtml(priceLabel)}</div>
-              </div>
-              <div class="mt-2 text-sm text-white/70">
-                ${escapeHtml((s.descricao||'').slice(0,165))}${(s.descricao||'').length>165?'…':''}
-              </div>
-              ${planSelect}
-            </div>
-          </label>
-        `;
-      }).join('');
-
-      const summaryText = buildSummaryText();
-
-      setFade(`
-        <div class="fade">
-          <div class="flex items-start justify-between gap-3 mb-5">
-            <div>
-              <div class="text-2xl md:text-3xl font-extrabold tracking-tight">${escapeHtml(t('resultsTitle'))}</div>
-              <div class="text-white/65 text-sm mt-1">${escapeHtml(t('resultsSub'))}</div>
-            </div>
-            <button id="redo" class="ring-focus px-4 py-2.5 rounded-2xl btn-ghost font-bold">${escapeHtml(t('redo'))}</button>
-          </div>
-
-          <div class="grid md:grid-cols-3 gap-3 mb-6">
-            ${pkgHtml}
-          </div>
-
-          <div class="flex items-center justify-between gap-3 mb-2">
-            <div class="text-white font-extrabold text-lg">${escapeHtml(t('customizeTitle'))}</div>
-            <div class="text-xs text-white/55">${escapeHtml(t('customizeHint'))}</div>
-          </div>
-
-          <div class="grid gap-3 mb-6">
-            ${checklistItems}
-          </div>
-
-          <div class="rounded-3xl border border-white/10 bg-white/5 p-4 md:p-5 mb-5">
-            <div class="text-white font-extrabold mb-2">${escapeHtml(t('summaryAuto'))}</div>
-            <pre class="whitespace-pre-wrap text-sm text-white/80">${escapeHtml(summaryText)}</pre>
-          </div>
-
-          <div class="flex flex-col sm:flex-row gap-3">
-            <button id="finalize" class="ring-focus btn-primary flex-1 px-6 py-3.5 rounded-2xl font-extrabold inline-flex items-center justify-center gap-2">
-              ${escapeHtml(t('finalize'))}
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" class="opacity-90">
-                <path d="M8 5l8 7-8 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-            </button>
-            <button id="copy" class="ring-focus btn-ghost px-6 py-3.5 rounded-2xl font-extrabold">${escapeHtml(t('copy'))}</button>
-          </div>
-
-          <div class="mt-4 text-xs text-white/55">
-            ${escapeHtml(t('notes'))}: ${escapeHtml(observacoes || '—')}
-          </div>
-
-          <textarea id="payloadServices" class="hidden">${escapeHtml(JSON.stringify(selectedDetail))}</textarea>
-          <textarea id="payloadTotals" class="hidden">${escapeHtml(JSON.stringify(totalsPayload))}</textarea>
-        </div>
-      `);
-
-      // bindings
-      document.querySelectorAll('.applyPkg').forEach(btn=>{
-        btn.addEventListener('click', ()=>{
-          const idx = Number(btn.dataset.idx);
-          const pkg = packages.find(p=>p.idx===idx);
-          if(pkg){
-            applyPackage(pkg);
-            renderAll();
-          }
-        });
-      });
-
-      document.querySelectorAll('.svcCheck').forEach(ch=>{
-        ch.addEventListener('change', ()=>{
-          toggleService(ch.dataset.id);
-          renderAll();
-        });
-      });
-
-      document.querySelectorAll('.planPeriod').forEach(sel=>{
-        sel.addEventListener('change', ()=>{
-          updatePlanPeriod(sel.dataset.id, sel.value);
-          renderAll();
-        });
-      });
-
-      document.getElementById('redo').addEventListener('click', ()=>{
-        state.answers = {};
-        state.index = 0;
-        selectedMap.clear();
-        renderTotalsBox({avulsoSubtotal:0,comboPerc:0,comboDiscount:0,planTotal:0,planSavings:0,total:0});
-        renderQuestion(0);
-      });
-
-      document.getElementById('copy').addEventListener('click', async ()=>{
-        try{
-          await navigator.clipboard.writeText(summaryText);
-          const btn = document.getElementById('copy');
-          btn.textContent = t('copied');
-          setTimeout(()=>btn.textContent = t('copy'), 1200);
-        }catch(e){
-          alert(currentLang==='en' ? 'Could not copy automatically. Please select and copy manually.' : 'Não foi possível copiar automaticamente. Selecione e copie manualmente.');
-        }
-      });
-
-      document.getElementById('finalize').addEventListener('click', ()=>{
-        const encodedResumo = encodeURIComponent(summaryText);
-        const encodedServices = encodeURIComponent(JSON.stringify(selectedDetail));
-        const encodedTotals = encodeURIComponent(JSON.stringify(totalsPayload));
-
-        // language-based final links (as requested)
-        const base = (currentLang === 'en')
-          ? 'https://www.comercias.com.br/en/orcamento'
-          : 'https://www.comercias.com.br/pt/orcamento';
-
-        window.location.href = `${base}?servicos=${encodedServices}&resumo=${encodedResumo}&totais=${encodedTotals}`;
-      });
-    }
-
-    renderAll();
-  }
-
-  // ---------------- footer nav buttons (kept for future) ----------------
   backBtn.addEventListener('click', ()=>{ if(state.index > 0) renderQuestion(state.index - 1); });
   nextBtn.addEventListener('click', ()=>{ renderQuestion(state.index + 1); });
 
-  // ---------------- init ----------------
-  renderTotalsBox({avulsoSubtotal:0,comboPerc:0,comboDiscount:0,planTotal:0,planSavings:0,total:0});
+  // aplica idioma e só depois marca como initialized e renderiza
+  applyCopy();
+  initialized = true;
+  setLang(currentLang);
   renderQuestion(0);
-
-})(); // end IIFE
+})();
 </script>
 </body>
 </html>
