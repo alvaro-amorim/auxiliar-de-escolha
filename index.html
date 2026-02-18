@@ -3,1565 +3,1772 @@
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
-  <title>Comerc IAs • Orçamento</title>
-
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-
+  <title>Comerc IAs — Orçamento Instantâneo</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          fontFamily: { sans: ['Plus Jakarta Sans', 'ui-sans-serif', 'system-ui'] },
-          boxShadow: {
-            premium: '0 22px 60px rgba(2, 62, 138, .18)',
-            soft: '0 14px 34px rgba(2, 62, 138, .12)',
-          }
-        }
-      }
-    }
-  </script>
-
   <style>
     :root{
-      --ink: #0b1220;
-      --muted: #52627a;
-      --muted2: #73839a;
-      --blue-900:#0b3a7e;
-      --blue-800:#0a4aa0;
-      --blue-700:#0b5ed7;
-      --blue-600:#1d7afc;
-      --blue-200:#cfe5ff;
-      --blue-100:#e8f3ff;
-      --line: rgba(11,94,215,.18);
-      --panel: rgba(255,255,255,.92);
+      --c1:#0B5FFF;  /* blue */
+      --c2:#0A2E6B;  /* deep */
+      --bg1:#F6FAFF; /* soft */
     }
-
-    body{
-      color: var(--ink);
-      background:
-        radial-gradient(1100px 620px at 10% 0%, rgba(29,122,252,.18), transparent 55%),
-        radial-gradient(900px 520px at 92% 12%, rgba(11,94,215,.12), transparent 55%),
-        radial-gradient(880px 560px at 50% 98%, rgba(29,122,252,.10), transparent 60%),
-        linear-gradient(180deg, #f6fbff, #ffffff);
-    }
-
-    .dots{
-      background-image: radial-gradient(rgba(11,94,215,.10) 1px, transparent 1px);
-      background-size: 18px 18px;
-      mask-image: radial-gradient(circle at 30% 18%, black 0%, transparent 65%);
-      opacity: .55;
-      pointer-events:none;
-    }
-
     .glass{
-      background: var(--panel);
-      border: 1px solid var(--line);
+      background: rgba(255,255,255,.78);
       backdrop-filter: blur(14px);
       -webkit-backdrop-filter: blur(14px);
-      box-shadow: 0 22px 60px rgba(2, 62, 138, .18);
+      border: 1px solid rgba(11,95,255,.12);
     }
-
-    .panel{
-      background: linear-gradient(180deg, #ffffff, #fbfdff);
-      border: 1px solid rgba(11,94,215,.14);
-      box-shadow: 0 14px 34px rgba(2, 62, 138, .10);
+    .shadow-premium{
+      box-shadow:
+        0 20px 45px rgba(10,46,107,.12),
+        0 2px 10px rgba(10,46,107,.06);
     }
-
-    .btn-primary{
-      background: linear-gradient(90deg, var(--blue-700), var(--blue-600));
-      color: #fff;
-      box-shadow: 0 16px 42px rgba(29,122,252,.22);
-      transition: transform .14s ease, filter .14s ease;
-    }
-    .btn-primary:hover{ filter: brightness(1.03); transform: translateY(-1px); }
-
-    .btn-ghost{
-      background: #fff;
-      border: 1px solid rgba(11,94,215,.18);
-      color: var(--blue-900);
-      transition: background .14s ease;
-    }
-    .btn-ghost:hover{ background: var(--blue-100); }
-
-    .ring-focus:focus{ outline:none; box-shadow: 0 0 0 6px rgba(29,122,252,.18); }
-
-    .fade{ opacity:0; transform: translateY(10px); transition: all .20s ease; }
+    .fade{ opacity:0; transform: translateY(10px); transition: all .28s ease; }
     .fade.show{ opacity:1; transform: translateY(0); }
-
-    .opt{
-      border: 1px solid rgba(11,94,215,.16);
-      background: #fff;
-      transition: transform .14s ease, background .14s ease, border-color .14s ease;
+    .btn{
+      border-radius: 16px;
+      transition: transform .12s ease, box-shadow .18s ease, background .18s ease, border-color .18s ease;
     }
-    .opt:hover{
+    .btn:active{ transform: translateY(1px); }
+    .option-card{
+      border-radius: 18px;
+      border: 1px solid rgba(11,95,255,.14);
+      background: rgba(255,255,255,.88);
+      transition: transform .12s ease, box-shadow .18s ease, border-color .18s ease;
+    }
+    .option-card:hover{
       transform: translateY(-1px);
-      background: #f3f9ff;
-      border-color: rgba(11,94,215,.26);
+      border-color: rgba(11,95,255,.28);
+      box-shadow: 0 12px 24px rgba(10,46,107,.10);
     }
-    .opt.active{
-      background: linear-gradient(180deg, #f1f8ff, #ffffff);
-      border-color: rgba(11,94,215,.40);
+    .pill{
+      border-radius: 999px;
+      border: 1px solid rgba(11,95,255,.16);
     }
-
-    .chip{
-      border: 1px solid rgba(11,94,215,.18);
-      background: #fff;
-      color: var(--blue-900);
-      transition: background .14s ease, border-color .14s ease, transform .14s ease;
+    .ring-brand:focus{
+      outline: none;
+      box-shadow: 0 0 0 4px rgba(11,95,255,.18);
     }
-    .chip:hover{ background: var(--blue-100); transform: translateY(-1px); }
-    .chip.active{
-      background: linear-gradient(90deg, rgba(11,94,215,.12), rgba(29,122,252,.10));
-      border-color: rgba(11,94,215,.42);
-      color: var(--blue-900);
-    }
-
-    .grad-border{
-      position: relative;
-      border-radius: 22px;
-      overflow: hidden;
-    }
-    .grad-border:before{
-      content:"";
-      position:absolute; inset:0;
-      padding: 1px;
-      border-radius: 22px;
-      background: linear-gradient(135deg, rgba(11,94,215,.60), rgba(29,122,252,.55), rgba(11,74,160,.55));
-      -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-      -webkit-mask-composite: xor;
-      mask-composite: exclude;
-      pointer-events:none;
-      opacity: .9;
-    }
-
-    #modalPanel{ transform: translateY(10px) scale(.99); opacity:0; transition: all .16s ease; }
-    #modalPanel.show{ transform: translateY(0) scale(1); opacity:1; }
-
-    @media (max-width: 767px){
-      #modalPanel{
-        border-bottom-left-radius: 0 !important;
-        border-bottom-right-radius: 0 !important;
-        align-self: flex-end;
-        max-height: 92vh;
-      }
-      .stickyMobileBar{
-        position: sticky;
-        bottom: 0;
-        z-index: 10;
-        background: rgba(255,255,255,.92);
-        backdrop-filter: blur(12px);
-        -webkit-backdrop-filter: blur(12px);
-        border-top: 1px solid rgba(11,94,215,.16);
-      }
-    }
+    .scrollbar-thin::-webkit-scrollbar{ height: 8px; width: 10px; }
+    .scrollbar-thin::-webkit-scrollbar-thumb{ background: rgba(11,95,255,.18); border-radius: 999px; }
+    .scrollbar-thin::-webkit-scrollbar-track{ background: rgba(11,95,255,.06); border-radius: 999px; }
   </style>
 </head>
 
-<body class="min-h-screen font-sans">
-  <div class="fixed inset-0 dots"></div>
-
-  <main class="relative min-h-screen flex items-center justify-center px-4 py-10">
-    <div class="w-full max-w-6xl">
-
-      <div class="flex items-center justify-between mb-6 md:mb-8">
+<body class="min-h-screen bg-[radial-gradient(1200px_600px_at_10%_10%,rgba(11,95,255,.14),transparent_55%),radial-gradient(900px_500px_at_90%_0%,rgba(11,95,255,.10),transparent_45%),linear-gradient(180deg,var(--bg1),#ffffff)] text-slate-900">
+  <div class="p-4 sm:p-6 md:p-10 flex items-center justify-center">
+    <div class="w-full max-w-5xl glass shadow-premium rounded-[28px] overflow-hidden">
+      <!-- Top bar -->
+      <div class="px-5 sm:px-7 py-4 sm:py-5 border-b border-blue-100/60 flex items-center justify-between gap-3">
         <div class="flex items-center gap-3">
-          <div class="h-10 w-10 rounded-2xl bg-white border border-blue-200 flex items-center justify-center shadow-soft">
-            <span class="text-sm font-extrabold text-blue-800">CI</span>
+          <div class="w-10 h-10 rounded-2xl bg-blue-600 text-white flex items-center justify-center font-black tracking-tight">
+            CI
           </div>
-          <div>
-            <div class="text-sm text-slate-600" id="brandName">Comerc IAs</div>
-            <div class="text-lg font-extrabold tracking-tight text-slate-900" id="headerTitle">Orçamento • Seletor de Serviços</div>
-          </div>
-        </div>
-
-        <div class="inline-flex items-center gap-1 p-1 rounded-2xl btn-ghost">
-          <button id="langPTTop" class="ring-focus px-3 py-2 rounded-xl text-sm font-semibold bg-blue-50">🇧🇷 PT</button>
-          <button id="langENTop" class="ring-focus px-3 py-2 rounded-xl text-sm font-semibold text-slate-600">🇺🇸 EN</button>
-        </div>
-      </div>
-
-      <section class="glass rounded-[28px] overflow-hidden">
-        <div class="p-6 md:p-10 grid lg:grid-cols-[1.1fr_.9fr] gap-8">
-          <div>
-            <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue-50 border border-blue-200 text-xs text-blue-900">
-              <span class="inline-block h-2 w-2 rounded-full bg-blue-600"></span>
-              <span id="heroBadge">Quiz • Pacotes • Economia por combo</span>
-            </div>
-
-            <h1 id="heroTitle" class="mt-4 text-3xl md:text-5xl font-extrabold tracking-tight leading-[1.05] text-slate-900">
-              Encontre o pacote ideal para o seu objetivo.
-            </h1>
-
-            <p id="heroSub" class="mt-4 text-slate-600 text-base md:text-lg max-w-2xl">
-              Responda em ~2 minutos. No final, selecione serviços, veja o total estimado e vá para o orçamento pré-preenchido.
-            </p>
-
-            <div class="mt-6 flex flex-col sm:flex-row gap-3">
-              <button id="openModal" class="ring-focus btn-primary transition-all px-6 py-3.5 rounded-2xl font-extrabold inline-flex items-center justify-center gap-2">
-                <span id="ctaStart">Começar</span>
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" class="opacity-95">
-                  <path d="M8 5l8 7-8 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-              </button>
-
-              <div class="rounded-2xl btn-ghost px-4 py-3 text-sm text-slate-700 leading-snug">
-                <div class="font-semibold text-blue-900" id="miniNoteTitle">Comerc IAs</div>
-                <div id="miniNoteText">Escolha um pacote pronto ou personalize selecionando serviços.</div>
-              </div>
-            </div>
-
-            <div class="mt-6 grid sm:grid-cols-3 gap-3">
-              <div class="rounded-2xl panel p-4">
-                <div class="font-semibold text-slate-900" id="b1t">Direto ao ponto</div>
-                <div class="text-slate-600 text-sm mt-1" id="b1s">Perguntas objetivas para recomendar o melhor caminho.</div>
-              </div>
-              <div class="rounded-2xl panel p-4">
-                <div class="font-semibold text-slate-900" id="b2t">Pacotes prontos</div>
-                <div class="text-slate-600 text-sm mt-1" id="b2s">Essencial • Recomendado • Scale.</div>
-              </div>
-              <div class="rounded-2xl panel p-4">
-                <div class="font-semibold text-slate-900" id="b3t">Finalização rápida</div>
-                <div class="text-slate-600 text-sm mt-1" id="b3s">Vai para o orçamento com tudo pré-preenchido.</div>
-              </div>
-            </div>
-          </div>
-
-          <div class="grad-border">
-            <div class="rounded-[22px] bg-white border border-blue-200 p-5 md:p-6 shadow-soft">
-              <div class="flex items-center justify-between mb-4">
-                <div class="text-sm text-slate-700" id="previewTitle">O que você recebe</div>
-                <div class="text-xs text-slate-500" id="previewTime">~2 min</div>
-              </div>
-
-              <div class="space-y-3">
-                <div class="rounded-2xl bg-blue-50 border border-blue-200 p-4">
-                  <div class="text-slate-900 font-semibold" id="p1t">1) Diagnóstico</div>
-                  <div class="text-slate-600 text-sm mt-1" id="p1s">Objetivo, canal, volume, prazo e orçamento.</div>
-                </div>
-                <div class="rounded-2xl bg-blue-50 border border-blue-200 p-4">
-                  <div class="text-slate-900 font-semibold" id="p2t">2) 3 pacotes</div>
-                  <div class="text-slate-600 text-sm mt-1" id="p2s">Escolha rápido ou personalize.</div>
-                </div>
-                <div class="rounded-2xl bg-blue-50 border border-blue-200 p-4">
-                  <div class="text-slate-900 font-semibold" id="p3t">3) Economia</div>
-                  <div class="text-slate-600 text-sm mt-1" id="p3s">Simulação de desconto ao combinar serviços.</div>
-                </div>
-              </div>
-
-              <div class="mt-5 rounded-2xl bg-gradient-to-r from-blue-50 to-white border border-blue-200 p-4">
-                <div class="text-sm font-semibold text-slate-900" id="dealTitle">Combo (simulado)</div>
-                <div class="text-slate-600 text-sm mt-1" id="dealText">2 serviços: 5% • 3: 8% • 4+: 12%</div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="px-6 md:px-10 py-4 border-t border-blue-200 bg-white text-xs text-slate-500" id="footerLine">
-          *Valores e descontos são estimativas para facilitar a decisão.
-        </div>
-      </section>
-    </div>
-  </main>
-
-  <div id="modal" class="fixed inset-0 hidden items-end md:items-center justify-center p-0 md:p-8">
-    <div id="backdrop" class="absolute inset-0 bg-slate-900/40"></div>
-
-    <div id="modalPanel" class="relative w-full md:w-[min(1140px,96vw)] glass rounded-t-[28px] md:rounded-[28px] overflow-hidden max-h-[92vh] md:max-h-[90vh] flex flex-col">
-
-      <div class="px-5 md:px-7 py-4 border-b border-blue-200 bg-white flex items-center justify-between gap-3">
-        <div class="flex items-center gap-3">
-          <div class="h-10 w-10 rounded-2xl bg-blue-50 border border-blue-200 flex items-center justify-center">
-            <span class="text-sm font-extrabold text-blue-800">CI</span>
-          </div>
-          <div>
-            <div class="font-extrabold tracking-tight text-slate-900" id="modalTitle">Comerc IAs • Quiz de Orçamento</div>
-            <div class="text-xs text-slate-600" id="modalSub">Pacotes + personalização + orçamento pré-preenchido</div>
+          <div class="leading-tight">
+            <div class="font-extrabold text-slate-900">Comerc <span class="text-blue-700">IAs</span></div>
+            <div class="text-xs text-slate-500" id="brandSub">Orçamento instantâneo • rápido e premium</div>
           </div>
         </div>
 
         <div class="flex items-center gap-2">
-          <div class="hidden sm:inline-flex items-center gap-1 p-1 rounded-2xl btn-ghost">
-            <button id="langPT" class="ring-focus px-3 py-2 rounded-xl text-sm font-semibold bg-blue-50">🇧🇷 PT</button>
-            <button id="langEN" class="ring-focus px-3 py-2 rounded-xl text-sm font-semibold text-slate-600">🇺🇸 EN</button>
+          <div class="pill p-1 bg-white/70 flex items-center gap-1">
+            <button id="langPT" class="btn ring-brand px-3 py-1.5 text-sm font-semibold bg-blue-600 text-white">PT</button>
+            <button id="langEN" class="btn ring-brand px-3 py-1.5 text-sm font-semibold text-blue-700 hover:bg-blue-50">EN</button>
           </div>
-          <button id="closeModal" class="ring-focus px-3 py-2 rounded-2xl btn-ghost text-blue-900">✕</button>
         </div>
       </div>
 
-      <div class="px-5 md:px-7 py-4 border-b border-blue-200 bg-white">
-        <div class="flex items-center justify-between gap-3">
-          <div class="text-sm font-semibold text-slate-900" id="stepTitle">Etapa</div>
-          <div class="text-xs text-slate-500" id="stepMeta">0/0</div>
-        </div>
-        <div class="mt-3 h-2 rounded-full bg-blue-100 overflow-hidden">
-          <div id="stepBar" class="h-2 rounded-full bg-gradient-to-r from-blue-700 to-blue-500" style="width:0%"></div>
-        </div>
-      </div>
+      <!-- Content -->
+      <div class="px-5 sm:px-7 py-6 sm:py-7">
+        <!-- Hero -->
+        <div class="rounded-[24px] bg-[linear-gradient(135deg,rgba(11,95,255,.10),rgba(11,95,255,.02))] border border-blue-100/70 p-5 sm:p-6 mb-6">
+          <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+            <div>
+              <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/70 border border-blue-100 text-blue-800 text-xs font-bold tracking-wide" id="heroBadge">
+                ORÇAMENTO INSTANTÂNEO
+              </div>
+              <h1 class="mt-3 text-2xl sm:text-3xl font-extrabold text-slate-900" id="heroTitle">
+                Monte seu orçamento em 2 minutos
+              </h1>
+              <p class="mt-2 text-slate-600 max-w-2xl" id="heroSubtitle">
+                Responda o quiz e selecione os serviços ideais. No final, você envia tudo pronto no WhatsApp.
+              </p>
+            </div>
 
-      <div class="flex-1 overflow-y-auto bg-white">
-        <div class="grid md:grid-cols-[1.35fr_.65fr]">
-          <div class="p-5 md:p-7">
-            <div id="screen"></div>
+            <div class="flex flex-col gap-2 min-w-[220px]">
+              <button id="startBtn" class="btn ring-brand bg-blue-600 hover:bg-blue-700 text-white px-4 py-3 font-bold">
+                Começar agora
+              </button>
+              <button id="resetBtnTop" class="btn ring-brand bg-white hover:bg-blue-50 text-blue-700 px-4 py-3 font-semibold border border-blue-200">
+                Reiniciar
+              </button>
+            </div>
           </div>
 
-          <aside class="p-5 md:p-7 border-t md:border-t-0 md:border-l border-blue-200 bg-blue-50">
-            <div class="flex items-center justify-between">
-              <h3 class="font-semibold text-slate-900" id="sideTitle">Resumo</h3>
-              <span class="text-xs text-slate-500" id="sideHint">ao vivo</span>
+          <div class="mt-4 grid sm:grid-cols-3 gap-3 text-sm">
+            <div class="rounded-2xl bg-white/70 border border-blue-100 p-4">
+              <div class="font-bold text-slate-900" id="h1t">Recomendação inteligente</div>
+              <div class="text-slate-600 mt-1" id="h1d">Sugestões baseadas no seu objetivo e orçamento.</div>
             </div>
-
-            <div id="sideSummary" class="mt-4 text-sm text-slate-800 space-y-2">
-              <div class="text-slate-500" id="sideEmpty">Responda para ver recomendações.</div>
+            <div class="rounded-2xl bg-white/70 border border-blue-100 p-4">
+              <div class="font-bold text-slate-900" id="h2t">Combos com desconto</div>
+              <div class="text-slate-600 mt-1" id="h2d">Simule economia juntando serviços.</div>
             </div>
-
-            <div class="mt-5 rounded-3xl border border-blue-200 bg-white p-4 shadow-soft">
-              <div class="flex items-center justify-between mb-2">
-                <div class="text-sm font-semibold text-slate-900" id="simTitle">Simulação</div>
-                <span class="text-xs text-slate-500" id="simRule">2=5% • 3=8% • 4+=12%</span>
-              </div>
-              <div id="totalsBox" class="text-sm text-slate-700 space-y-1">
-                <div class="flex justify-between"><span id="lblSub">Subtotal (avulsos)</span><span id="vSub">—</span></div>
-                <div class="flex justify-between"><span id="lblDisc">Desconto combo</span><span id="vDisc">—</span></div>
-                <div class="flex justify-between"><span id="lblPlans">Planos</span><span id="vPlans">—</span></div>
-                <div class="flex justify-between font-extrabold text-slate-900"><span id="lblTotal">Total</span><span id="vTotal">—</span></div>
-              </div>
-
-              <div class="mt-3 text-xs text-slate-500" id="noteTotals">
-                *Estimativa para acelerar sua decisão.
-              </div>
+            <div class="rounded-2xl bg-white/70 border border-blue-100 p-4">
+              <div class="font-bold text-slate-900" id="h3t">Finalização no WhatsApp</div>
+              <div class="text-slate-600 mt-1" id="h3d">Mensagem pronta para acelerar o fechamento.</div>
             </div>
+          </div>
 
-            <div class="mt-4 text-xs text-slate-500" id="sideStrategy">
-              Dica: o pacote “Recomendado” costuma ter o melhor custo-benefício.
-            </div>
-          </aside>
+          <p class="mt-4 text-xs text-slate-500" id="heroNote">
+            Dica: comece com 1–2 serviços e avance. Se quiser, descreva sua ideia no final.
+          </p>
         </div>
+
+        <!-- App -->
+        <div id="app"></div>
       </div>
 
-      <div class="px-5 md:px-7 py-4 border-t border-blue-200 bg-white flex items-center justify-between gap-3">
-        <button id="backBtn" class="ring-focus px-4 py-2.5 rounded-2xl btn-ghost hidden">Voltar</button>
-        <button id="skipBtn" class="ring-focus px-4 py-2.5 rounded-2xl btn-ghost hidden">Pular</button>
-        <button id="nextBtn" class="ring-focus px-5 py-2.5 rounded-2xl btn-primary font-extrabold transition-all disabled:opacity-50 disabled:cursor-not-allowed">Continuar</button>
+      <!-- Footer -->
+      <div class="px-5 sm:px-7 py-4 border-t border-blue-100/60 text-xs text-slate-500 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+        <div id="footerLeft">© Comerc IAs • Atendimento rápido e profissional</div>
+        <div class="text-slate-500" id="footerRight">Azul & branco • Design premium</div>
       </div>
     </div>
   </div>
 
-<script>
-(() => {
-  const CATALOG = {
-    observacoes: "Valores podem variar conforme briefing, revisões e prazo. O orçamento final confirma tudo.",
-    categorias: [
-      { nome: "Imagens", servicos: [
-        { titulo:"Imagem (Básica)", descricao:"Arte rápida para post/anúncio.", extras:"1 variação • Alta resolução", preco:50 },
-        { titulo:"Imagem (Profissional)", descricao:"Mais elaborada para campanhas/carrossel.", extras:"2 variações • Ajustes finos", preco:90 },
-        { titulo:"Imagem (Premium)", descricao:"Direção de arte premium e acabamento.", extras:"3 variações • Refinamento", preco:140 },
-      ]},
-      { nome: "Vídeos", servicos: [
-        { titulo:"Vídeo (Básico)", descricao:"Cortes, legenda simples e ajustes.", extras:"Até 30s", preco:120 },
-        { titulo:"Vídeo (Profissional)", descricao:"Ritmo + motion leve + legenda melhor.", extras:"Até 60s", preco:250 },
-        { titulo:"Vídeo (Premium)", descricao:"Storytelling + motion avançado + estética.", extras:"Até 90s", preco:420 },
-      ]},
-      { nome: "Serviços Avulsos", servicos: [
-        { titulo:"Logo", descricao:"Logo profissional e versátil.", extras:"2 opções + ajustes", preco:220 },
-        { titulo:"Identidade Visual", descricao:"Guia completo (cores/tipografia/padrões).", extras:"Manual de marca", preco:480 },
-        { titulo:"Roteiro", descricao:"Roteiro curto com gancho e CTA.", extras:"Estrutura + CTA", preco:120 },
-        { titulo:"Copywriting", descricao:"Texto persuasivo para anúncios/páginas.", extras:"1 versão + variação", preco:180 },
-        { titulo:"Pacote de Anúncios", descricao:"Criativos para tráfego pago.", extras:"3 peças", preco:300 },
-        { titulo:"Website", descricao:"Landing page institucional.", extras:"Página única", preco:650 },
-        { titulo:"Narração", descricao:"Narração para vídeo/ads.", extras:"Áudio limpo", preco:150 },
-        { titulo:"Trilha Sonora", descricao:"Seleção e ajuste de trilha.", extras:"Edição", preco:90 },
-      ]},
-      { nome: "Planos de Social Media", servicos: [
+  <!-- Embedded catalog (NO fetch) -->
+  <script type="application/json" id="catalog">
+{
+  "categorias": [
+    {
+      "nome": "Imagens",
+      "servicos": [
         {
-          titulo:"Plano Mensal (Básico)",
-          descricao:"Consistência mensal para presença profissional.",
-          inclui:["10 imagens/mês","2 vídeos curtos/mês"],
-          beneficios:["Consistência","Visual profissional"],
-          precos_por_periodo:[
-            {periodo:"Mensal", preco_total_sem_desc:750, desconto_percentual:0, preco_total_com_desc:750},
-            {periodo:"Trimestral", preco_total_sem_desc:2250, desconto_percentual:10, preco_total_com_desc:2025},
-            {periodo:"Semestral", preco_total_sem_desc:4500, desconto_percentual:15, preco_total_com_desc:3825},
-            {periodo:"Anual", preco_total_sem_desc:9000, desconto_percentual:20, preco_total_com_desc:7200}
+          "titulo": "5 imagens",
+          "titulo_venda": "Pack Visual Rápido — 5 artes",
+          "descricao": "Criação de até 5 artes originais pensadas para redes sociais ou...deal para quem precisa de conteúdo visual consistente e rápido.",
+          "inclui": [
+            "5 imagens em alta resolução",
+            "1 versão para feed (quadrado) e 1 versão para stories (vertical) quando aplicável",
+            "Lettering simples opcional",
+            "Otimização para redes sociais"
+          ],
+          "beneficios": [
+            "Entrega rápida",
+            "Consistência visual para campanhas",
+            "Arquivos prontos para publicação"
+          ],
+          "prazo_entrega": "1 dia útil (Prazo Acelerado)",
+          "tempo_estimado_horas_min": 2,
+          "tempo_estimado_horas_max": 4,
+          "revisoes_incluidas": 2,
+          "formato_entrega": [
+            "PNG 1080x1080",
+            "JPG otimizado",
+            "Fonte/vector quando aplicável (.svg/.ai sob consulta)"
+          ],
+          "preco_original": 50,
+          "preco": 45
+        },
+        {
+          "titulo": "10 imagens",
+          "titulo_venda": "Pack Engajamento — 10 artes",
+          "descricao": "Série de 10 artes alinhadas à sua identidade visual ou campanh... Inclui tratamento visual e pequenas variações para testes A/B.",
+          "inclui": [
+            "10 imagens em alta resolução",
+            "Layouts diferentes para variações de publicação",
+            "Lettering simples",
+            "Briefing rápido para alinhamento"
+          ],
+          "beneficios": [
+            "Melhor performance em cronograma de publicações",
+            "Variações para testar engajamento",
+            "Economia por volume"
+          ],
+          "prazo_entrega": "1 dia útil (Prazo Acelerado)",
+          "tempo_estimado_horas_min": 3,
+          "tempo_estimado_horas_max": 6,
+          "revisoes_incluidas": 3,
+          "formato_entrega": [
+            "PNG 1080x1080",
+            "PNG 1080x1920 (versões stories) quando solicitado"
+          ],
+          "preco_original": 80,
+          "preco": 80
+        },
+        {
+          "titulo": "15 imagens",
+          "titulo_venda": "Pack Crescimento — 15 artes",
+          "descricao": "Solução para quem precisa de um banco de conteúdo maior: 15 artes com identidade sólida, pronto para calendário mensal.",
+          "inclui": [
+            "15 imagens em alta resolução",
+            "2 variações por peça quando aplicável",
+            "Briefing visual detalhado",
+            "Sugestão de legendas (opcional)"
+          ],
+          "beneficios": [
+            "Banco de conteúdo para 2–3 semanas",
+            "Economia por volume",
+            "Planejamento visual coeso"
+          ],
+          "prazo_entrega": "2 dias úteis (Prazo Acelerado)",
+          "tempo_estimado_horas_min": 5,
+          "tempo_estimado_horas_max": 8,
+          "revisoes_incluidas": 4,
+          "formato_entrega": [
+            "PNG/JPG em alta",
+            "Arquivo fonte sob pedido"
+          ],
+          "preco_original": 110,
+          "preco": 110
+        }
+      ]
+    },
+    {
+      "nome": "Vídeos",
+      "servicos": [
+        {
+          "titulo": "Vídeo Rápido",
+          "titulo_venda": "Vídeo Short — até 15s",
+          "descricao": "Vídeo curto otimizado para Reels / Shorts / Tiktok — ideal par...anúncios rápidos, chamadas para ação e divulgação de promoções.",
+          "inclui": [
+            "Edição completa do clipe (cortes, transições suaves)",
+            "Legendas básicas embutidas",
+            "Correção básica de cor",
+            "Exportação em MP4 otimizada para redes sociais"
+          ],
+          "beneficios": [
+            "Alto impacto em pouco tempo",
+            "Rápida geração de conteúdo",
+            "Pronto para impulsionamento"
+          ],
+          "prazo_entrega": "1 dia útil",
+          "tempo_estimado_horas_min": 1,
+          "tempo_estimado_horas_max": 2,
+          "revisoes_incluidas": 1,
+          "formato_entrega": [
+            "MP4 H.264 (1080p)",
+            "Versão vertical e quadrada quando aplicável"
+          ],
+          "preco_original": 70,
+          "preco": 70
+        },
+        {
+          "titulo": "Vídeo Simples",
+          "titulo_venda": "Vídeo Storytelling — até 30s",
+          "descricao": "Vídeo de 30 segundos com narrativa simples: ideal para apresentar produto, serviço ou um caso de uso rápido.",
+          "inclui": [
+            "Edição com ritmo e storytelling",
+            "Correção de cor básica",
+            "Legendas embutidas",
+            "Música livre de direitos (biblioteca padrão)"
+          ],
+          "beneficios": [
+            "Engajamento com mensagem clara",
+            "Formato versátil para anúncios e orgânico",
+            "Entrega rápida"
+          ],
+          "prazo_entrega": "1 dia útil",
+          "tempo_estimado_horas_min": 2,
+          "tempo_estimado_horas_max": 4,
+          "revisoes_incluidas": 2,
+          "formato_entrega": [
+            "MP4 1080p",
+            "Arquivo otimizado para Instagram/Facebook/YouTube Shorts"
+          ],
+          "preco_original": 140,
+          "preco": 125
+        },
+        {
+          "titulo": "Vídeo Premium",
+          "titulo_venda": "Vídeo Premium — até 60s",
+          "descricao": "Vídeo de 60 segundos produzido com cuidado: narrativa estruturada, edição refinada e sonorização. Serviço ideal como base de cálculo e referência.",
+          "inclui": [
+            "Edição completa e ritmo narrativo",
+            "Tratamento de som e mixagem leve",
+            "Correção de cor básica",
+            "Legendas e lower thirds",
+            "Exportação em múltiplos formatos"
+          ],
+          "beneficios": [
+            "Peça de alta conversão para campanhas",
+            "Entrega em 1 dia útil para urgência",
+            "Resultado profissional com boa retenção"
+          ],
+          "prazo_entrega": "2 dias úteis (Prazo Acelerado)",
+          "tempo_estimado_horas_min": 5,
+          "tempo_estimado_horas_max": 7,
+          "revisoes_incluidas": 3,
+          "formato_entrega": [
+            "MP4 1080p",
+            "MP4 vertical/quadrado sob solicitação"
+          ],
+          "preco_original": 240,
+          "preco": 240
+        },
+        {
+          "titulo": "Vídeo Elaborado",
+          "titulo_venda": "Vídeo Pro — até 120s (Efeitos especiais)",
+          "descricao": "Vídeo com efeitos especiais, composições e cenas mais elaboradas. Ideal para campanhas maiores, apresentações institucionais ou peças publicitárias com maior requinte.",
+          "inclui": [
+            "Efeitos visuais básicos a intermediários",
+            "Correção de cor mais detalhada",
+            "Mixagem de áudio",
+            "Motion graphics simples",
+            "Entrega em formatos prontos para veiculação"
+          ],
+          "beneficios": [
+            "Alto impacto visual",
+            "Apropriado para uso institucional e anúncios de maior alcance",
+            "Suporte técnico na entrega"
+          ],
+          "prazo_entrega": "2 dias úteis (Prazo Acelerado)",
+          "tempo_estimado_horas_min": 8,
+          "tempo_estimado_horas_max": 20,
+          "revisoes_incluidas": 4,
+          "formato_entrega": [
+            "MP4 1080/4K (quando aplicável)",
+            "Project file sob consulta"
+          ],
+          "preco_original": 380,
+          "preco": 380
+        }
+      ]
+    },
+    {
+      "nome": "Planos de Social Media (Conteúdo Mensal)",
+      "servicos": [
+        {
+          "titulo": "Plano Básico",
+          "titulo_venda": "Plano Conteúdo Básico",
+          "descricao": "Conteúdo mensal para 3 a 4 posts semanais. Inclui: 10 Artes Personalizadas + 120 segundos em Vídeos.",
+          "inclui": [
+            "10 Artes Personalizadas + 120 segundos em Vídeos mensais",
+            "1 revisão por Arte e 1 revisão por Vídeo",
+            "1 reunião semanal"
+          ],
+          "beneficios": [
+            "Consistência de posts",
+            "Preço mensal efetivo mais baixo para compromissos de longo prazo"
+          ],
+          "prazo_entrega": "Entrega semanal escalonada ou conteúdo total em até 7 dias úteis/mês",
+          "revisoes_incluidas": 1,
+          "tempo_estimado_horas_min": 10,
+          "tempo_estimado_horas_max": 20,
+          "formato_entrega": [
+            "PNG/JPG",
+            "MP4"
+          ],
+          "precos_por_periodo": [
+            { "periodo": "Mensal", "meses": 1, "desconto_perc": 0, "preco_total_sem_desc": 400, "preco_total_com_desc": 400, "preco_mensal_efetivo": 400 },
+            { "periodo": "Trimestral", "meses": 3, "desconto_perc": 5, "preco_total_sem_desc": 1200.0, "preco_total_com_desc": 1140.0, "preco_mensal_efetivo": 380.0 },
+            { "periodo": "Semestral", "meses": 6, "desconto_perc": 10, "preco_total_sem_desc": 2400.0, "preco_total_com_desc": 2160.0, "preco_mensal_efetivo": 360.0 },
+            { "periodo": "Anual", "meses": 12, "desconto_perc": 15, "preco_total_sem_desc": 4800.0, "preco_total_com_desc": 4080.0, "preco_mensal_efetivo": 340.0 }
           ]
         },
         {
-          titulo:"Plano Mensal (Profissional)",
-          descricao:"Mais volume para crescer com variedade.",
-          inclui:["20 imagens/mês","4 vídeos curtos/mês"],
-          beneficios:["Maior volume","Performance melhor"],
-          precos_por_periodo:[
-            {periodo:"Mensal", preco_total_sem_desc:1400, desconto_percentual:0, preco_total_com_desc:1400},
-            {periodo:"Trimestral", preco_total_sem_desc:4200, desconto_percentual:10, preco_total_com_desc:3780},
-            {periodo:"Semestral", preco_total_sem_desc:8400, desconto_percentual:15, preco_total_com_desc:7140},
-            {periodo:"Anual", preco_total_sem_desc:16800, desconto_percentual:20, preco_total_com_desc:13440}
+          "titulo": "Plano Standart",
+          "titulo_venda": "Plano Conteúdo Standart",
+          "descricao": "Conteúdo mensal para 7 a 8 posts semanais. Inclui: 20 Artes Personalizadas + 240 segundos em Vídeos.",
+          "inclui": [
+            "20 Artes Personalizadas + 240 segundos em Vídeos mensais",
+            "1 revisão por Arte e 2 revisões por Vídeo",
+            "2 reuniões semanais"
+          ],
+          "beneficios": [
+            "Aumento da frequência de postagem",
+            "Maior variedade de conteúdo (imagens e vídeos)"
+          ],
+          "prazo_entrega": "Entrega semanal escalonada ou conteúdo total em até 10 dias úteis/mês",
+          "revisoes_incluidas": 2,
+          "tempo_estimado_horas_min": 20,
+          "tempo_estimado_horas_max": 35,
+          "formato_entrega": [ "PNG/JPG", "MP4" ],
+          "precos_por_periodo": [
+            { "periodo": "Mensal", "meses": 1, "desconto_perc": 0, "preco_total_sem_desc": 800, "preco_total_com_desc": 800, "preco_mensal_efetivo": 800 },
+            { "periodo": "Trimestral", "meses": 3, "desconto_perc": 5, "preco_total_sem_desc": 2400.0, "preco_total_com_desc": 2280.0, "preco_mensal_efetivo": 760.0 },
+            { "periodo": "Semestral", "meses": 6, "desconto_perc": 10, "preco_total_sem_desc": 4800.0, "preco_total_com_desc": 4320.0, "preco_mensal_efetivo": 720.0 },
+            { "periodo": "Anual", "meses": 12, "desconto_perc": 15, "preco_total_sem_desc": 9600.0, "preco_total_com_desc": 8160.0, "preco_mensal_efetivo": 680.0 }
+          ]
+        },
+        {
+          "titulo": "Plano Premium",
+          "titulo_venda": "Plano Conteúdo Premium",
+          "descricao": "Conteúdo mensal para 11 a 12 posts semanais. Inclui: 40 Artes Personalizadas + 320 segundos em Vídeos",
+          "inclui": [
+            "40 Artes Personalizadas + 320 segundos em Vídeos mensais",
+            "1 revisão por Arte e 2 revisões por Vídeo",
+            "2 reuniões semanais"
+          ],
+          "beneficios": [
+            "Máxima frequência e visibilidade",
+            "Suporte ampliado com 2 reuniões semanais"
+          ],
+          "prazo_entrega": "Entrega semanal escalonada ou conteúdo total em até 15 dias úteis/mês",
+          "revisoes_incluidas": 2,
+          "tempo_estimado_horas_min": 35,
+          "tempo_estimado_horas_max": 60,
+          "formato_entrega": [ "PNG/JPG", "MP4" ],
+          "precos_por_periodo": [
+            { "periodo": "Mensal", "meses": 1, "desconto_perc": 0, "preco_total_sem_desc": 1200, "preco_total_com_desc": 1200, "preco_mensal_efetivo": 1200 },
+            { "periodo": "Trimestral", "meses": 3, "desconto_perc": 5, "preco_total_sem_desc": 3600.0, "preco_total_com_desc": 3420.0, "preco_mensal_efetivo": 1140.0 },
+            { "periodo": "Semestral", "meses": 6, "desconto_perc": 10, "preco_total_sem_desc": 7200.0, "preco_total_com_desc": 6480.0, "preco_mensal_efetivo": 1080.0 },
+            { "periodo": "Anual", "meses": 12, "desconto_perc": 15, "preco_total_sem_desc": 14400.0, "preco_total_com_desc": 12240.0, "preco_mensal_efetivo": 1020.0 }
           ]
         }
-      ]}
-    ]
-  };
-
-  const I18N = {
-    pt: {
-      pageTitle: "Comerc IAs • Orçamento",
-      headerTitle: "Orçamento • Seletor de Serviços",
-      heroBadge:"Quiz • Pacotes • Economia por combo",
-      heroTitle:"Encontre o pacote ideal para o seu objetivo.",
-      heroSub:"Responda em ~2 minutos. No final, selecione serviços, veja o total estimado e vá para o orçamento pré-preenchido.",
-      ctaStart:"Começar",
-      miniNoteTitle:"Comerc IAs",
-      miniNoteText:"Escolha um pacote pronto ou personalize selecionando serviços.",
-      b1t:"Direto ao ponto", b1s:"Perguntas objetivas para recomendar o melhor caminho.",
-      b2t:"Pacotes prontos", b2s:"Essencial • Recomendado • Scale.",
-      b3t:"Finalização rápida", b3s:"Vai para o orçamento com tudo pré-preenchido.",
-      previewTitle:"O que você recebe", previewTime:"~2 min",
-      p1t:"1) Diagnóstico", p1s:"Objetivo, canal, volume, prazo e orçamento.",
-      p2t:"2) 3 pacotes", p2s:"Escolha rápido ou personalize.",
-      p3t:"3) Economia", p3s:"Simulação de desconto ao combinar serviços.",
-      dealTitle:"Combo (simulado)", dealText:"2 serviços: 5% • 3: 8% • 4+: 12%",
-      footerLine:"*Valores e descontos são estimativas para facilitar a decisão.",
-
-      modalTitle:"Comerc IAs • Quiz de Orçamento",
-      modalSub:"Pacotes + personalização + orçamento pré-preenchido",
-      sideTitle:"Resumo",
-      sideHint:"ao vivo",
-      sideEmpty:"Responda para ver recomendações.",
-      simTitle:"Simulação",
-      simRule:"2=5% • 3=8% • 4+=12%",
-      lblSub:"Subtotal (avulsos)",
-      lblDisc:"Desconto combo",
-      lblPlans:"Planos",
-      lblTotal:"Total",
-      noteTotals:"*Estimativa para acelerar sua decisão.",
-      sideStrategy:"Dica: o pacote “Recomendado” costuma ter o melhor custo-benefício.",
-
-      back:"Voltar",
-      next:"Continuar",
-      skip:"Pular",
-      backToEdit:"Voltar para editar",
-      restart:"Refazer",
-
-      step:"Etapa",
-      stepOf:"de",
-
-      selectOneHint:"Escolha uma opção para continuar.",
-      tapToSelect:"Toque para selecionar",
-      multiHint:"Você pode escolher vários",
-
-      q_goal:"Qual é o seu objetivo principal?",
-      goal_sales:"Gerar vendas/conversão",
-      goal_social:"Conteúdo contínuo para redes",
-      goal_brand:"Fortalecer marca/branding",
-      goal_edu:"Educar/explicar (conteúdo técnico)",
-
-      q_channels:"Onde você vai publicar?",
-      ch_instagram:"Instagram (Feed/Reels/Stories)",
-      ch_tiktok:"TikTok",
-      ch_youtube:"YouTube Shorts",
-      ch_whatsapp:"WhatsApp",
-      ch_site:"Site / Landing page",
-      ch_multi:"Vários canais",
-
-      q_focus:"Qual área é prioridade agora?",
-      focus_auto:"Quero recomendação",
-      focus_images:"Imagens / artes",
-      focus_videos:"Vídeos",
-      focus_ads:"Anúncios (criativos)",
-      focus_brand:"Branding (logo/identidade)",
-      focus_site:"Site / landing",
-
-      q_assets:"Você já tem materiais prontos?",
-      as_yes:"Sim (logo/fotos/brand)",
-      as_some:"Tenho algo, mas incompleto",
-      as_no:"Não, preciso criar do zero",
-
-      q_volume:"Volume aproximado",
-      vol_low:"Pequeno (1–5 peças)",
-      vol_mid:"Médio (6–15 peças)",
-      vol_high:"Alto (15+ / premium)",
-
-      q_budget:"Faixa de orçamento (aprox.)",
-      bud_100:"Até R$100",
-      bud_300:"Até R$300",
-      bud_800:"Até R$800",
-      bud_more:"Acima de R$800",
-
-      q_deadline:"Prazo desejado",
-      dl_3:"Até 3 dias",
-      dl_7:"Até 7 dias",
-      dl_more:"Mais que 7 dias",
-
-      q_pref:"Como prefere contratar?",
-      pref_bundle:"Pacote (combos)",
-      pref_single:"Avulso (1 serviço)",
-      pref_any:"Indiferente",
-
-      resultsTitle:"Seu resultado",
-      resultsSub:"Escolha um pacote pronto ou personalize selecionando serviços.",
-      pack_essential:"Essencial",
-      pack_reco:"Recomendado",
-      pack_scale:"Scale",
-      badge_essential:"Começar rápido",
-      badge_reco:"Melhor custo-benefício",
-      badge_scale:"Máximo impacto",
-      selectPack:"Selecionar pacote",
-      customize:"Personalizar serviços",
-      selected:"Selecionados",
-      period:"Período",
-      savings:"economiza",
-      goQuote:"Finalizar e ir para orçamento",
-      copy:"Copiar resumo",
-      copied:"Copiado!",
-      notes:"Observações",
-      estTotal:"Total estimado",
-      comboHint:"2+ avulsos liberam desconto de combo (simulado).",
-      comboWord:"combo",
-
-      summaryTitle:"Resumo (vai pro orçamento)",
-
-      period_mensal:"Mensal",
-      period_trimestral:"Trimestral",
-      period_semestral:"Semestral",
-      period_anual:"Anual"
+      ]
     },
-
-    en: {
-      pageTitle: "Comerc IAs • Quote",
-      headerTitle: "Quote • Service Selector",
-      heroBadge:"Quiz • Bundles • Combo savings",
-      heroTitle:"Find the right package for your goal.",
-      heroSub:"Answer in ~2 minutes. Then select services, see the estimated total, and go to a pre-filled quote page.",
-      ctaStart:"Start",
-      miniNoteTitle:"Comerc IAs",
-      miniNoteText:"Pick a bundle or customize by selecting services.",
-      b1t:"Straight to the point", b1s:"Objective questions to guide you to the best option.",
-      b2t:"Ready bundles", b2s:"Essential • Recommended • Scale.",
-      b3t:"Fast finish", b3s:"Go to the quote page with everything pre-filled.",
-      previewTitle:"What you get", previewTime:"~2 min",
-      p1t:"1) Diagnosis", p1s:"Goal, channel, volume, deadline and budget.",
-      p2t:"2) 3 bundles", p2s:"Pick fast or customize.",
-      p3t:"3) Savings", p3s:"Discount simulation when combining services.",
-      dealTitle:"Combo (simulated)", dealText:"2 services: 5% • 3: 8% • 4+: 12%",
-      footerLine:"*Prices and discounts are estimates to speed up decisions.",
-
-      modalTitle:"Comerc IAs • Quote Quiz",
-      modalSub:"Bundles + customization + pre-filled quote",
-      sideTitle:"Summary",
-      sideHint:"live",
-      sideEmpty:"Answer to see recommendations.",
-      simTitle:"Simulation",
-      simRule:"2=5% • 3=8% • 4+=12%",
-      lblSub:"Subtotal (one-offs)",
-      lblDisc:"Combo discount",
-      lblPlans:"Plans",
-      lblTotal:"Total",
-      noteTotals:"*Estimate to speed up your decision.",
-      sideStrategy:"Tip: the “Recommended” bundle is usually the best value.",
-
-      back:"Back",
-      next:"Continue",
-      skip:"Skip",
-      backToEdit:"Back to edit",
-      restart:"Restart",
-
-      step:"Step",
-      stepOf:"of",
-
-      selectOneHint:"Pick one option to continue.",
-      tapToSelect:"Tap to select",
-      multiHint:"You can pick multiple",
-
-      q_goal:"What's your main goal?",
-      goal_sales:"Drive sales/conversions",
-      goal_social:"Ongoing social content",
-      goal_brand:"Strengthen brand/branding",
-      goal_edu:"Educate/explain (technical)",
-
-      q_channels:"Where will you publish?",
-      ch_instagram:"Instagram (Feed/Reels/Stories)",
-      ch_tiktok:"TikTok",
-      ch_youtube:"YouTube Shorts",
-      ch_whatsapp:"WhatsApp",
-      ch_site:"Website / Landing page",
-      ch_multi:"Multiple channels",
-
-      q_focus:"What's the priority area now?",
-      focus_auto:"I want recommendations",
-      focus_images:"Images / creatives",
-      focus_videos:"Videos",
-      focus_ads:"Ads (creatives)",
-      focus_brand:"Branding (logo/identity)",
-      focus_site:"Website / landing",
-
-      q_assets:"Do you have assets ready?",
-      as_yes:"Yes (logo/photos/brand)",
-      as_some:"Some, but incomplete",
-      as_no:"No, need to build from scratch",
-
-      q_volume:"Estimated volume",
-      vol_low:"Small (1–5 items)",
-      vol_mid:"Medium (6–15 items)",
-      vol_high:"High (15+ / premium)",
-
-      q_budget:"Budget range (approx.)",
-      bud_100:"Up to R$100",
-      bud_300:"Up to R$300",
-      bud_800:"Up to R$800",
-      bud_more:"Above R$800",
-
-      q_deadline:"Desired deadline",
-      dl_3:"Up to 3 days",
-      dl_7:"Up to 7 days",
-      dl_more:"More than 7 days",
-
-      q_pref:"How do you prefer to hire?",
-      pref_bundle:"Bundle (combos)",
-      pref_single:"Single service",
-      pref_any:"No preference",
-
-      resultsTitle:"Your result",
-      resultsSub:"Pick a ready bundle or customize by selecting services.",
-      pack_essential:"Essential",
-      pack_reco:"Recommended",
-      pack_scale:"Scale",
-      badge_essential:"Start fast",
-      badge_reco:"Best value",
-      badge_scale:"Max impact",
-      selectPack:"Select bundle",
-      customize:"Customize services",
-      selected:"Selected",
-      period:"Period",
-      savings:"save",
-      goQuote:"Finish and go to quote",
-      copy:"Copy summary",
-      copied:"Copied!",
-      notes:"Notes",
-      estTotal:"Estimated total",
-      comboHint:"2+ one-offs unlock combo discount (simulated).",
-      comboWord:"combo",
-
-      summaryTitle:"Summary (goes to quote)",
-
-      period_mensal:"Monthly",
-      period_trimestral:"Quarterly",
-      period_semestral:"Semiannual",
-      period_anual:"Yearly"
+    {
+      "nome": "Serviços Avulsos",
+      "servicos": [
+        { "titulo": "Narração profissional IA", "titulo_venda": "Voz Profissional (IA) — preço por bloco", "descricao": "Narração gerada por IA com entonação natural e opções de voz (masculina/feminina/neutral). Cobrado por cada 100 caracteres.", "inclui": ["Arquivo de áudio WAV/MP3","Ajuste de entonação básico","Sincronização simples com vídeo (sob consulta)"], "beneficios": ["Rápido e custo-efetivo","Versões alternativas de tom sob pedido"], "prazo_entrega": "6–12 horas", "revisoes_incluidas": 2, "preco_original": 25, "preco": 25 },
+        { "titulo": "Cartaz de divulgação", "titulo_venda": "Poster Promocional — Arte personalizada", "descricao": "Criação de cartaz para eventos, promoções ou divulgação física/digital a partir de briefing detalhado.", "inclui": ["1 arte personalizada","Versão para impressão (300dpi) e web","2 revisões rápidas"], "beneficios": ["Pronto para impressão e divulgação digital","Imagem profissional que destaca sua oferta"], "prazo_entrega": "1 dia útil (Prazo Acelerado)", "revisoes_incluidas": 2, "preco_original": 50, "preco": 50 },
+        { "titulo": "Edição de foto com IA", "titulo_venda": "Retoque Rápido — por foto", "descricao": "Melhoria e tratamento de imagens com ferramentas assistidas por IA: remoção de imperfeições, ajuste de cor e recorte.", "inclui": ["Retoque básico","Recorte e ajuste de cor","Entrega em alta resolução"], "beneficios": ["Melhora instantânea da apresentação do produto","Solução rápida e barata para catálogos"], "prazo_entrega": "1 dia útil", "revisoes_incluidas": 1, "preco_original": 25, "preco": 25 },
+        { "titulo": "Ensaio de produto", "titulo_venda": "Shooting Compact — 10 fotos + 2 vídeos", "descricao": "Sessão básica de fotos e vídeos para catálogo de produto: 10 fotos profissionais + 2 vídeos curtos (até 30s). Ideal para e-commerce e redes sociais.", "inclui": ["Sessão fotográfica (local/estúdio sob consulta)","10 fotos tratadas","2 vídeos de até 30s editados","Seleção e entrega em galeria online"], "beneficios": ["Conteúdo pronto para loja e redes","Acelera validação de produto no mercado"], "prazo_entrega": "3 dias úteis (Prazo Acelerado)", "revisoes_incluidas": 4, "preco_original": 330, "preco": 299 },
+        { "titulo": "Criação de logomarca", "titulo_venda": "Identidade Visual Básica — logomarca", "descricao": "Criação de logotipo com conceitos alinhados ao posicionamento da marca. Entrega em arquivos vetoriais e versões para web.", "inclui": ["3 propostas iniciais","1 versão final com ajustes","Arquivos PNG, JPG e vetor (SVG/AI básico)"], "beneficios": ["Base sólida para identidade visual","Arquivos prontos para aplicação digital e impressão"], "prazo_entrega": "1 dia útil (Prazo Acelerado)", "revisoes_incluidas": 4, "preco_original": 100, "preco": 100 },
+        { "titulo": "Trilha sonora IA", "titulo_venda": "Trilha Sonora Exclusiva por IA", "descricao": "Composição musical gerada por IA, criada sob briefing para combinar com o tom do seu vídeo ou campanha (sem direitos autorais).", "inclui": ["Faixa musical exclusiva","Versões loop e versão curta","Licença de uso para campanhas"], "beneficios": ["Solução econômica para sonorização","Música adaptada ao ritmo do seu vídeo"], "prazo_entrega": "2 dias úteis (Prazo Acelerado)", "revisoes_incluidas": 2, "preco_original": 170, "preco": 170 },
+        { "titulo": "Dublagem IA", "titulo_venda": "Dublagem profissional por IA", "descricao": "Dublagem em qualquer idioma a partir de vídeo (até 15 minutos de duração)", "inclui": ["Dublagem em 1 idioma escolhido","Edição de tempo de fala","Legendas"], "beneficios": ["Ideal para expandir sua mensagem para outros países","Voz da dublagem é um clone da original, mantendo tom e fluidez"], "prazo_entrega": "3 dias úteis (Prazo Acelerado)", "revisoes_incluidas": 2, "preco_original": 300, "preco": 300 },
+        { "titulo": "Site empresarial personalizado", "titulo_venda": "Website Corporativo Básico", "descricao": "Website institucional com design personalizado, páginas principais, e integração básica. Conteúdos e artes otimizados para apresentação profissional online.", "inclui": ["Página inicial + até 4 páginas internas","Design responsivo","Artes e banners inclusos","Entrega com orientações para hospedagem"], "beneficios": ["Presença profissional online","Entrega rápida para lançamento"], "prazo_entrega": "5 dias úteis (Prazo Acelerado)", "revisoes_incluidas": 4, "preco_original": 650, "preco": 590 }
+      ]
+    },
+    {
+      "nome": "Criação de Personagem Personalizado",
+      "servicos": [
+        { "titulo": "Personagem estático", "titulo_venda": "Mascote Ilustrado — 5 poses", "descricao": "Desenvolvimento de personagem estático com 5 poses distintas, perfeito para branding, stickers ou materiais promocionais.", "inclui": ["Conceito inicial","5 poses finalizadas","Versões colorida e monocromática"], "beneficios": ["Identidade visual única","Material reutilizável em várias comunicações"], "prazo_entrega": "1 dia útil (Prazo Acelerado)", "revisoes_incluidas": 4, "preco_original": 170, "preco": 170 },
+        { "titulo": "Personagem animado (curto)", "titulo_venda": "Mascote Animado — 30s + narração", "descricao": "Animação curta do personagem com narração básica — ideal para vinhetas, introduções e materiais de marca.", "inclui": ["Animação 30s","Narração IA inclusa","Efeitos simples e loop quando aplicável"], "beneficios": ["Humaniza a marca","Melhora reconhecimento e engajamento"], "prazo_entrega": "1 dia útil (Prazo Acelerado)", "revisoes_incluidas": 3, "preco_original": 290, "preco": 290 },
+        { "titulo": "Personagem animado (longo)", "titulo_venda": "Mascote Cinemático — 1 min + narração", "descricao": "Animação de 1 minuto com narrativa e sonorização. Indicado para campanhas, apresentações e conteúdo institucional com mais presença.", "inclui": ["Animação 60s","Narração IA","Mixagem básica de áudio","Correção de cor quando aplicável"], "beneficios": ["Alto potencial de compartilhamento","Peça completa para campanhas"], "prazo_entrega": "2 dias úteis (Prazo Acelerado)", "revisoes_incluidas": 4, "preco_original": 420, "preco": 420 }
+      ]
+    },
+    {
+      "nome": "Pacotes de Personagem Personalizado",
+      "servicos": [
+        { "titulo": "Pacote básico", "titulo_venda": "Starter Pack — 1x 30s + 3 poses", "descricao": "Combo inicial para testar o personagem em vídeo e imagem: 1 vídeo de 30s + narração e 3 poses para uso em posts.", "inclui": ["1 vídeo 30s + narração","3 poses em alta","Briefing e conceito"], "beneficios": ["Entrega rápida de identidade multimídia","Ótimo custo-benefício"], "prazo_entrega": "1 dia útil (Prazo Acelerado)", "revisoes_incluidas": 2, "preco_original": 420, "preco": 420 },
+        { "titulo": "Pacote standart", "titulo_venda": "Brand Pack — 1x 1min + 3 poses", "descricao": "Pacote mais completo com vídeo de 1 minuto, ideal para uso em campanhas e apresentação de marca.", "inclui": ["1 vídeo 60s + narração","3 poses em alta","Briefing detalhado"], "beneficios": ["Peça central para campanhas digitais","Material pronto para múltiplas aplicações"], "prazo_entrega": "2 dias úteis (Prazo Acelerado)", "revisoes_incluidas": 3, "preco_original": 550, "preco": 550 },
+        { "titulo": "Pacote premium", "titulo_venda": "Pro Pack — 3x 30s + 5 poses", "descricao": "Pacote para quem quer presença consistente: 3 vídeos curtos, narrações e 5 poses para uso amplo.", "inclui": ["3 vídeos de 30s","5 poses do personagem","Narrações e mixagem básica"], "beneficios": ["Forte presença multiplataforma","Conteúdo pronto para campanha contínua"], "prazo_entrega": "3 dias úteis (Prazo Acelerado)", "revisoes_incluidas": 4, "preco_original": 750, "preco": 675 },
+        { "titulo": "Pacote deluxe", "titulo_venda": "Deluxe Pack — 6x 30s ou 3x 1min", "descricao": "Pacote topo de linha com volumetria e variedade: ideal para lançamentos, rebranding ou campanhas robustas.", "inclui": ["6 vídeos de 30s ou 3 vídeos de 60s","Narrações","Edição avançada e mixagem","Suporte na entrega e orientações de veiculação"], "beneficios": ["Solução completa para campanhas de alto impacto","Acompanhamento técnico de entrega"], "prazo_entrega": "5 dias úteis (Prazo Acelerado)", "revisoes_incluidas": 6, "preco_original": 1100, "preco": 1100 }
+      ]
     }
-  };
-
-  const $ = (id)=>document.getElementById(id);
-
-  const modal = $('modal');
-  const modalPanel = $('modalPanel');
-  const screen = $('screen');
-  const openModalBtn = $('openModal');
-  const closeModalBtn = $('closeModal');
-  const backdrop = $('backdrop');
-
-  const backBtn = $('backBtn');
-  const nextBtn = $('nextBtn');
-  const skipBtn = $('skipBtn');
-
-  const stepTitle = $('stepTitle');
-  const stepMeta = $('stepMeta');
-  const stepBar = $('stepBar');
-
-  const sideSummary = $('sideSummary');
-  const sideEmpty = $('sideEmpty');
-
-  const vSub = $('vSub');
-  const vDisc = $('vDisc');
-  const vPlans = $('vPlans');
-  const vTotal = $('vTotal');
-
-  const langPTTop = $('langPTTop');
-  const langENTop = $('langENTop');
-  const langPT = $('langPT');
-  const langEN = $('langEN');
-
-  let lang = (localStorage.getItem('comercias_lang') || '').toLowerCase();
-  if(lang !== 'pt' && lang !== 'en'){
-    const nav = (navigator.language || 'pt').toLowerCase();
-    lang = nav.startsWith('en') ? 'en' : 'pt';
+  ],
+  "observacoes": "Descontos progressivos em combos e em parcerias mensais, semestrais ou anuais. Conte sua ideia para a gente!",
+  "hero": {
+    "badge": "Orçamento Instantâneo",
+    "titulo": "Monte seu orçamento em 2 minutos",
+    "subtitulo": "Selecione os serviços, escolha o período (quando houver) e receba um resumo profissional por e-mail.",
+    "destaques": [
+      "Opções por volume e planos",
+      "Detalhes completos por serviço",
+      "Sem compromisso — você decide depois"
+    ],
+    "nota": "Dica: comece com 1–2 serviços e avance. Se quiser, descreva sua ideia no campo de mensagem.",
+    "cta_primario": "Gerar orçamento",
+    "cta_secundario": "Falar no WhatsApp"
   }
-  const t = (k)=> I18N[lang]?.[k] ?? k;
+}
+  </script>
 
-  function escapeHtml(s){ return String(s).replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
-  function money(n){
-    const num = Number(n);
-    if(!isFinite(num)) return '—';
-    return new Intl.NumberFormat(lang==='en'?'en-US':'pt-BR',{style:'currency',currency:'BRL'}).format(num);
-  }
+  <script>
+  (function(){
+    const WHATSAPP_NUMBER = "5532991147944";
 
-  function periodLabel(periodo){
-    const p = String(periodo || '').toLowerCase();
-    if(p.includes('mensal')) return t('period_mensal');
-    if(p.includes('trimestral')) return t('period_trimestral');
-    if(p.includes('semestral')) return t('period_semestral');
-    if(p.includes('anual')) return t('period_anual');
-    return String(periodo);
-  }
+    const app = document.getElementById("app");
+    const catalog = JSON.parse(document.getElementById("catalog").textContent);
 
-  function showModal(){
-    modal.classList.remove('hidden');
-    modal.classList.add('flex');
-    setTimeout(()=>modalPanel.classList.add('show'), 10);
-  }
-  function hideModal(){
-    modalPanel.classList.remove('show');
-    setTimeout(()=>{
-      modal.classList.add('hidden');
-      modal.classList.remove('flex');
-    }, 150);
-  }
+    // ---------- i18n ----------
+    const I18N = {
+      pt: {
+        brandSub: "Orçamento instantâneo • rápido e premium",
+        footerLeft: "© Comerc IAs • Atendimento rápido e profissional",
+        footerRight: "Azul & branco • Design premium",
+        heroBadge: "ORÇAMENTO INSTANTÂNEO",
+        heroTitle: "Monte seu orçamento em 2 minutos",
+        heroSubtitle: "Responda o quiz e selecione os serviços ideais. No final, você envia tudo pronto no WhatsApp.",
+        heroNote: "Dica: comece com 1–2 serviços e avance. Se quiser, descreva sua ideia no final.",
+        h1t: "Recomendação inteligente",
+        h1d: "Sugestões baseadas no seu objetivo e orçamento.",
+        h2t: "Combos com desconto",
+        h2d: "Simule economia juntando serviços.",
+        h3t: "Finalização no WhatsApp",
+        h3d: "Mensagem pronta para acelerar o fechamento.",
 
-  openModalBtn.addEventListener('click', showModal);
-  closeModalBtn.addEventListener('click', hideModal);
-  backdrop.addEventListener('click', hideModal);
-  window.addEventListener('keydown', (e)=>{ if(e.key==='Escape' && !modal.classList.contains('hidden')) hideModal(); });
+        start: "Começar agora",
+        restart: "Reiniciar",
+        step: "Pergunta",
+        of: "de",
+        back: "Voltar",
+        continue: "Continuar",
+        done: "Finalizar",
 
-  const allServices = [];
-  CATALOG.categorias.forEach((cat)=>{
-    (cat.servicos||[]).forEach((s, idx)=>{
-      const isPlan = Array.isArray(s.precos_por_periodo) && s.precos_por_periodo.length;
-      const minPrice = isPlan
-        ? Number((s.precos_por_periodo.find(p=>String(p.periodo).toLowerCase().includes('mensal')) || s.precos_por_periodo[0]).preco_total_com_desc || 0)
-        : Number(s.preco || 0);
+        q_goal: "Qual é o seu objetivo principal?",
+        goal_sales: "Gerar vendas / conversão",
+        goal_brand: "Fortalecer marca / identidade",
+        goal_social: "Conteúdo para redes sociais",
+        goal_edu: "Educativo / explicativo",
+        goal_intl: "Internacionalizar (idiomas)",
+        goal_launch: "Lançamento / campanha",
 
-      const text = [
-        cat.nome, s.titulo||'', s.descricao||'', s.extras||'',
-        (Array.isArray(s.inclui)?s.inclui.join(' '):''),
-        (Array.isArray(s.beneficios)?s.beneficios.join(' '):'')
-      ].join(' ').toLowerCase();
+        q_need: "O que você precisa agora?",
+        need_images: "Artes e imagens",
+        need_videos: "Vídeos para Reels/Ads",
+        need_plan: "Plano mensal de conteúdo",
+        need_oneoff: "Serviços avulsos (logo, site, etc.)",
+        need_mascot: "Personagem / mascote",
+        need_unsure: "Não tenho certeza",
 
-      allServices.push({
-        ...s,
-        __id: `${cat.nome}::${s.titulo || 'Serviço'}::${idx}`,
-        __cat: cat.nome,
-        __isPlan: isPlan,
-        __minPrice: isFinite(minPrice) ? minPrice : 0,
-        __text: text
+        q_volume: "Qual volume você imagina?",
+        vol_low: "Baixo (rápido / essencial)",
+        vol_mid: "Médio (consistente)",
+        vol_high: "Alto (campanha forte)",
+        vol_mega: "Muito alto (maximizar presença)",
+
+        q_budget: "Faixa de orçamento (aproximada)",
+        b1: "Até R$100",
+        b2: "Até R$300",
+        b3: "Até R$600",
+        b4: "Até R$1.000",
+        b5: "Até R$2.000",
+        b6: "Acima de R$2.000",
+
+        q_deadline: "Prazo desejado (opcional)",
+        d1: "Urgente (até 2 dias)",
+        d2: "Até 7 dias",
+        d3: "Flexível",
+
+        results_title: "Selecione os serviços recomendados",
+        results_sub: "Você pode ajustar, marcar mais opções e aplicar um combo com desconto.",
+        your_answers: "Seu resumo",
+        recommended: "Recomendados para você",
+        combos: "Combos com economia",
+        combo_apply: "Aplicar combo",
+        combo_applied: "Combo aplicado",
+        combo_remove: "Remover combo",
+        search_placeholder: "Buscar serviço…",
+        details: "Detalhes",
+        includes: "Inclui",
+        benefits: "Benefícios",
+        delivery: "Prazo",
+        revisions: "Revisões",
+        period: "Período",
+        total: "Total estimado",
+        subtotal: "Subtotal",
+        discount: "Desconto",
+        message_hint: "Quer acelerar? Escreva um resumo do seu projeto (opcional):",
+        send_whatsapp: "Enviar no WhatsApp",
+        open_budget: "Abrir orçamento no site",
+        obs: "Observação",
+
+        wa_intro: "Olá! Quero um orçamento com a Comerc IAs.",
+        wa_answers: "Resumo do quiz:",
+        wa_services: "Serviços selecionados:",
+        wa_total: "Total estimado:",
+        wa_note: "Observações:"
+      },
+
+      en: {
+        brandSub: "Instant quote • fast and premium",
+        footerLeft: "© Comerc IAs • Fast and professional service",
+        footerRight: "Blue & white • Premium design",
+        heroBadge: "INSTANT QUOTE",
+        heroTitle: "Build your quote in 2 minutes",
+        heroSubtitle: "Answer the quiz and pick the best services. At the end, send everything via WhatsApp.",
+        heroNote: "Tip: start with 1–2 services and move forward. Add details at the end if you want.",
+        h1t: "Smart recommendations",
+        h1d: "Suggestions based on your goal and budget.",
+        h2t: "Discounted bundles",
+        h2d: "Simulate savings by combining services.",
+        h3t: "Finish on WhatsApp",
+        h3d: "A ready message to speed up closing.",
+
+        start: "Start now",
+        restart: "Restart",
+        step: "Question",
+        of: "of",
+        back: "Back",
+        continue: "Continue",
+        done: "Finish",
+
+        q_goal: "What’s your main goal?",
+        goal_sales: "Sales / conversion",
+        goal_brand: "Brand / identity",
+        goal_social: "Social media content",
+        goal_edu: "Educational / explanatory",
+        goal_intl: "Go international (languages)",
+        goal_launch: "Launch / campaign",
+
+        q_need: "What do you need right now?",
+        need_images: "Designs & images",
+        need_videos: "Videos for Reels/Ads",
+        need_plan: "Monthly content plan",
+        need_oneoff: "One-off services (logo, website, etc.)",
+        need_mascot: "Character / mascot",
+        need_unsure: "Not sure yet",
+
+        q_volume: "What volume are you aiming for?",
+        vol_low: "Low (fast / essential)",
+        vol_mid: "Medium (consistent)",
+        vol_high: "High (strong campaign)",
+        vol_mega: "Very high (maximize presence)",
+
+        q_budget: "Budget range (approx.)",
+        b1: "Up to R$100",
+        b2: "Up to R$300",
+        b3: "Up to R$600",
+        b4: "Up to R$1,000",
+        b5: "Up to R$2,000",
+        b6: "Above R$2,000",
+
+        q_deadline: "Desired timeline (optional)",
+        d1: "Urgent (up to 2 days)",
+        d2: "Up to 7 days",
+        d3: "Flexible",
+
+        results_title: "Select recommended services",
+        results_sub: "You can adjust, select more options and apply a discounted bundle.",
+        your_answers: "Your summary",
+        recommended: "Recommended for you",
+        combos: "Bundles with savings",
+        combo_apply: "Apply bundle",
+        combo_applied: "Bundle applied",
+        combo_remove: "Remove bundle",
+        search_placeholder: "Search service…",
+        details: "Details",
+        includes: "Includes",
+        benefits: "Benefits",
+        delivery: "Delivery",
+        revisions: "Revisions",
+        period: "Plan term",
+        total: "Estimated total",
+        subtotal: "Subtotal",
+        discount: "Discount",
+        message_hint: "Want to speed things up? Add a quick project note (optional):",
+        send_whatsapp: "Send on WhatsApp",
+        open_budget: "Open quote page",
+        obs: "Note",
+
+        wa_intro: "Hi! I’d like a quote with Comerc IAs.",
+        wa_answers: "Quiz summary:",
+        wa_services: "Selected services:",
+        wa_total: "Estimated total:",
+        wa_note: "Notes:"
+      }
+    };
+
+    const CATEGORY_EN = {
+      "Imagens": "Images",
+      "Vídeos": "Videos",
+      "Planos de Social Media (Conteúdo Mensal)": "Monthly Social Media Plans",
+      "Serviços Avulsos": "One-off Services",
+      "Criação de Personagem Personalizado": "Custom Character",
+      "Pacotes de Personagem Personalizado": "Character Bundles"
+    };
+
+    // Titles (for English UI + WhatsApp)
+    const SERVICE_TITLE_EN = {
+      "Pack Visual Rápido — 5 artes": "Quick Visual Pack — 5 designs",
+      "Pack Engajamento — 10 artes": "Engagement Pack — 10 designs",
+      "Pack Crescimento — 15 artes": "Growth Pack — 15 designs",
+
+      "Vídeo Short — até 15s": "Short Video — up to 15s",
+      "Vídeo Storytelling — até 30s": "Storytelling Video — up to 30s",
+      "Vídeo Premium — até 60s": "Premium Video — up to 60s",
+      "Vídeo Pro — até 120s (Efeitos especiais)": "Pro Video — up to 120s (VFX)",
+
+      "Plano Conteúdo Básico": "Basic Content Plan",
+      "Plano Conteúdo Standart": "Standard Content Plan",
+      "Plano Conteúdo Premium": "Premium Content Plan",
+
+      "Voz Profissional (IA) — preço por bloco": "Professional Voice — per block",
+      "Poster Promocional — Arte personalizada": "Promotional Poster — custom design",
+      "Retoque Rápido — por foto": "Quick Retouch — per photo",
+      "Shooting Compact — 10 fotos + 2 vídeos": "Product Shoot — 10 photos + 2 videos",
+      "Identidade Visual Básica — logomarca": "Basic Brand Identity — logo",
+      "Trilha Sonora Exclusiva por IA": "Exclusive Soundtrack",
+      "Dublagem profissional por IA": "Professional Dubbing",
+      "Website Corporativo Básico": "Basic Corporate Website",
+
+      "Mascote Ilustrado — 5 poses": "Illustrated Mascot — 5 poses",
+      "Mascote Animado — 30s + narração": "Animated Mascot — 30s + voice",
+      "Mascote Cinemático — 1 min + narração": "Cinematic Mascot — 1 min + voice",
+
+      "Starter Pack — 1x 30s + 3 poses": "Starter Bundle — 1×30s + 3 poses",
+      "Brand Pack — 1x 1min + 3 poses": "Brand Bundle — 1×1min + 3 poses",
+      "Pro Pack — 3x 30s + 5 poses": "Pro Bundle — 3×30s + 5 poses",
+      "Deluxe Pack — 6x 30s ou 3x 1min": "Deluxe Bundle — 6×30s or 3×1min"
+    };
+
+    const SERVICE_DESC_EN = {
+      "Pack Visual Rápido — 5 artes": "Up to 5 original designs for social media or ads — fast and consistent.",
+      "Pack Engajamento — 10 artes": "10 designs aligned to your brand/campaign, with variations for A/B testing.",
+      "Pack Crescimento — 15 artes": "15 designs to build a stronger content bank for a full campaign calendar.",
+      "Vídeo Short — até 15s": "Short-form video for Reels/Shorts/TikTok — perfect for quick ads and CTAs.",
+      "Vídeo Storytelling — até 30s": "30s video with simple narrative — present a product/service clearly.",
+      "Vídeo Premium — até 60s": "60s structured piece with refined editing and sound for higher conversion.",
+      "Vídeo Pro — até 120s (Efeitos especiais)": "Up to 120s with VFX/compositing — ideal for larger campaigns.",
+      "Plano Conteúdo Básico": "Monthly content plan (10 designs + 120s video) with weekly alignment.",
+      "Plano Conteúdo Standart": "Monthly content plan (20 designs + 240s video) for stronger posting frequency.",
+      "Plano Conteúdo Premium": "High-frequency monthly plan (40 designs + 320s video) for maximum presence.",
+      "Website Corporativo Básico": "Institutional website with custom design and responsive layout."
+    };
+
+    function detectLang(){
+      const qs = new URLSearchParams(location.search);
+      const l = (qs.get("lang") || "").toLowerCase();
+      if(l === "en") return "en";
+      if(l === "pt") return "pt";
+      const nav = (navigator.language || "pt").toLowerCase();
+      return nav.startsWith("en") ? "en" : "pt";
+    }
+
+    let lang = detectLang();
+    let answers = {};
+    let stepIndex = 0;
+
+    // Combo state
+    let activeComboId = null;
+
+    // ---------- helpers ----------
+    const $ = (id)=>document.getElementById(id);
+
+    function t(key){
+      return (I18N[lang] && I18N[lang][key]) ? I18N[lang][key] : (I18N.pt[key] || key);
+    }
+    function catName(c){ return lang === "en" ? (CATEGORY_EN[c] || c) : c; }
+    function svcTitle(s){
+      const base = s.titulo_venda || s.titulo || "";
+      if(lang === "en") return SERVICE_TITLE_EN[base] || base;
+      return base;
+    }
+    function svcDesc(s){
+      const baseTitle = s.titulo_venda || s.titulo || "";
+      if(lang === "en" && SERVICE_DESC_EN[baseTitle]) return SERVICE_DESC_EN[baseTitle];
+      return s.descricao || "";
+    }
+    function money(n){
+      const val = Number(n || 0);
+      return new Intl.NumberFormat(lang === "en" ? "en-US" : "pt-BR", {
+        style: "currency",
+        currency: "BRL",
+        maximumFractionDigits: 0
+      }).format(val);
+    }
+    function escapeHtml(s){
+      return String(s).replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+    }
+    function setFade(html){
+      app.innerHTML = html;
+      const el = app.querySelector(".fade");
+      if(el) requestAnimationFrame(()=>el.classList.add("show"));
+    }
+    function resetAll(){
+      answers = {};
+      stepIndex = 0;
+      activeComboId = null;
+      renderStep(0);
+    }
+
+    // ---------- Flatten services ----------
+    const services = [];
+    catalog.categorias.forEach(cat=>{
+      (cat.servicos || []).forEach(s=>{
+        services.push({
+          ...s,
+          __cat: cat.nome,
+          __id: (cat.nome + "|" + (s.titulo_venda || s.titulo)).toLowerCase().replace(/\s+/g,"-")
+        });
       });
     });
-  });
 
-  const state = {
-    step: 0,
-    answers: { goal:null, channels:[], focus:null, assets:null, volume:null, budget:null, deadline:null, pref:null },
-    selected: new Map()
-  };
+    function isPlan(s){ return Array.isArray(s.precos_por_periodo); }
 
-  const steps = [
-    {
-      id:'goal', type:'single', titleKey:'q_goal', required:true,
-      options: [
-        { value:'sales', labelKey:'goal_sales', icon:'💼' },
-        { value:'social', labelKey:'goal_social', icon:'📅' },
-        { value:'brand', labelKey:'goal_brand', icon:'🧩' },
-        { value:'edu', labelKey:'goal_edu', icon:'📘' },
-      ]
-    },
-    {
-      id:'channels', type:'multi', titleKey:'q_channels', required:true, min:1,
-      options: [
-        { value:'instagram', labelKey:'ch_instagram' },
-        { value:'tiktok', labelKey:'ch_tiktok' },
-        { value:'youtube', labelKey:'ch_youtube' },
-        { value:'whatsapp', labelKey:'ch_whatsapp' },
-        { value:'site', labelKey:'ch_site' },
-        { value:'multi', labelKey:'ch_multi' },
-      ]
-    },
-    {
-      id:'focus', type:'single', titleKey:'q_focus', required:true,
-      options: [
-        { value:'auto', labelKey:'focus_auto', icon:'🎯' },
-        { value:'images', labelKey:'focus_images', icon:'🖼️' },
-        { value:'videos', labelKey:'focus_videos', icon:'🎬' },
-        { value:'ads', labelKey:'focus_ads', icon:'📣' },
-        { value:'brand', labelKey:'focus_brand', icon:'🏷️' },
-        { value:'site', labelKey:'focus_site', icon:'🌐' },
-      ]
-    },
-    {
-      id:'assets', type:'single', titleKey:'q_assets', required:true,
-      options: [
-        { value:'yes', labelKey:'as_yes', icon:'✅' },
-        { value:'some', labelKey:'as_some', icon:'🟦' },
-        { value:'no', labelKey:'as_no', icon:'⬜' },
-      ]
-    },
-    {
-      id:'volume', type:'single', titleKey:'q_volume', required:true,
-      options: [
-        { value:'low', labelKey:'vol_low', icon:'①' },
-        { value:'mid', labelKey:'vol_mid', icon:'②' },
-        { value:'high', labelKey:'vol_high', icon:'③' },
-      ]
-    },
-    {
-      id:'budget', type:'single', titleKey:'q_budget', required:true,
-      options: [
-        { value:100, labelKey:'bud_100', icon:'◼︎' },
-        { value:300, labelKey:'bud_300', icon:'◼︎◼︎' },
-        { value:800, labelKey:'bud_800', icon:'◼︎◼︎◼︎' },
-        { value:999999, labelKey:'bud_more', icon:'◼︎◼︎◼︎◼︎' },
-      ]
-    },
-    {
-      id:'deadline', type:'single', titleKey:'q_deadline', required:false, skippable:true,
-      options: [
-        { value:'3d', labelKey:'dl_3', icon:'⏱️' },
-        { value:'7d', labelKey:'dl_7', icon:'📆' },
-        { value:'more', labelKey:'dl_more', icon:'🌿' },
-      ]
-    },
-    {
-      id:'pref', type:'single', titleKey:'q_pref', required:true,
-      options: [
-        { value:'bundle', labelKey:'pref_bundle', icon:'📦' },
-        { value:'single', labelKey:'pref_single', icon:'🧩' },
-        { value:'any', labelKey:'pref_any', icon:'⚖️' },
-      ]
-    }
-  ];
-
-  function comboPerc(qtd){
-    if(qtd >= 4) return 12;
-    if(qtd === 3) return 8;
-    if(qtd === 2) return 5;
-    return 0;
-  }
-
-  function scoreService(s){
-    const a = state.answers;
-    let score = 0;
-
-    const budget = Number(a.budget || 999999);
-    if(budget !== 999999 && s.__minPrice && s.__minPrice > budget) score -= 10;
-    if(budget !== 999999 && s.__minPrice && s.__minPrice <= budget) score += 3;
-
-    const cat = (s.__cat||'').toLowerCase();
-    if(a.focus === 'images' && /imagens/.test(cat)) score += 8;
-    if(a.focus === 'videos' && /vídeos|videos/.test(cat)) score += 8;
-    if(a.focus === 'ads' && /avulsos/.test(cat)) score += 6;
-
-    const txt = s.__text || '';
-    if(a.goal === 'sales'){
-      if(/anúnc|ads|promo|oferta|cta|copy|venda|convers/.test(txt)) score += 7;
-      if(/vídeo|video/.test(txt)) score += 2;
-    }
-    if(a.goal === 'social'){
-      if(s.__isPlan) score += 10;
-      if(/imagem|imagens|vídeo|video|conteúdo|reels|tiktok|shorts/.test(txt)) score += 5;
-    }
-    if(a.goal === 'brand'){
-      if(/logo|identidade|marca|branding/.test(txt)) score += 9;
-      if(/website|site|landing/.test(txt)) score += 3;
-    }
-    if(a.goal === 'edu'){
-      if(/roteiro|narração|narracao|vídeo|video/.test(txt)) score += 7;
+    function getPlanPeriodPrice(s, periodo){
+      const list = s.precos_por_periodo || [];
+      const found = list.find(p => p.periodo === periodo) || list[0];
+      if(!found) return { total: Number(s.preco||0), monthly: Number(s.preco||0), desconto: 0, meses: 1, periodo: "Mensal" };
+      return {
+        total: Number(found.preco_total_com_desc || 0),
+        monthly: Number(found.preco_mensal_efetivo || 0),
+        desconto: Number(found.desconto_perc || 0),
+        meses: Number(found.meses || 1),
+        periodo: found.periodo
+      };
     }
 
-    const ch = a.channels || [];
-    if(ch.includes('site') && /website|site|landing/.test(txt)) score += 5;
-    if((ch.includes('instagram')||ch.includes('tiktok')||ch.includes('youtube')||ch.includes('multi')) && /vídeo|video|imagem|reels|shorts|tiktok/.test(txt)) score += 2;
-    if(ch.includes('whatsapp') && /imagem|banner|arte|imagens/.test(txt)) score += 2;
-
-    if(a.assets === 'no'){
-      if(/logo|identidade/.test(txt)) score += 6;
-      if(/roteiro|copy/.test(txt)) score += 3;
-    }
-    if(a.assets === 'some'){
-      if(/identidade|copy|roteiro/.test(txt)) score += 3;
+    function budgetMax(){
+      const b = Number(answers.budget || 999999);
+      return isFinite(b) ? b : 999999;
     }
 
-    if(!s.__isPlan){
-      if(a.volume === 'low' && /(básic|basic)/.test(txt)) score += 2;
-      if(a.volume === 'mid' && /(profissional|professional)/.test(txt)) score += 2;
-      if(a.volume === 'high' && /(premium)/.test(txt)) score += 2;
-    }
-    return score;
-  }
-
-  function topServices(limit=14){
-    const budget = Number(state.answers.budget || 999999);
-    const scored = allServices
-      .map(s => ({ s, score: scoreService(s) }))
-      .filter(x => budget === 999999 || !x.s.__minPrice || x.s.__minPrice <= budget || x.s.__isPlan)
-      .sort((a,b)=> (b.score - a.score) || ((a.s.__minPrice||0) - (b.s.__minPrice||0)));
-    const pos = scored.filter(x=>x.score > 0).map(x=>x.s);
-    return (pos.length ? pos : scored.map(x=>x.s)).slice(0, limit);
-  }
-
-  function findByTitle(re){
-    return allServices.find(s => re.test((s.titulo||'')+' '+(s.descricao||'')));
-  }
-
-  function buildPackages(list){
-    const a = state.answers;
-
-    const plan = list.find(s => s.__isPlan);
-    const img = list.find(s => /imagens/i.test(s.__cat));
-    const vid = list.find(s => /vídeos|videos/i.test(s.__cat));
-    const logo = findByTitle(/\blogo\b/i);
-    const idv  = findByTitle(/identidade/i);
-    const ads  = findByTitle(/anúncio|ads|pacote de anúncios/i);
-    const site = findByTitle(/website|site/i);
-    const copy = findByTitle(/copy/i);
-    const rot  = findByTitle(/roteiro/i);
-
-    const essential = [];
-    if(a.goal === 'social' && plan) essential.push({id: plan.__id, period: 'Mensal'});
-    else {
-      if(img) essential.push({id: img.__id});
-      if((a.goal === 'sales' || a.goal === 'edu') && vid) essential.push({id: vid.__id});
-      if(!essential.length && list[0]) essential.push({id: list[0].__id});
-    }
-
-    const recommended = [...essential];
-    if(a.assets !== 'yes'){
-      if(logo && !recommended.find(x=>x.id===logo.__id)) recommended.unshift({id: logo.__id});
-      else if(idv && !recommended.find(x=>x.id===idv.__id)) recommended.unshift({id: idv.__id});
-    }
-    if(a.goal === 'sales'){
-      if(ads && !recommended.find(x=>x.id===ads.__id)) recommended.push({id: ads.__id});
-      if(copy && !recommended.find(x=>x.id===copy.__id)) recommended.push({id: copy.__id});
-    }
-    if(a.goal === 'edu'){
-      if(rot && !recommended.find(x=>x.id===rot.__id)) recommended.push({id: rot.__id});
-    }
-    if((a.channels||[]).includes('site')){
-      if(site && !recommended.find(x=>x.id===site.__id)) recommended.push({id: site.__id});
-    }
-    if(a.pref === 'bundle' && plan && !recommended.find(x=>x.id===plan.__id)) recommended.unshift({id: plan.__id, period:'Mensal'});
-
-    const scale = [...recommended];
-    list.slice(0, 8).forEach(s=>{
-      if(scale.length >= 6) return;
-      if(!scale.find(x=>x.id===s.__id)) scale.push({id: s.__id, period: s.__isPlan ? 'Mensal' : undefined});
-    });
-
-    return [
-      { key:'essential', titleKey:'pack_essential', badgeKey:'badge_essential', items: essential },
-      { key:'recommended', titleKey:'pack_reco', badgeKey:'badge_reco', items: recommended },
-      { key:'scale', titleKey:'pack_scale', badgeKey:'badge_scale', items: scale }
+    // ---------- Questions (single-choice auto-advance) ----------
+    const steps = [
+      {
+        id:"goal",
+        titleKey:"q_goal",
+        type:"single",
+        options:[
+          {labelKey:"goal_sales", value:"sales"},
+          {labelKey:"goal_brand", value:"brand"},
+          {labelKey:"goal_social", value:"social"},
+          {labelKey:"goal_edu", value:"edu"},
+          {labelKey:"goal_intl", value:"intl"},
+          {labelKey:"goal_launch", value:"launch"}
+        ]
+      },
+      {
+        id:"need",
+        titleKey:"q_need",
+        type:"single",
+        options:[
+          {labelKey:"need_images", value:"images"},
+          {labelKey:"need_videos", value:"videos"},
+          {labelKey:"need_plan", value:"plan"},
+          {labelKey:"need_oneoff", value:"oneoff"},
+          {labelKey:"need_mascot", value:"mascot"},
+          {labelKey:"need_unsure", value:"unsure"}
+        ]
+      },
+      {
+        id:"volume",
+        titleKey:"q_volume",
+        type:"single",
+        options:[
+          {labelKey:"vol_low", value:"low"},
+          {labelKey:"vol_mid", value:"mid"},
+          {labelKey:"vol_high", value:"high"},
+          {labelKey:"vol_mega", value:"mega"}
+        ]
+      },
+      {
+        id:"budget",
+        titleKey:"q_budget",
+        type:"single",
+        options:[
+          {labelKey:"b1", value:100},
+          {labelKey:"b2", value:300},
+          {labelKey:"b3", value:600},
+          {labelKey:"b4", value:1000},
+          {labelKey:"b5", value:2000},
+          {labelKey:"b6", value:999999}
+        ]
+      },
+      {
+        id:"deadline",
+        titleKey:"q_deadline",
+        type:"single",
+        options:[
+          {labelKey:"d1", value:"urgent"},
+          {labelKey:"d2", value:"week"},
+          {labelKey:"d3", value:"flex"}
+        ]
+      }
     ];
-  }
 
-  function computeTotals(selectedMap){
-    const selected = Array.from(selectedMap.values());
-    const oneOff = [];
-    const plans = [];
-
-    selected.forEach(it=>{
-      const s = allServices.find(x=>x.__id===it.id);
-      if(!s) return;
-      if(s.__isPlan) plans.push({s, period: it.period || 'Mensal'});
-      else oneOff.push(s);
-    });
-
-    let subtotal = 0;
-    oneOff.forEach(s=> subtotal += Number(s.preco || s.__minPrice || 0));
-
-    const perc = comboPerc(oneOff.length);
-    const disc = Math.round(subtotal * (perc/100) * 100)/100;
-
-    let planTotal = 0;
-    plans.forEach(({s, period})=>{
-      const opt = (s.precos_por_periodo||[]).find(p => String(p.periodo).toLowerCase() === String(period).toLowerCase())
-              || (s.precos_por_periodo||[])[0];
-      planTotal += Number(opt?.preco_total_com_desc || s.__minPrice || 0);
-    });
-
-    const total = (subtotal - disc) + planTotal;
-    return { subtotal, disc, planTotal, total, perc, count: selected.length, oneOffCount: oneOff.length };
-  }
-
-  function updateTotalsUI(){
-    const tot = computeTotals(state.selected);
-    vSub.textContent = money(tot.subtotal);
-    vDisc.textContent = tot.disc ? `-${money(tot.disc)} (${tot.perc}%)` : '—';
-    vPlans.textContent = tot.planTotal ? money(tot.planTotal) : '—';
-    vTotal.textContent = money(tot.total);
-  }
-
-  function renderSideSummary(){
-    const a = state.answers;
-    const lines = [];
-
-    const label = (kPt, kEn)=> (lang==='en'?kEn:kPt);
-
-    if(a.goal) lines.push([label('Objetivo','Goal'), a.goal]);
-    if(a.channels?.length) lines.push([label('Canais','Channels'), a.channels.join(', ')]);
-    if(a.focus) lines.push([label('Prioridade','Priority'), a.focus]);
-    if(a.assets) lines.push([label('Materiais','Assets'), a.assets]);
-    if(a.volume) lines.push([label('Volume','Volume'), a.volume]);
-    if(a.budget) lines.push([label('Orçamento','Budget'), `R$${a.budget}`]);
-    if(a.deadline) lines.push([label('Prazo','Deadline'), a.deadline]);
-    if(a.pref) lines.push([label('Preferência','Preference'), a.pref]);
-
-    if(!lines.length){
-      sideSummary.innerHTML = `<div class="text-slate-500">${escapeHtml(t('sideEmpty'))}</div>`;
-      return;
+    function progressPct(){
+      const total = steps.length + 1; // include results
+      return Math.round(((stepIndex)/total) * 100);
     }
 
-    sideSummary.innerHTML = `
-      <div class="space-y-2">
-        ${lines.map(([k,v])=>`
-          <div class="flex justify-between gap-3">
-            <span class="text-slate-500">${escapeHtml(k)}</span>
-            <span class="text-slate-900 font-semibold text-right">${escapeHtml(String(v))}</span>
-          </div>
-        `).join('')}
-      </div>
-    `;
-  }
+    function renderStep(i){
+      stepIndex = i;
 
-  function setStepUI(){
-    const total = steps.length + 1;
-    const current = Math.min(state.step + 1, total);
-    const pct = Math.round(((current-1)/(total-1))*100);
+      if(i >= steps.length){
+        return renderResults();
+      }
 
-    stepTitle.textContent = `${t('step')} ${current} ${t('stepOf')} ${total}`;
-    stepMeta.textContent = `${current}/${total}`;
-    stepBar.style.width = `${pct}%`;
+      const step = steps[i];
+      const opts = step.options.map(o=>{
+        return `
+          <button class="option-card ring-brand text-left p-4 sm:p-5 w-full" data-value="${escapeHtml(o.value)}">
+            <div class="font-extrabold text-slate-900">${escapeHtml(t(o.labelKey))}</div>
+            <div class="text-sm text-slate-600 mt-1">${escapeHtml(supportLine(step.id, o.value))}</div>
+          </button>
+        `;
+      }).join("");
 
-    backBtn.classList.toggle('hidden', state.step === 0);
-    skipBtn.classList.toggle('hidden', !(steps[state.step]?.skippable));
-    skipBtn.textContent = t('skip');
-    backBtn.textContent = t('back');
-    nextBtn.textContent = (state.step >= steps.length) ? t('backToEdit') : t('next');
-  }
-
-  function setScreen(html){
-    screen.innerHTML = html;
-    const el = screen.querySelector('.fade');
-    if(el) setTimeout(()=>el.classList.add('show'), 10);
-  }
-
-  function canProceed(){
-    if(state.step >= steps.length) return true;
-    const st = steps[state.step];
-    const v = state.answers[st.id];
-    if(st.type === 'single') return v !== null && v !== undefined;
-    if(st.type === 'multi') return Array.isArray(v) && v.length >= (st.min || 1);
-    return true;
-  }
-
-  function ensureDefaultSelectionOnResults(){
-    if(state.selected.size !== 0) return;
-    const list = topServices(16);
-    const packs = buildPackages(list);
-    (packs.find(p=>p.key==='recommended') || packs[0]).items.forEach(it=>{
-      state.selected.set(it.id, { id: it.id, period: it.period });
-    });
-  }
-
-  function goNextStep(){
-    if(state.step < steps.length) state.step += 1;
-    if(state.step === steps.length) ensureDefaultSelectionOnResults();
-    renderCurrent();
-  }
-
-  function renderCurrent(){
-    setStepUI();
-    renderSideSummary();
-    updateTotalsUI();
-
-    if(state.step >= steps.length){
-      renderResults();
-      return;
-    }
-
-    const st = steps[state.step];
-    const title = t(st.titleKey);
-
-    if(st.type === 'single'){
-      const active = state.answers[st.id];
-      setScreen(`
+      setFade(`
         <div class="fade">
-          <div class="mb-4">
-            <div class="text-slate-900 font-extrabold text-2xl tracking-tight">${escapeHtml(title)}</div>
-            <div class="text-slate-600 text-sm mt-1">${escapeHtml(t('selectOneHint'))}</div>
+          <div class="flex items-center justify-between gap-3 mb-4">
+            <div>
+              <div class="text-xs font-bold text-blue-700">${escapeHtml(t("step"))} ${i+1} ${escapeHtml(t("of"))} ${steps.length}</div>
+              <div class="text-xl sm:text-2xl font-extrabold text-slate-900 mt-1">${escapeHtml(t(step.titleKey))}</div>
+            </div>
+
+            <div class="min-w-[140px]">
+              <div class="text-xs text-slate-500 text-right">${progressPct()}%</div>
+              <div class="h-2 rounded-full bg-blue-100 overflow-hidden">
+                <div class="h-2 bg-blue-600" style="width:${progressPct()}%"></div>
+              </div>
+            </div>
           </div>
 
-          <div class="grid gap-3">
-            ${st.options.map(o=>{
-              const isActive = String(active) === String(o.value);
-              return `
-                <button class="opt ${isActive?'active':''} ring-focus w-full text-left rounded-3xl px-4 py-4" data-val="${escapeHtml(o.value)}">
-                  <div class="flex items-start justify-between gap-3">
-                    <div class="flex items-start gap-3">
-                      ${o.icon ? `<div class="h-10 w-10 rounded-2xl bg-blue-50 border border-blue-200 flex items-center justify-center text-blue-900 font-extrabold">${escapeHtml(o.icon)}</div>` : ``}
-                      <div>
-                        <div class="font-extrabold text-slate-900">${escapeHtml(t(o.labelKey))}</div>
-                        <div class="text-sm text-slate-600 mt-1">${escapeHtml(t('tapToSelect'))}</div>
-                      </div>
+          <div class="grid gap-3 sm:gap-4 sm:grid-cols-2">
+            ${opts}
+          </div>
+
+          <div class="mt-5 flex items-center justify-between">
+            <button class="btn ring-brand ${i===0 ? "opacity-40 cursor-not-allowed" : ""} bg-white hover:bg-blue-50 text-blue-700 px-4 py-2.5 font-semibold border border-blue-200" id="backBtn" ${i===0?"disabled":""}>
+              ${escapeHtml(t("back"))}
+            </button>
+
+            <div class="text-xs text-slate-500">
+              Comerc IAs • ${escapeHtml(catName("Imagens"))}, ${escapeHtml(catName("Vídeos"))}, ${escapeHtml(lang==="en"?"and more":"e muito mais")}
+            </div>
+          </div>
+        </div>
+      `);
+
+      // Back
+      $("backBtn").addEventListener("click", ()=> renderStep(Math.max(0, i-1)));
+
+      // Auto-advance on single choice
+      app.querySelectorAll("[data-value]").forEach(btn=>{
+        btn.addEventListener("click", ()=>{
+          const vRaw = btn.getAttribute("data-value");
+          const v = isNaN(Number(vRaw)) ? vRaw : Number(vRaw);
+          answers[step.id] = v;
+          renderStep(i+1);
+        });
+      });
+    }
+
+    function supportLine(stepId, value){
+      // Premium microcopy to “sell” the next step
+      if(stepId === "goal"){
+        if(value==="sales") return lang==="en" ? "Focus on conversion: ads-ready assets and fast delivery." : "Foco em conversão: peças prontas para anúncios e entrega rápida.";
+        if(value==="brand") return lang==="en" ? "Build a strong identity: logo, mascot and consistent visuals." : "Construa identidade forte: logo, mascote e visual consistente.";
+        if(value==="social") return lang==="en" ? "Consistency wins: monthly plans + high-performance formats." : "Consistência vence: planos mensais + formatos de alta performance.";
+        if(value==="edu") return lang==="en" ? "Explain clearly: structured videos, voice and supporting visuals." : "Explique com clareza: vídeos estruturados, voz e visuais de apoio.";
+        if(value==="intl") return lang==="en" ? "Reach new markets: dubbing and multi-language assets." : "Alcance novos mercados: dublagem e materiais em outros idiomas.";
+        if(value==="launch") return lang==="en" ? "Launch with impact: bundles + campaign-ready deliverables." : "Lançamento com impacto: combos e entregáveis de campanha.";
+      }
+      if(stepId === "need"){
+        if(value==="images") return lang==="en" ? "Get high-quality designs for posts, ads and promotions." : "Artes de alta qualidade para posts, anúncios e promoções.";
+        if(value==="videos") return lang==="en" ? "Reels/Ads optimized editing for attention and action." : "Edição otimizada para Reels/Ads: atenção e ação.";
+        if(value==="plan") return lang==="en" ? "Best value month-to-month: consistent content schedule." : "Melhor custo-benefício: calendário mensal consistente.";
+        if(value==="oneoff") return lang==="en" ? "Logo, website, poster, dubbing and more — choose what you need." : "Logo, site, cartaz, dublagem e mais — escolha o que precisa.";
+        if(value==="mascot") return lang==="en" ? "A mascot elevates recall: perfect for branding and ads." : "Mascote aumenta reconhecimento: ótimo para marca e anúncios.";
+        if(value==="unsure") return lang==="en" ? "No problem — we’ll recommend the best starter set." : "Sem problema — vamos sugerir o melhor conjunto inicial.";
+      }
+      if(stepId === "volume"){
+        if(value==="low") return lang==="en" ? "Start lean and fast — great for testing." : "Comece enxuto e rápido — ótimo para testar.";
+        if(value==="mid") return lang==="en" ? "Balanced set for consistent publishing." : "Equilíbrio para consistência de publicações.";
+        if(value==="high") return lang==="en" ? "Stronger push for campaigns and growth." : "Mais força para campanhas e crescimento.";
+        if(value==="mega") return lang==="en" ? "Maximum presence — ideal for launches and rebrands." : "Presença máxima — ideal para lançamentos e rebranding.";
+      }
+      if(stepId === "budget"){
+        if(value===999999) return lang==="en" ? "We’ll prioritize best ROI and premium bundles." : "Vamos priorizar ROI e combos premium.";
+        return lang==="en" ? "We’ll recommend within your range." : "Vamos recomendar dentro da sua faixa.";
+      }
+      if(stepId === "deadline"){
+        if(value==="urgent") return lang==="en" ? "We’ll prioritize fast-delivery services." : "Vamos priorizar serviços de entrega rápida.";
+        if(value==="week") return lang==="en" ? "Comfortable window for strong quality." : "Janela tranquila para qualidade forte.";
+        if(value==="flex") return lang==="en" ? "We can optimize cost and scope." : "Podemos otimizar custo e escopo.";
+      }
+      return "";
+    }
+
+    // ---------- Recommendation logic ----------
+    function catBoostFromNeed(need){
+      if(need==="images") return {"Imagens": 7};
+      if(need==="videos") return {"Vídeos": 7};
+      if(need==="plan") return {"Planos de Social Media (Conteúdo Mensal)": 7};
+      if(need==="oneoff") return {"Serviços Avulsos": 7};
+      if(need==="mascot") return {"Criação de Personagem Personalizado": 6, "Pacotes de Personagem Personalizado": 7};
+      return {}; // unsure
+    }
+
+    function goalBoost(goal){
+      // cross-sell upsell mapping
+      if(goal==="sales") return {"Vídeos": 3, "Imagens": 2, "Serviços Avulsos": 1};
+      if(goal==="brand") return {"Serviços Avulsos": 3, "Criação de Personagem Personalizado": 2, "Pacotes de Personagem Personalizado": 2, "Imagens": 1};
+      if(goal==="social") return {"Planos de Social Media (Conteúdo Mensal)": 4, "Imagens": 2, "Vídeos": 2};
+      if(goal==="edu") return {"Vídeos": 3, "Serviços Avulsos": 2};
+      if(goal==="intl") return {"Serviços Avulsos": 4, "Vídeos": 2};
+      if(goal==="launch") return {"Vídeos": 3, "Imagens": 2, "Serviços Avulsos": 2, "Planos de Social Media (Conteúdo Mensal)": 1};
+      return {};
+    }
+
+    function volumeFitScore(s, vol){
+      const title = (s.titulo || "").toLowerCase();
+      const venda = (s.titulo_venda || "").toLowerCase();
+      const base = title + " " + venda;
+
+      // Imagens packs
+      if(s.__cat==="Imagens"){
+        if(vol==="low" && base.includes("5")) return 6;
+        if(vol==="mid" && base.includes("10")) return 6;
+        if(vol==="high" && base.includes("15")) return 6;
+        if(vol==="mega" && base.includes("15")) return 7;
+        return 2;
+      }
+
+      // Vídeos
+      if(s.__cat==="Vídeos"){
+        if(vol==="low" && (base.includes("15s") || base.includes("short"))) return 6;
+        if(vol==="mid" && base.includes("30s")) return 6;
+        if(vol==="high" && base.includes("60s")) return 6;
+        if(vol==="mega" && base.includes("120s")) return 7;
+        return 2;
+      }
+
+      // Planos
+      if(s.__cat==="Planos de Social Media (Conteúdo Mensal)"){
+        if(vol==="low" && (s.titulo||"").toLowerCase().includes("básico")) return 7;
+        if(vol==="mid" && (s.titulo||"").toLowerCase().includes("standart")) return 7;
+        if((vol==="high" || vol==="mega") && (s.titulo||"").toLowerCase().includes("premium")) return 7;
+        return 3;
+      }
+
+      // Mascots (prefer bundles when high)
+      if(s.__cat==="Pacotes de Personagem Personalizado"){
+        if(vol==="low" && base.includes("starter")) return 6;
+        if(vol==="mid" && base.includes("brand pack")) return 6;
+        if(vol==="high" && base.includes("pro pack")) return 6;
+        if(vol==="mega" && base.includes("deluxe")) return 7;
+        return 3;
+      }
+      if(s.__cat==="Criação de Personagem Personalizado"){
+        if(vol==="low" && base.includes("ilustrado")) return 6;
+        if(vol==="mid" && base.includes("30s")) return 6;
+        if((vol==="high"||vol==="mega") && base.includes("1 min")) return 6;
+        return 3;
+      }
+
+      // One-off: depends on goal
+      return 2;
+    }
+
+    function urgencyScore(s, deadline){
+      const p = (s.prazo_entrega || "").toLowerCase();
+      if(deadline==="urgent"){
+        if(p.includes("1 dia") || p.includes("6–12") || p.includes("6-12")) return 3;
+        if(p.includes("2 dias")) return 2;
+        return 1;
+      }
+      return 0;
+    }
+
+    function budgetFit(s){
+      const b = budgetMax();
+      if(isPlan(s)){
+        const price = getPlanPeriodPrice(s, "Mensal").monthly;
+        return price <= b ? 3 : -4;
+      }
+      const price = Number(s.preco || 0);
+      return price <= b ? 3 : -4;
+    }
+
+    function scoreService(s){
+      let score = 0;
+      const needBoost = catBoostFromNeed(answers.need);
+      const gBoost = goalBoost(answers.goal);
+
+      score += (needBoost[s.__cat] || 0);
+      score += (gBoost[s.__cat] || 0);
+      score += volumeFitScore(s, answers.volume);
+      score += urgencyScore(s, answers.deadline);
+      score += budgetFit(s);
+
+      // Specific goal triggers for one-off services
+      const title = (s.titulo_venda || s.titulo || "").toLowerCase();
+      const cat = s.__cat;
+
+      if(answers.goal==="intl" && cat==="Serviços Avulsos"){
+        if(title.includes("dublagem")) score += 6;
+        if(title.includes("voz")) score += 3;
+      }
+      if(answers.goal==="brand" && cat==="Serviços Avulsos"){
+        if(title.includes("logomarca") || title.includes("identidade")) score += 6;
+        if(title.includes("website")) score += 4;
+      }
+      if(answers.goal==="sales" && cat==="Serviços Avulsos"){
+        if(title.includes("poster") || title.includes("cartaz")) score += 3;
+        if(title.includes("shooting") || title.includes("ensaio")) score += 4;
+      }
+
+      // If user explicitly chose one area, reduce unrelated noise a bit (but keep cross-sell)
+      if(answers.need==="images" && cat==="Planos de Social Media (Conteúdo Mensal)") score += 1;
+      if(answers.need==="videos" && cat==="Planos de Social Media (Conteúdo Mensal)") score += 1;
+
+      return score;
+    }
+
+    function recommend(){
+      const scored = services.map(s=>({s, score: scoreService(s)}));
+      scored.sort((a,b)=>{
+        if(b.score !== a.score) return b.score - a.score;
+        const pa = isPlan(a.s) ? getPlanPeriodPrice(a.s, "Mensal").monthly : Number(a.s.preco||0);
+        const pb = isPlan(b.s) ? getPlanPeriodPrice(b.s, "Mensal").monthly : Number(b.s.preco||0);
+        return pa - pb;
+      });
+
+      // Keep only reasonable scores or best fallback
+      let list = scored.filter(x=>x.score > 0).slice(0, 10).map(x=>x.s);
+      if(list.length < 6){
+        list = scored.slice(0, 10).map(x=>x.s);
+      }
+
+      // Extra upsell suggestions (max 3)
+      const upsell = [];
+      const want = answers.goal;
+
+      function pickByTitle(substr){
+        const f = services.find(s => (s.titulo_venda||"").toLowerCase().includes(substr));
+        if(f && !list.some(x=>x.__id===f.__id) && !upsell.some(x=>x.__id===f.__id)) upsell.push(f);
+      }
+
+      if(want==="sales"){ pickByTitle("vídeo storytelling"); pickByTitle("pack engajamento"); pickByTitle("poster"); }
+      if(want==="brand"){ pickByTitle("identidade visual"); pickByTitle("website"); pickByTitle("mascote ilustrado"); }
+      if(want==="social"){ pickByTitle("plano conteúdo"); pickByTitle("vídeo short"); pickByTitle("pack visual"); }
+      if(want==="edu"){ pickByTitle("vídeo premium"); pickByTitle("voz profissional"); pickByTitle("trilha sonora"); }
+      if(want==="intl"){ pickByTitle("dublagem"); pickByTitle("voz profissional"); pickByTitle("vídeo premium"); }
+      if(want==="launch"){ pickByTitle("vídeo premium"); pickByTitle("pack crescimento"); pickByTitle("shooting"); }
+
+      return { list, upsell: upsell.slice(0,3) };
+    }
+
+    // ---------- Combos ----------
+    function findServiceByVendaTitle(vendaTitle){
+      return services.find(s => (s.titulo_venda || "") === vendaTitle);
+    }
+
+    const combos = [
+      {
+        id:"combo_content_video",
+        namePT:"Combo Performance (Imagens + Vídeo)",
+        nameEN:"Performance Bundle (Images + Video)",
+        descPT:"Perfeito para anúncios e posts: 10 artes + vídeo 30s.",
+        descEN:"Great for ads and posts: 10 designs + a 30s video.",
+        discountPerc: 10,
+        items: [
+          "Pack Engajamento — 10 artes",
+          "Vídeo Storytelling — até 30s"
+        ]
+      },
+      {
+        id:"combo_launch",
+        namePT:"Combo Lançamento (Campanha Completa)",
+        nameEN:"Launch Bundle (Campaign Set)",
+        descPT:"Impacto total: 15 artes + vídeo 60s + cartaz promocional.",
+        descEN:"Full impact: 15 designs + 60s video + promo poster.",
+        discountPerc: 12,
+        items: [
+          "Pack Crescimento — 15 artes",
+          "Vídeo Premium — até 60s",
+          "Poster Promocional — Arte personalizada"
+        ]
+      },
+      {
+        id:"combo_brand",
+        namePT:"Combo Marca (Logo + Site + Mascote)",
+        nameEN:"Brand Bundle (Logo + Website + Mascot)",
+        descPT:"Marca forte e memorável: logo, site e mascote ilustrado.",
+        descEN:"A stronger, memorable brand: logo, website and illustrated mascot.",
+        discountPerc: 12,
+        items: [
+          "Identidade Visual Básica — logomarca",
+          "Website Corporativo Básico",
+          "Mascote Ilustrado — 5 poses"
+        ]
+      }
+    ];
+
+    function comboLabel(c){
+      return lang==="en" ? c.nameEN : c.namePT;
+    }
+    function comboDesc(c){
+      return lang==="en" ? c.descEN : c.descPT;
+    }
+
+    function getComboPrice(c){
+      const svc = c.items.map(findServiceByVendaTitle).filter(Boolean);
+      const sum = svc.reduce((acc,s)=>acc + (isPlan(s) ? getPlanPeriodPrice(s, "Mensal").monthly : Number(s.preco||0)), 0);
+      const discount = Math.round(sum * (c.discountPerc/100));
+      return { sum, discount, total: sum - discount, services: svc };
+    }
+
+    // ---------- Results UI ----------
+    function renderResults(){
+      const { list, upsell } = recommend();
+
+      const answersList = [
+        {k: t("q_goal"), v: t(goalKey(answers.goal))},
+        {k: t("q_need"), v: t(needKey(answers.need))},
+        {k: t("q_volume"), v: t(volumeKey(answers.volume))},
+        {k: t("q_budget"), v: budgetLabel(answers.budget)},
+        {k: t("q_deadline"), v: t(deadlineKey(answers.deadline))}
+      ];
+
+      // Default selected: recommended + upsell (unchecked)
+      const selected = new Map();
+      list.forEach(s=> selected.set(s.__id, { checked: true, period: isPlan(s) ? "Mensal" : null }));
+      upsell.forEach(s=> {
+        if(!selected.has(s.__id)) selected.set(s.__id, { checked: false, period: isPlan(s) ? "Mensal" : null });
+      });
+
+      const allShown = [...list, ...upsell.filter(u=>!list.some(x=>x.__id===u.__id))];
+
+      function renderServiceRow(s){
+        const st = selected.get(s.__id) || {checked:false, period: isPlan(s) ? "Mensal" : null};
+        const priceObj = isPlan(s) ? getPlanPeriodPrice(s, st.period || "Mensal") : null;
+
+        const priceText = isPlan(s)
+          ? (lang==="en"
+              ? `${money(priceObj.monthly)}/mo (${st.period})`
+              : `${money(priceObj.monthly)}/mês (${st.period})`)
+          : money(s.preco);
+
+        const catLabel = catName(s.__cat);
+
+        const periodSelect = isPlan(s) ? `
+          <div class="mt-2">
+            <label class="text-xs font-bold text-slate-600">${escapeHtml(t("period"))}</label>
+            <select class="periodSel mt-1 w-full rounded-xl border border-blue-200 bg-white px-3 py-2 text-sm ring-brand" data-id="${escapeHtml(s.__id)}">
+              ${(s.precos_por_periodo || []).map(p => `
+                <option value="${escapeHtml(p.periodo)}" ${p.periodo===st.period ? "selected":""}>
+                  ${escapeHtml(p.periodo)} • ${escapeHtml(lang==="en" ? (money(p.preco_mensal_efetivo)+"/mo") : (money(p.preco_mensal_efetivo)+"/mês"))}
+                </option>
+              `).join("")}
+            </select>
+            <div class="text-xs text-slate-500 mt-1">
+              ${lang==="en"
+                ? `Total: ${money(priceObj.total)} • Save ${priceObj.desconto}%`
+                : `Total: ${money(priceObj.total)} • Desconto ${priceObj.desconto}%`
+              }
+            </div>
+          </div>
+        ` : "";
+
+        return `
+          <div class="rounded-[18px] border border-blue-100 bg-white/80 p-4 sm:p-5">
+            <div class="flex items-start gap-3">
+              <div class="pt-0.5">
+                <input type="checkbox" class="svcCheck w-5 h-5 accent-blue-600" data-id="${escapeHtml(s.__id)}" ${st.checked ? "checked":""}/>
+              </div>
+              <div class="flex-1 min-w-0">
+                <div class="flex items-start justify-between gap-3">
+                  <div class="min-w-0">
+                    <div class="font-extrabold text-slate-900 leading-snug">${escapeHtml(svcTitle(s))}</div>
+                    <div class="text-sm text-slate-600 mt-1">${escapeHtml(svcDesc(s))}</div>
+                    <div class="text-xs text-blue-800 font-bold mt-2 inline-flex items-center gap-2">
+                      <span class="px-2 py-1 rounded-full bg-blue-50 border border-blue-100">${escapeHtml(catLabel)}</span>
+                      <span class="text-slate-500 font-semibold">${escapeHtml(t("delivery"))}: ${escapeHtml(s.prazo_entrega || "-")}</span>
+                      <span class="text-slate-500 font-semibold">${escapeHtml(t("revisions"))}: ${escapeHtml(String(s.revisoes_incluidas ?? "-"))}</span>
                     </div>
-                    <span class="text-slate-400 mt-1">→</span>
                   </div>
-                </button>
-              `;
-            }).join('')}
+                  <div class="text-right shrink-0">
+                    <div class="text-blue-700 font-extrabold">${escapeHtml(priceText)}</div>
+                    ${(!isPlan(s) && s.preco_original && Number(s.preco_original)>Number(s.preco||0)) ? `<div class="text-xs text-slate-400 line-through">${escapeHtml(money(s.preco_original))}</div>` : ``}
+                  </div>
+                </div>
+
+                ${periodSelect}
+
+                <details class="mt-3">
+                  <summary class="cursor-pointer select-none text-sm font-bold text-blue-700 hover:text-blue-800">${escapeHtml(t("details"))}</summary>
+                  <div class="mt-2 grid sm:grid-cols-2 gap-3 text-sm">
+                    <div class="rounded-2xl border border-blue-100 bg-blue-50/40 p-3">
+                      <div class="font-extrabold text-slate-900">${escapeHtml(t("includes"))}</div>
+                      <ul class="mt-2 list-disc pl-5 text-slate-700">
+                        ${(s.inclui||[]).slice(0,6).map(x=>`<li>${escapeHtml(x)}</li>`).join("") || `<li>-</li>`}
+                      </ul>
+                    </div>
+                    <div class="rounded-2xl border border-blue-100 bg-blue-50/40 p-3">
+                      <div class="font-extrabold text-slate-900">${escapeHtml(t("benefits"))}</div>
+                      <ul class="mt-2 list-disc pl-5 text-slate-700">
+                        ${(s.beneficios||[]).slice(0,6).map(x=>`<li>${escapeHtml(x)}</li>`).join("") || `<li>-</li>`}
+                      </ul>
+                    </div>
+                  </div>
+                </details>
+              </div>
+            </div>
           </div>
+        `;
+      }
 
-          <div class="mt-4 text-xs text-slate-500">${escapeHtml(CATALOG.observacoes || '')}</div>
-        </div>
-      `);
+      function computeTotals(){
+        // Build selected list + prices (plan = monthly unless otherwise selected)
+        const picked = [];
+        selected.forEach((st,id)=>{
+          if(!st.checked) return;
+          const s = services.find(x=>x.__id===id);
+          if(!s) return;
 
-      // ✅ FIX: auto-advance on single-choice click
-      screen.querySelectorAll('button[data-val]').forEach(btn=>{
-        btn.addEventListener('click', ()=>{
-          const val = btn.dataset.val;
-          state.answers[st.id] = isNaN(Number(val)) ? val : Number(val);
-
-          // pequena pausa só pra dar "feedback" visual
-          setTimeout(()=>goNextStep(), 60);
+          if(isPlan(s)){
+            const p = getPlanPeriodPrice(s, st.period || "Mensal");
+            picked.push({ s, price: p.monthly, period: st.period || "Mensal", planTotal: p.total, planMonthly: p.monthly, planDiscount: p.desconto });
+          }else{
+            picked.push({ s, price: Number(s.preco||0), period: null });
+          }
         });
-      });
 
-      nextBtn.disabled = !canProceed();
-    }
+        const subtotal = picked.reduce((acc,x)=>acc + Number(x.price||0), 0);
 
-    if(st.type === 'multi'){
-      const current = Array.isArray(state.answers[st.id]) ? state.answers[st.id] : [];
-      const min = st.min || 1;
+        // Combo discount (applies to monthly subtotal view)
+        let comboDiscount = 0;
+        let comboName = null;
 
-      setScreen(`
+        if(activeComboId){
+          const c = combos.find(x=>x.id===activeComboId);
+          if(c){
+            // Only apply if all items still selected
+            const ok = c.items.every(vTitle=>{
+              const item = findServiceByVendaTitle(vTitle);
+              return item && selected.get(item.__id)?.checked;
+            });
+            if(ok){
+              const cp = getComboPrice(c);
+              // compute discount relative to the items in combo (monthly view)
+              comboDiscount = cp.discount;
+              comboName = comboLabel(c);
+            }else{
+              activeComboId = null;
+            }
+          }else{
+            activeComboId = null;
+          }
+        }
+
+        // Small progressive discount (simulation) if 3+ services selected (excluding plans)
+        const nonPlanCount = picked.filter(x=>!isPlan(x.s)).length;
+        const progressivePerc = nonPlanCount >= 3 ? 5 : 0;
+        const progressiveDiscount = progressivePerc ? Math.round(subtotal * (progressivePerc/100)) : 0;
+
+        // Don’t stack too aggressively: use the bigger of combo vs progressive (simple and safe)
+        const finalDiscount = Math.max(comboDiscount, progressiveDiscount);
+        const discountLabel =
+          comboDiscount >= progressiveDiscount && comboName
+            ? (lang==="en" ? `Bundle discount (${comboName})` : `Desconto de combo (${comboName})`)
+            : (progressivePerc ? (lang==="en" ? `Multi-service discount (${progressivePerc}%)` : `Desconto multi-serviços (${progressivePerc}%)`) : null);
+
+        const total = subtotal - finalDiscount;
+
+        return { picked, subtotal, discount: finalDiscount, discountLabel, total };
+      }
+
+      function buildResumoText(totals, note){
+        const lines = [];
+        lines.push(`${t("wa_intro")}`);
+        lines.push("");
+        lines.push(`${t("wa_answers")}`);
+        answersList.forEach(x=> lines.push(`- ${x.k} ${x.v}`));
+        lines.push("");
+        lines.push(`${t("wa_services")}`);
+        totals.picked.forEach(x=>{
+          const name = svcTitle(x.s);
+          if(isPlan(x.s)){
+            lines.push(`- ${name} (${x.period}) — ${lang==="en" ? money(x.planMonthly)+"/mo" : money(x.planMonthly)+"/mês"}`);
+          } else {
+            lines.push(`- ${name} — ${money(x.price)}`);
+          }
+        });
+        lines.push("");
+        lines.push(`${t("wa_total")} ${money(totals.total)}`);
+        if(totals.discount){
+          lines.push(`${t("discount")}: -${money(totals.discount)}${totals.discountLabel ? " • " + totals.discountLabel : ""}`);
+        }
+        if(note && note.trim()){
+          lines.push("");
+          lines.push(`${t("wa_note")}`);
+          lines.push(note.trim());
+        }
+        lines.push("");
+        lines.push(lang==="en" ? "Can you confirm availability and the next steps?" : "Pode me confirmar disponibilidade e próximos passos?");
+        return lines.join("\n");
+      }
+
+      function openWhatsApp(){
+        const note = (document.getElementById("noteField")?.value || "");
+        const totals = computeTotals();
+        const msg = buildResumoText(totals, note);
+        const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`;
+        window.open(url, "_blank");
+      }
+
+      function openBudgetPage(){
+        const note = (document.getElementById("noteField")?.value || "");
+        const totals = computeTotals();
+        const resumo = buildResumoText(totals, note);
+
+        const payload = totals.picked.map(x=>({
+          category: x.s.__cat,
+          title: x.s.titulo_venda || x.s.titulo,
+          period: x.period || null,
+          price: x.price
+        }));
+
+        const base = lang==="en"
+          ? "https://www.comercias.com.br/en/orcamento"
+          : "https://www.comercias.com.br/pt/orcamento";
+
+        const url = `${base}?servicos=${encodeURIComponent(JSON.stringify(payload))}&resumo=${encodeURIComponent(resumo)}&total=${encodeURIComponent(String(totals.total))}&lang=${lang}`;
+        window.open(url, "_blank");
+      }
+
+      function renderTotalsBox(){
+        const totals = computeTotals();
+        return `
+          <div class="rounded-[22px] border border-blue-100 bg-[linear-gradient(135deg,rgba(11,95,255,.08),rgba(255,255,255,.75))] p-4 sm:p-5">
+            <div class="flex items-center justify-between gap-3">
+              <div>
+                <div class="text-xs font-bold text-blue-800">${escapeHtml(t("total"))}</div>
+                <div class="text-2xl font-extrabold text-slate-900 mt-1">${escapeHtml(money(totals.total))}</div>
+              </div>
+              <div class="text-right text-sm">
+                <div class="text-slate-600">${escapeHtml(t("subtotal"))}: <span class="font-bold text-slate-900">${escapeHtml(money(totals.subtotal))}</span></div>
+                <div class="text-slate-600">${escapeHtml(t("discount"))}: <span class="font-bold text-slate-900">-${escapeHtml(money(totals.discount))}</span></div>
+                ${totals.discountLabel ? `<div class="text-xs text-blue-800 font-bold mt-1">${escapeHtml(totals.discountLabel)}</div>` : ``}
+              </div>
+            </div>
+          </div>
+        `;
+      }
+
+      function renderCombos(){
+        const cards = combos.map(c=>{
+          const cp = getComboPrice(c);
+          const applied = (activeComboId === c.id);
+          return `
+            <div class="rounded-[18px] border border-blue-100 bg-white/80 p-4">
+              <div class="flex items-start justify-between gap-3">
+                <div>
+                  <div class="font-extrabold text-slate-900">${escapeHtml(comboLabel(c))}</div>
+                  <div class="text-sm text-slate-600 mt-1">${escapeHtml(comboDesc(c))}</div>
+                  <div class="text-xs text-slate-500 mt-2">
+                    ${escapeHtml(lang==="en" ? "Includes:" : "Inclui:")} ${escapeHtml(c.items.map(x=> (lang==="en" ? (SERVICE_TITLE_EN[x]||x) : x)).join(" + "))}
+                  </div>
+                </div>
+                <div class="text-right shrink-0">
+                  <div class="text-blue-700 font-extrabold">${escapeHtml(money(cp.total))}</div>
+                  <div class="text-xs text-slate-500">${escapeHtml(lang==="en" ? "Save" : "Economize")} ${escapeHtml(money(cp.discount))} (${c.discountPerc}%)</div>
+                </div>
+              </div>
+
+              <div class="mt-3 flex items-center gap-2">
+                <button class="btn ring-brand px-4 py-2.5 font-bold ${applied ? "bg-blue-50 text-blue-800 border border-blue-200" : "bg-blue-600 hover:bg-blue-700 text-white"}"
+                  data-combo="${escapeHtml(c.id)}">
+                  ${escapeHtml(applied ? t("combo_applied") : t("combo_apply"))}
+                </button>
+                ${applied ? `<button class="btn ring-brand px-4 py-2.5 font-semibold bg-white hover:bg-blue-50 text-blue-700 border border-blue-200" data-combo-remove="${escapeHtml(c.id)}">${escapeHtml(t("combo_remove"))}</button>` : ``}
+              </div>
+            </div>
+          `;
+        }).join("");
+
+        return `<div class="grid gap-3">${cards}</div>`;
+      }
+
+      const serviceListHtml = allShown.map(renderServiceRow).join("");
+      const answersHtml = answersList.map(a=>`
+        <div class="rounded-2xl bg-white/70 border border-blue-100 p-3">
+          <div class="text-xs font-bold text-slate-500">${escapeHtml(a.k)}</div>
+          <div class="font-extrabold text-slate-900 mt-1">${escapeHtml(a.v)}</div>
+        </div>
+      `).join("");
+
+      setFade(`
         <div class="fade">
-          <div class="mb-4">
-            <div class="text-slate-900 font-extrabold text-2xl tracking-tight">${escapeHtml(title)}</div>
-            <div class="text-slate-600 text-sm mt-1">${escapeHtml(lang==='en' ? `Select at least ${min}.` : `Selecione pelo menos ${min}.`)}</div>
-          </div>
-
-          <div class="flex flex-wrap gap-2.5">
-            ${st.options.map(o=>{
-              const isActive = current.includes(o.value);
-              return `
-                <button type="button" class="chip ${isActive?'active':''} ring-focus px-4 py-3 rounded-2xl text-sm font-bold" data-val="${escapeHtml(o.value)}">
-                  ${escapeHtml(t(o.labelKey))}
-                </button>
-              `;
-            }).join('')}
-          </div>
-
-          <div class="mt-5 rounded-2xl bg-blue-50 border border-blue-200 p-4 flex items-center justify-between">
-            <div class="text-sm text-slate-700">
-              <span class="font-extrabold text-slate-900">${escapeHtml(t('selected'))}</span>: ${current.length}
-              <span class="text-slate-400">•</span>
-              <span class="text-slate-600">${escapeHtml(t('comboHint'))}</span>
+          <div class="flex items-start justify-between gap-4 mb-4">
+            <div>
+              <div class="text-xs font-bold text-blue-700">${escapeHtml(t("done"))}</div>
+              <div class="text-xl sm:text-2xl font-extrabold text-slate-900 mt-1">${escapeHtml(t("results_title"))}</div>
+              <div class="text-slate-600 mt-1">${escapeHtml(t("results_sub"))}</div>
             </div>
-            <div class="text-xs text-slate-500">${escapeHtml(t('multiHint'))}</div>
+            <div class="min-w-[140px]">
+              <div class="text-xs text-slate-500 text-right">100%</div>
+              <div class="h-2 rounded-full bg-blue-100 overflow-hidden">
+                <div class="h-2 bg-blue-600" style="width:100%"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="grid lg:grid-cols-5 gap-4">
+            <!-- left -->
+            <div class="lg:col-span-2 space-y-4">
+              <div class="rounded-[22px] border border-blue-100 bg-blue-50/30 p-4">
+                <div class="font-extrabold text-slate-900">${escapeHtml(t("your_answers"))}</div>
+                <div class="grid gap-2 mt-3">
+                  ${answersHtml}
+                </div>
+              </div>
+
+              <div class="rounded-[22px] border border-blue-100 bg-blue-50/30 p-4">
+                <div class="flex items-center justify-between gap-3">
+                  <div class="font-extrabold text-slate-900">${escapeHtml(t("combos"))}</div>
+                  <div class="text-xs text-slate-500">${escapeHtml(lang==="en" ? "Choose one bundle for best savings." : "Escolha um combo para maior economia.")}</div>
+                </div>
+                <div class="mt-3">
+                  ${renderCombos()}
+                </div>
+              </div>
+
+              <div id="totalsBox">
+                ${renderTotalsBox()}
+              </div>
+
+              <div class="rounded-[22px] border border-blue-100 bg-white/80 p-4">
+                <div class="font-extrabold text-slate-900">${escapeHtml(t("message_hint"))}</div>
+                <textarea id="noteField" class="mt-2 w-full rounded-2xl border border-blue-200 bg-white px-4 py-3 text-sm ring-brand min-h-[110px]" placeholder="${escapeHtml(lang==="en" ? "Example: I need ads for a product launch next week…" : "Ex.: preciso de peças para lançamento na próxima semana…")}"></textarea>
+              </div>
+
+              <div class="flex flex-col sm:flex-row gap-2">
+                <button id="sendWA" class="btn ring-brand bg-blue-600 hover:bg-blue-700 text-white px-4 py-3 font-extrabold w-full">
+                  ${escapeHtml(t("send_whatsapp"))}
+                </button>
+                <button id="openBudget" class="btn ring-brand bg-white hover:bg-blue-50 text-blue-700 px-4 py-3 font-bold border border-blue-200 w-full">
+                  ${escapeHtml(t("open_budget"))}
+                </button>
+              </div>
+
+              <div class="text-xs text-slate-500">
+                <span class="font-bold text-slate-700">${escapeHtml(t("obs"))}:</span> ${escapeHtml(catalog.observacoes || "")}
+              </div>
+
+              <div class="flex gap-2">
+                <button id="backToQuiz" class="btn ring-brand bg-white hover:bg-blue-50 text-blue-700 px-4 py-2.5 font-semibold border border-blue-200">${escapeHtml(t("back"))}</button>
+                <button id="resetBtn" class="btn ring-brand bg-white hover:bg-blue-50 text-blue-700 px-4 py-2.5 font-semibold border border-blue-200">${escapeHtml(t("restart"))}</button>
+              </div>
+            </div>
+
+            <!-- right -->
+            <div class="lg:col-span-3 space-y-4">
+              <div class="rounded-[22px] border border-blue-100 bg-blue-50/30 p-4">
+                <div class="flex items-center justify-between gap-3">
+                  <div class="font-extrabold text-slate-900">${escapeHtml(t("recommended"))}</div>
+                  <div class="text-xs text-slate-500">${escapeHtml(lang==="en" ? "Tip: check what you want to include." : "Dica: marque o que deseja incluir.")}</div>
+                </div>
+
+                <div class="mt-3">
+                  <input id="searchInput" class="w-full rounded-2xl border border-blue-200 bg-white px-4 py-3 text-sm ring-brand" placeholder="${escapeHtml(t("search_placeholder"))}" />
+                </div>
+
+                <div class="mt-4 grid gap-3 max-h-[680px] overflow-auto pr-1 scrollbar-thin" id="svcList">
+                  ${serviceListHtml}
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       `);
 
-      screen.querySelectorAll('button[data-val]').forEach(btn=>{
-        btn.addEventListener('click', ()=>{
-          const val = btn.dataset.val;
-          let cur = Array.isArray(state.answers[st.id]) ? [...state.answers[st.id]] : [];
-          if(cur.includes(val)) cur = cur.filter(x=>x!==val);
-          else cur.push(val);
-          state.answers[st.id] = cur;
-          nextBtn.disabled = !canProceed();
-          renderCurrent();
+      // Handlers: checks
+      function rerenderTotals(){
+        document.getElementById("totalsBox").innerHTML = renderTotalsBox();
+      }
+
+      app.querySelectorAll(".svcCheck").forEach(ch=>{
+        ch.addEventListener("change", ()=>{
+          const id = ch.getAttribute("data-id");
+          const st = selected.get(id) || {checked:false, period:null};
+          st.checked = ch.checked;
+          selected.set(id, st);
+          rerenderTotals();
         });
       });
 
-      nextBtn.disabled = !canProceed();
+      app.querySelectorAll(".periodSel").forEach(sel=>{
+        sel.addEventListener("change", ()=>{
+          const id = sel.getAttribute("data-id");
+          const st = selected.get(id) || {checked:true, period:"Mensal"};
+          st.period = sel.value;
+          st.checked = (selected.get(id)?.checked ?? true);
+          selected.set(id, st);
+
+          // Update the price label inside that card (simple refresh totals only)
+          rerenderTotals();
+        });
+      });
+
+      // Search filter
+      const searchInput = document.getElementById("searchInput");
+      searchInput.addEventListener("input", ()=>{
+        const q = (searchInput.value || "").toLowerCase().trim();
+        const listEl = document.getElementById("svcList");
+        listEl.querySelectorAll(".svcCheck").forEach(()=>{}); // keep warm
+        listEl.querySelectorAll(".rounded-\\[18px\\]").forEach(card=>{
+          const text = card.innerText.toLowerCase();
+          card.style.display = (!q || text.includes(q)) ? "" : "none";
+        });
+      });
+
+      // Combo buttons
+      app.querySelectorAll("[data-combo]").forEach(btn=>{
+        btn.addEventListener("click", ()=>{
+          const id = btn.getAttribute("data-combo");
+          activeComboId = id;
+
+          // auto-check combo items
+          const c = combos.find(x=>x.id===id);
+          if(c){
+            c.items.forEach(vTitle=>{
+              const s = findServiceByVendaTitle(vTitle);
+              if(!s) return;
+              const st = selected.get(s.__id) || {checked:false, period: isPlan(s) ? "Mensal" : null};
+              st.checked = true;
+              selected.set(s.__id, st);
+
+              const checkbox = app.querySelector(`.svcCheck[data-id="${CSS.escape(s.__id)}"]`);
+              if(checkbox) checkbox.checked = true;
+            });
+          }
+
+          // re-render by re-rendering results (keeps everything consistent)
+          renderResults();
+        });
+      });
+
+      app.querySelectorAll("[data-combo-remove]").forEach(btn=>{
+        btn.addEventListener("click", ()=>{
+          activeComboId = null;
+          renderResults();
+        });
+      });
+
+      // CTA buttons
+      document.getElementById("sendWA").addEventListener("click", openWhatsApp);
+      document.getElementById("openBudget").addEventListener("click", openBudgetPage);
+
+      // Nav
+      document.getElementById("backToQuiz").addEventListener("click", ()=> renderStep(Math.max(0, steps.length-1)));
+      document.getElementById("resetBtn").addEventListener("click", resetAll);
     }
-  }
 
-  function buildSummaryText(){
-    const a = state.answers;
-    const tot = computeTotals(state.selected);
+    // ---------- label helpers ----------
+    function goalKey(v){
+      return ({
+        sales:"goal_sales", brand:"goal_brand", social:"goal_social", edu:"goal_edu", intl:"goal_intl", launch:"goal_launch"
+      })[v] || "goal_social";
+    }
+    function needKey(v){
+      return ({
+        images:"need_images", videos:"need_videos", plan:"need_plan", oneoff:"need_oneoff", mascot:"need_mascot", unsure:"need_unsure"
+      })[v] || "need_unsure";
+    }
+    function volumeKey(v){
+      return ({low:"vol_low", mid:"vol_mid", high:"vol_high", mega:"vol_mega"})[v] || "vol_mid";
+    }
+    function deadlineKey(v){
+      return ({urgent:"d1", week:"d2", flex:"d3"})[v] || "d3";
+    }
+    function budgetLabel(v){
+      const n = Number(v||0);
+      if(n===100) return t("b1");
+      if(n===300) return t("b2");
+      if(n===600) return t("b3");
+      if(n===1000) return t("b4");
+      if(n===2000) return t("b5");
+      if(n===999999) return t("b6");
+      return String(v||"");
+    }
 
-    const linesPt = [
-      `- Comerc IAs`,
-      `- Objetivo: ${a.goal}`,
-      `- Canais: ${(a.channels||[]).join(', ')}`,
-      `- Prioridade: ${a.focus}`,
-      `- Materiais: ${a.assets}`,
-      `- Volume: ${a.volume}`,
-      `- Orçamento: R$${a.budget}`,
-      `- Prazo: ${a.deadline || '—'}`,
-      `- Preferência: ${a.pref}`,
-      `- Total estimado: ${money(tot.total)}`
-    ];
+    // ---------- top controls ----------
+    function applyLangUI(){
+      $("brandSub").textContent = t("brandSub");
+      $("footerLeft").textContent = t("footerLeft");
+      $("footerRight").textContent = t("footerRight");
+      $("heroBadge").textContent = t("heroBadge");
+      $("heroTitle").textContent = t("heroTitle");
+      $("heroSubtitle").textContent = t("heroSubtitle");
+      $("heroNote").textContent = t("heroNote");
+      $("h1t").textContent = t("h1t"); $("h1d").textContent = t("h1d");
+      $("h2t").textContent = t("h2t"); $("h2d").textContent = t("h2d");
+      $("h3t").textContent = t("h3t"); $("h3d").textContent = t("h3d");
 
-    const linesEn = [
-      `- Comerc IAs`,
-      `- Goal: ${a.goal}`,
-      `- Channels: ${(a.channels||[]).join(', ')}`,
-      `- Priority: ${a.focus}`,
-      `- Assets: ${a.assets}`,
-      `- Volume: ${a.volume}`,
-      `- Budget: R$${a.budget}`,
-      `- Deadline: ${a.deadline || '—'}`,
-      `- Preference: ${a.pref}`,
-      `- Estimated total: ${money(tot.total)}`
-    ];
+      $("startBtn").textContent = t("start");
+      $("resetBtnTop").textContent = t("restart");
 
-    return (lang==='en'?linesEn:linesPt).join('\n');
-  }
+      // toggle buttons
+      if(lang==="pt"){
+        $("langPT").className = "btn ring-brand px-3 py-1.5 text-sm font-semibold bg-blue-600 text-white";
+        $("langEN").className = "btn ring-brand px-3 py-1.5 text-sm font-semibold text-blue-700 hover:bg-blue-50";
+        document.documentElement.lang = "pt-BR";
+      }else{
+        $("langEN").className = "btn ring-brand px-3 py-1.5 text-sm font-semibold bg-blue-600 text-white";
+        $("langPT").className = "btn ring-brand px-3 py-1.5 text-sm font-semibold text-blue-700 hover:bg-blue-50";
+        document.documentElement.lang = "en";
+      }
+    }
 
-  function serviceCardHTML(s, checked){
-    const priceLabel = s.__isPlan ? money(s.__minPrice) : money(s.preco || s.__minPrice || 0);
-    const periodSel = (s.__isPlan && checked)
-      ? `
-        <div class="mt-3">
-          <label class="text-xs text-slate-600">${escapeHtml(t('period'))}</label>
-          <select class="planPeriod ring-focus mt-1 w-full border border-blue-200 bg-white rounded-2xl px-3 py-2.5 text-sm text-slate-900" data-id="${escapeHtml(s.__id)}">
-            ${(s.precos_por_periodo||[]).map(p=>{
-              const cur = state.selected.get(s.__id)?.period || 'Mensal';
-              const selected = String(cur).toLowerCase() === String(p.periodo).toLowerCase() ? 'selected' : '';
-              const econ = Math.max(0, Number(p.preco_total_sem_desc||0) - Number(p.preco_total_com_desc||0));
-              const econTxt = econ>0 ? ` • ${t('savings')} ${money(econ)}` : '';
-              return `<option value="${escapeHtml(p.periodo)}" ${selected}>${escapeHtml(periodLabel(p.periodo))} — ${money(p.preco_total_com_desc)}${econTxt}</option>`;
-            }).join('')}
-          </select>
-        </div>
-      ` : '';
+    $("langPT").addEventListener("click", ()=>{
+      lang = "pt";
+      applyLangUI();
+      // re-render current view with new language
+      if(stepIndex >= steps.length) renderResults();
+      else renderStep(stepIndex);
+    });
+    $("langEN").addEventListener("click", ()=>{
+      lang = "en";
+      applyLangUI();
+      if(stepIndex >= steps.length) renderResults();
+      else renderStep(stepIndex);
+    });
 
-    return `
-      <label class="rounded-3xl border border-blue-200 bg-white hover:bg-blue-50 transition-all p-4 flex gap-3 shadow-soft">
-        <input type="checkbox" class="svcCheck mt-1.5 h-4 w-4 accent-blue-600" data-id="${escapeHtml(s.__id)}" ${checked?'checked':''}>
-        <div class="flex-1">
-          <div class="flex items-start justify-between gap-3">
+    $("startBtn").addEventListener("click", ()=>{
+      // If already started, keep; else go step 0
+      renderStep(0);
+      // scroll into quiz
+      app.scrollIntoView({behavior:"smooth", block:"start"});
+    });
+
+    $("resetBtnTop").addEventListener("click", resetAll);
+
+    // ---------- init ----------
+    applyLangUI();
+
+    // Start screen (light)
+    setFade(`
+      <div class="fade">
+        <div class="rounded-[24px] border border-blue-100 bg-white/80 p-5 sm:p-6">
+          <div class="flex items-start justify-between gap-4">
             <div>
-              <div class="font-extrabold text-slate-900">${escapeHtml(s.titulo || 'Serviço')}</div>
-              <div class="text-xs text-slate-500 mt-0.5">${escapeHtml(s.__cat)}</div>
+              <div class="text-xs font-bold text-blue-700">${escapeHtml(lang==="en" ? "READY" : "PRONTO")}</div>
+              <div class="text-xl sm:text-2xl font-extrabold text-slate-900 mt-1">${escapeHtml(lang==="en" ? "Let’s find the perfect services" : "Vamos encontrar os serviços perfeitos")}</div>
+              <div class="text-slate-600 mt-2">${escapeHtml(lang==="en"
+                ? "Answer 5 quick questions. Then pick services, apply a discounted bundle and send the quote on WhatsApp."
+                : "Responda 5 perguntas rápidas. Depois, marque serviços, aplique um combo com desconto e envie o orçamento no WhatsApp."
+              )}</div>
+
+              <div class="mt-4 grid sm:grid-cols-3 gap-3 text-sm">
+                <div class="rounded-2xl bg-blue-50/50 border border-blue-100 p-4">
+                  <div class="font-extrabold text-slate-900">${escapeHtml(lang==="en"?"Fast":"Rápido")}</div>
+                  <div class="text-slate-600 mt-1">${escapeHtml(lang==="en"?"Under 2 minutes.":"Em menos de 2 minutos.")}</div>
+                </div>
+                <div class="rounded-2xl bg-blue-50/50 border border-blue-100 p-4">
+                  <div class="font-extrabold text-slate-900">${escapeHtml(lang==="en"?"Premium":"Premium")}</div>
+                  <div class="text-slate-600 mt-1">${escapeHtml(lang==="en"?"Blue & white, clean UX.":"Paleta azul e branco, UX limpo.")}</div>
+                </div>
+                <div class="rounded-2xl bg-blue-50/50 border border-blue-100 p-4">
+                  <div class="font-extrabold text-slate-900">${escapeHtml(lang==="en"?"Closing-ready":"Pronto pra fechar")}</div>
+                  <div class="text-slate-600 mt-1">${escapeHtml(lang==="en"?"WhatsApp message is ready.":"Mensagem no WhatsApp já pronta.")}</div>
+                </div>
+              </div>
             </div>
-            <div class="text-blue-800 font-extrabold whitespace-nowrap">${escapeHtml(priceLabel)}</div>
-          </div>
-          <div class="mt-2 text-sm text-slate-700">${escapeHtml((s.descricao||''))}</div>
-          ${s.extras ? `<div class="mt-2 text-xs text-slate-600">${escapeHtml(s.extras)}</div>` : ''}
-          ${periodSel}
-        </div>
-      </label>
-    `;
-  }
 
-  function renderResults(){
-    ensureDefaultSelectionOnResults();
-
-    const list = topServices(18);
-    const packs = buildPackages(list);
-
-    const tot = computeTotals(state.selected);
-
-    const packCards = packs.map(p=>{
-      const temp = new Map();
-      p.items.forEach(it=> temp.set(it.id, {id:it.id, period: it.period}));
-      const tp = computeTotals(temp);
-      const highlight = p.key==='recommended';
-
-      return `
-        <div class="rounded-3xl p-4 md:p-5 border ${highlight ? 'border-blue-400 bg-blue-50' : 'border-blue-200 bg-white'} shadow-soft">
-          <div class="flex items-center justify-between gap-3">
-            <div class="text-lg font-extrabold text-slate-900">${escapeHtml(t(p.titleKey))}</div>
-            <span class="text-xs px-2 py-1 rounded-full border border-blue-200 bg-white text-blue-900 font-semibold">${escapeHtml(t(p.badgeKey))}</span>
+            <div class="hidden md:block w-28 h-28 rounded-[26px] bg-[radial-gradient(circle_at_30%_30%,rgba(11,95,255,.35),transparent_55%),linear-gradient(135deg,rgba(11,95,255,.18),rgba(255,255,255,.7))] border border-blue-100"></div>
           </div>
 
-          <div class="mt-3 space-y-1">
-            ${p.items.slice(0,6).map(it=>{
-              const s = allServices.find(x=>x.__id===it.id);
-              if(!s) return '';
-              return `<div class="text-sm text-slate-700">• ${escapeHtml(s.titulo)}</div>`;
-            }).join('')}
-          </div>
-
-          <div class="mt-4 flex items-end justify-between gap-3">
-            <div>
-              <div class="text-xs text-slate-500">${escapeHtml(t('estTotal'))}</div>
-              <div class="text-xl font-extrabold text-blue-800">${money(tp.total)}</div>
-              <div class="text-xs text-slate-500">${tp.disc ? `-${money(tp.disc)} ${escapeHtml(t('comboWord'))}` : '—'}</div>
-            </div>
-            <button class="pickPack ring-focus px-4 py-2.5 rounded-2xl font-extrabold ${highlight ? 'btn-primary' : 'btn-ghost'}"
-              data-pack="${escapeHtml(p.key)}">
-              ${escapeHtml(t('selectPack'))}
+          <div class="mt-5 flex flex-col sm:flex-row gap-2">
+            <button class="btn ring-brand bg-blue-600 hover:bg-blue-700 text-white px-5 py-3 font-extrabold" id="startInline">
+              ${escapeHtml(t("start"))}
+            </button>
+            <button class="btn ring-brand bg-white hover:bg-blue-50 text-blue-700 px-5 py-3 font-bold border border-blue-200" id="resetInline">
+              ${escapeHtml(t("restart"))}
             </button>
           </div>
-        </div>
-      `;
-    }).join('');
 
-    const selectedIds = new Set(Array.from(state.selected.keys()));
-    const curated = [
-      ...allServices.filter(s=>selectedIds.has(s.__id)),
-      ...list.filter(s=>!selectedIds.has(s.__id))
-    ].slice(0, 16);
-
-    const servicesHTML = curated.map(s=>{
-      const checked = state.selected.has(s.__id);
-      return serviceCardHTML(s, checked);
-    }).join('');
-
-    setScreen(`
-      <div class="fade">
-        <div class="flex items-start justify-between gap-3 mb-5">
-          <div>
-            <div class="text-2xl md:text-3xl font-extrabold tracking-tight text-slate-900">${escapeHtml(t('resultsTitle'))}</div>
-            <div class="text-slate-600 text-sm mt-1">${escapeHtml(t('resultsSub'))}</div>
-          </div>
-          <button id="restart" class="ring-focus px-4 py-2.5 rounded-2xl btn-ghost font-extrabold">${escapeHtml(t('restart'))}</button>
-        </div>
-
-        <div class="grid md:grid-cols-3 gap-3 mb-6">
-          ${packCards}
-        </div>
-
-        <div class="flex items-center justify-between gap-3 mb-3">
-          <div class="text-slate-900 font-extrabold text-lg">${escapeHtml(t('customize'))}</div>
-          <div class="text-xs text-slate-500">${escapeHtml(t('comboHint'))}</div>
-        </div>
-
-        <div id="svcList" class="grid gap-3 mb-6">
-          ${servicesHTML}
-        </div>
-
-        <div class="rounded-3xl border border-blue-200 bg-white p-4 md:p-5 mb-4 shadow-soft">
-          <div class="text-slate-900 font-extrabold mb-2">${escapeHtml(t('summaryTitle'))}</div>
-          <pre id="summaryText" class="whitespace-pre-wrap text-sm text-slate-700">${escapeHtml(buildSummaryText())}</pre>
-          <div class="mt-3 text-xs text-slate-500">${escapeHtml(t('notes'))}: ${escapeHtml(CATALOG.observacoes || '')}</div>
-        </div>
-
-        <div class="stickyMobileBar rounded-3xl p-4 md:hidden">
-          <div class="flex items-center justify-between">
-            <div>
-              <div class="text-xs text-slate-500">${escapeHtml(t('selected'))}: <span id="mCount" class="text-slate-900 font-extrabold">${tot.count}</span></div>
-              <div class="text-lg font-extrabold text-blue-800" id="mTotal">${money(tot.total)}</div>
-            </div>
-            <button id="goQuoteMobile" class="ring-focus btn-primary px-4 py-3 rounded-2xl font-extrabold">${escapeHtml(t('goQuote'))}</button>
+          <div class="mt-4 text-xs text-slate-500">
+            ${escapeHtml(lang==="en"
+              ? "All services and prices are embedded (no external loading)."
+              : "Todos os serviços e preços ficam embutidos (sem carregamento externo)."
+            )}
           </div>
         </div>
-
-        <div class="hidden md:flex gap-3">
-          <button id="copySummary" class="ring-focus btn-ghost px-6 py-3.5 rounded-2xl font-extrabold">${escapeHtml(t('copy'))}</button>
-          <button id="goQuote" class="ring-focus btn-primary flex-1 px-6 py-3.5 rounded-2xl font-extrabold">${escapeHtml(t('goQuote'))}</button>
-        </div>
-
-        <div class="md:hidden h-2"></div>
       </div>
     `);
 
-    backBtn.classList.remove('hidden');
-    skipBtn.classList.add('hidden');
-    nextBtn.textContent = t('backToEdit');
-    nextBtn.disabled = false;
+    document.getElementById("startInline").addEventListener("click", ()=> renderStep(0));
+    document.getElementById("resetInline").addEventListener("click", resetAll);
 
-    $('restart').addEventListener('click', ()=>{
-      state.step = 0;
-      state.answers = { goal:null, channels:[], focus:null, assets:null, volume:null, budget:null, deadline:null, pref:null };
-      state.selected.clear();
-      renderCurrent();
-    });
-
-    screen.querySelectorAll('.pickPack').forEach(btn=>{
-      btn.addEventListener('click', ()=>{
-        const key = btn.dataset.pack;
-        const pack = packs.find(p=>p.key===key);
-        if(!pack) return;
-        state.selected.clear();
-        pack.items.forEach(it=> state.selected.set(it.id, {id:it.id, period:it.period}));
-        updateTotalsUI();
-        renderSideSummary();
-        renderResults();
-      });
-    });
-
-    screen.querySelectorAll('.svcCheck').forEach(ch=>{
-      ch.addEventListener('change', ()=>{
-        const id = ch.dataset.id;
-        if(ch.checked) state.selected.set(id, {id, period: 'Mensal'});
-        else state.selected.delete(id);
-
-        updateTotalsUI();
-        renderSideSummary();
-
-        const newTot = computeTotals(state.selected);
-        const mCount = $('mCount'); const mTotal = $('mTotal');
-        if(mCount) mCount.textContent = newTot.count;
-        if(mTotal) mTotal.textContent = money(newTot.total);
-
-        const st = $('summaryText');
-        if(st) st.textContent = buildSummaryText();
-
-        const s = allServices.find(x=>x.__id===id);
-        if(s?.__isPlan) renderResults();
-      });
-    });
-
-    screen.querySelectorAll('.planPeriod').forEach(sel=>{
-      sel.addEventListener('change', ()=>{
-        const id = sel.dataset.id;
-        const it = state.selected.get(id);
-        if(it){ it.period = sel.value; state.selected.set(id, it); }
-        updateTotalsUI();
-        const st = $('summaryText');
-        if(st) st.textContent = buildSummaryText();
-      });
-    });
-
-    const copyBtn = $('copySummary');
-    if(copyBtn){
-      copyBtn.addEventListener('click', async ()=>{
-        try{
-          await navigator.clipboard.writeText(buildSummaryText());
-          copyBtn.textContent = t('copied');
-          setTimeout(()=>copyBtn.textContent = t('copy'), 1100);
-        }catch(e){
-          alert(lang==='en' ? 'Copy failed. Please select and copy manually.' : 'Falha ao copiar. Selecione e copie manualmente.');
-        }
-      });
-    }
-
-    function goToQuote(){
-      const summary = buildSummaryText();
-      const selectedDetail = Array.from(state.selected.values()).map(it=>{
-        const s = allServices.find(x=>x.__id===it.id);
-        if(!s) return null;
-
-        let price = s.__minPrice;
-        if(s.__isPlan){
-          const opt = (s.precos_por_periodo||[]).find(p=>String(p.periodo).toLowerCase()===String(it.period||'Mensal').toLowerCase())
-                  || (s.precos_por_periodo||[])[0];
-          price = Number(opt?.preco_total_com_desc || s.__minPrice || 0);
-        } else {
-          price = Number(s.preco || s.__minPrice || 0);
-        }
-
-        return {
-          category: s.__cat,
-          title: s.titulo,
-          kind: s.__isPlan ? 'plan' : 'one_off',
-          period: s.__isPlan ? (it.period || 'Mensal') : undefined,
-          price
-        };
-      }).filter(Boolean);
-
-      const base = (lang==='en')
-        ? 'https://www.comercias.com.br/en/orcamento'
-        : 'https://www.comercias.com.br/pt/orcamento';
-
-      const encodedResumo = encodeURIComponent(summary);
-      const encodedServices = encodeURIComponent(JSON.stringify(selectedDetail));
-      const totalsPayload = computeTotals(state.selected);
-      const encodedTotals = encodeURIComponent(JSON.stringify(totalsPayload));
-
-      window.location.href = `${base}?servicos=${encodedServices}&resumo=${encodedResumo}&totais=${encodedTotals}`;
-    }
-
-    const goBtn = $('goQuote');
-    if(goBtn) goBtn.addEventListener('click', goToQuote);
-    const goBtnM = $('goQuoteMobile');
-    if(goBtnM) goBtnM.addEventListener('click', goToQuote);
-  }
-
-  backBtn.addEventListener('click', ()=>{
-    if(state.step > 0){
-      state.step -= 1;
-      renderCurrent();
-    }
-  });
-
-  skipBtn.addEventListener('click', ()=>{
-    const st = steps[state.step];
-    if(st?.skippable){
-      state.answers[st.id] = null;
-      state.step += 1;
-      if(state.step === steps.length) ensureDefaultSelectionOnResults();
-      renderCurrent();
-    }
-  });
-
-  nextBtn.addEventListener('click', ()=>{
-    if(state.step >= steps.length){
-      state.step = steps.length - 1;
-      renderCurrent();
-      return;
-    }
-    if(!canProceed()) return;
-
-    state.step += 1;
-    if(state.step === steps.length) ensureDefaultSelectionOnResults();
-    renderCurrent();
-  });
-
-  function applyCopy(){
-    document.title = t('pageTitle');
-    $('headerTitle').textContent = t('headerTitle');
-
-    $('heroBadge').textContent = t('heroBadge');
-    $('heroTitle').textContent = t('heroTitle');
-    $('heroSub').textContent = t('heroSub');
-    $('ctaStart').textContent = t('ctaStart');
-    $('miniNoteTitle').textContent = t('miniNoteTitle');
-    $('miniNoteText').textContent = t('miniNoteText');
-
-    $('b1t').textContent = t('b1t'); $('b1s').textContent = t('b1s');
-    $('b2t').textContent = t('b2t'); $('b2s').textContent = t('b2s');
-    $('b3t').textContent = t('b3t'); $('b3s').textContent = t('b3s');
-
-    $('previewTitle').textContent = t('previewTitle');
-    $('previewTime').textContent = t('previewTime');
-    $('p1t').textContent = t('p1t'); $('p1s').textContent = t('p1s');
-    $('p2t').textContent = t('p2t'); $('p2s').textContent = t('p2s');
-    $('p3t').textContent = t('p3t'); $('p3s').textContent = t('p3s');
-    $('dealTitle').textContent = t('dealTitle');
-    $('dealText').textContent = t('dealText');
-    $('footerLine').textContent = t('footerLine');
-
-    $('modalTitle').textContent = t('modalTitle');
-    $('modalSub').textContent = t('modalSub');
-    $('sideTitle').textContent = t('sideTitle');
-    $('sideHint').textContent = t('sideHint');
-    $('sideEmpty').textContent = t('sideEmpty');
-    $('simTitle').textContent = t('simTitle');
-    $('simRule').textContent = t('simRule');
-    $('lblSub').textContent = t('lblSub');
-    $('lblDisc').textContent = t('lblDisc');
-    $('lblPlans').textContent = t('lblPlans');
-    $('lblTotal').textContent = t('lblTotal');
-    $('noteTotals').textContent = t('noteTotals');
-    $('sideStrategy').textContent = t('sideStrategy');
-
-    backBtn.textContent = t('back');
-    skipBtn.textContent = t('skip');
-    nextBtn.textContent = (state.step >= steps.length) ? t('backToEdit') : t('next');
-  }
-
-  function setLang(newLang){
-    lang = newLang;
-    localStorage.setItem('comercias_lang', newLang);
-    document.documentElement.lang = (newLang === 'en') ? 'en' : 'pt-BR';
-
-    langPTTop.classList.toggle('bg-blue-50', newLang==='pt');
-    langENTop.classList.toggle('bg-blue-50', newLang==='en');
-    langPTTop.classList.toggle('text-slate-600', newLang!=='pt');
-    langENTop.classList.toggle('text-slate-600', newLang!=='en');
-
-    langPT.classList.toggle('bg-blue-50', newLang==='pt');
-    langEN.classList.toggle('bg-blue-50', newLang==='en');
-    langPT.classList.toggle('text-slate-600', newLang!=='pt');
-    langEN.classList.toggle('text-slate-600', newLang!=='en');
-
-    applyCopy();
-    renderCurrent();
-  }
-
-  langPTTop.addEventListener('click', ()=>setLang('pt'));
-  langENTop.addEventListener('click', ()=>setLang('en'));
-  langPT.addEventListener('click', ()=>setLang('pt'));
-  langEN.addEventListener('click', ()=>setLang('en'));
-
-  applyCopy();
-  setLang(lang);
-  renderCurrent();
-})();
-</script>
+  })();
+  </script>
 </body>
 </html>
