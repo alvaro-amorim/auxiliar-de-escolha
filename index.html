@@ -53,9 +53,13 @@
 
       --scrollThumb: rgba(11,95,255,.18);
       --scrollTrack: rgba(11,95,255,.05);
+
+      --ok: rgba(19, 190, 115, 1);
+      --okBg: rgba(19, 190, 115, .10);
+      --warn: rgba(255, 145, 0, 1);
+      --warnBg: rgba(255, 145, 0, .10);
     }
 
-    /* DARK (inverted: white -> deep blue, dark -> light) */
     [data-theme="dark"]{
       --bgA: #04142f;
       --bgB: #031029;
@@ -87,6 +91,11 @@
 
       --scrollThumb: rgba(234,242,255,.16);
       --scrollTrack: rgba(234,242,255,.06);
+
+      --ok: rgba(90, 220, 160, 1);
+      --okBg: rgba(90, 220, 160, .12);
+      --warn: rgba(255, 175, 45, 1);
+      --warnBg: rgba(255, 175, 45, .12);
     }
 
     html,body{ height:100%; }
@@ -108,7 +117,6 @@
 
     h1,h2,h3,.font-display{ font-family: Sora, Inter, system-ui, sans-serif; }
 
-    /* Subtle grid */
     .bg-grid{
       background-image:
         linear-gradient(to right, var(--grid) 1px, transparent 1px),
@@ -118,7 +126,6 @@
       mask-image: radial-gradient(circle at 50% 10%, black 42%, transparent 82%);
     }
 
-    /* Premium shell */
     .shell{
       position: relative;
       border-radius: 26px;
@@ -129,9 +136,8 @@
       box-shadow: 0 26px 70px var(--shadow1), 0 8px 22px var(--shadow2);
       overflow: hidden;
     }
-    [data-theme="dark"] .shell{
-      border: 1px solid rgba(234,242,255,.06);
-    }
+    [data-theme="dark"] .shell{ border: 1px solid rgba(234,242,255,.06); }
+
     .shell::before{
       content:"";
       position:absolute;
@@ -162,10 +168,13 @@
       background: linear-gradient(90deg, transparent, var(--divider), transparent);
     }
 
-    /* Buttons */
-    .btn{ border-radius: 16px; transition: transform .12s ease, box-shadow .18s ease, background .18s ease, border-color .18s ease, color .18s ease; }
+    .btn{
+      border-radius: 16px;
+      transition: transform .12s ease, box-shadow .18s ease, background .18s ease, border-color .18s ease, color .18s ease, opacity .18s ease;
+    }
     .btn:active{ transform: translateY(1px); }
     .btn:focus{ outline:none; box-shadow: 0 0 0 5px var(--focus); }
+    .btn:focus-visible{ outline:none; box-shadow: 0 0 0 5px var(--focus); }
 
     .btn-primary{
       background: linear-gradient(180deg, rgba(11,95,255,1), rgba(10,72,190,1));
@@ -180,6 +189,16 @@
       color: rgba(11,95,255,1);
     }
     [data-theme="dark"] .btn-ghost{ color: rgba(234,242,255,.92); }
+
+    .btn-danger{
+      background: rgba(255, 59, 48, .10);
+      border: 1px solid rgba(255, 59, 48, .22);
+      color: rgba(255, 59, 48, 1);
+    }
+    [data-theme="dark"] .btn-danger{
+      background: rgba(255, 59, 48, .14);
+      border: 1px solid rgba(255, 59, 48, .26);
+    }
 
     .pill{
       border-radius: 999px;
@@ -204,7 +223,8 @@
       border: 1px solid rgba(11,95,255,.16);
       background: var(--surface2);
       box-shadow: 0 10px 24px var(--soft2);
-      transition: transform .12s ease, box-shadow .18s ease, border-color .18s ease;
+      transition: transform .12s ease, box-shadow .18s ease, border-color .18s ease, background .18s ease;
+      position: relative;
     }
     [data-theme="dark"] .option{
       border: 1px solid rgba(234,242,255,.12);
@@ -221,17 +241,41 @@
       box-shadow: 0 18px 46px rgba(0,0,0,.34);
     }
 
-    /* Animation */
+    .option.selected{
+      border-color: rgba(11,95,255,.55);
+      box-shadow: 0 18px 44px rgba(11,95,255,.18);
+      background:
+        radial-gradient(700px 220px at 20% 0%, rgba(11,95,255,.12), transparent 55%),
+        var(--surface2);
+    }
+    [data-theme="dark"] .option.selected{
+      border-color: rgba(46,123,255,.62);
+      box-shadow: 0 18px 46px rgba(0,0,0,.34);
+      background:
+        radial-gradient(700px 240px at 20% 0%, rgba(46,123,255,.16), transparent 58%),
+        rgba(4,20,47,.88);
+    }
+
+    .check-dot{
+      width: 12px; height: 12px; border-radius: 999px;
+      background: rgba(11,95,255,.18);
+      border: 1px solid rgba(11,95,255,.20);
+    }
+    .option.selected .check-dot{
+      background: rgba(11,95,255,1);
+      border-color: rgba(255,255,255,.65);
+      box-shadow: 0 0 0 6px rgba(11,95,255,.12);
+    }
+
     .fade{ opacity:0; transform: translateY(10px); transition: all .28s ease; }
     .fade.show{ opacity:1; transform: translateY(0); }
 
-    /* Scrollbars */
     .scrollbar::-webkit-scrollbar{ width: 10px; height:10px; }
     .scrollbar::-webkit-scrollbar-thumb{ background: var(--scrollThumb); border-radius: 999px; border: 2px solid rgba(255,255,255,.6); }
     [data-theme="dark"] .scrollbar::-webkit-scrollbar-thumb{ border: 2px solid rgba(4,20,47,.8); }
     .scrollbar::-webkit-scrollbar-track{ background: var(--scrollTrack); border-radius: 999px; }
 
-    /* Floating bar (always visible) */
+    /* Floating bar */
     .floating{
       position: fixed;
       right: 16px;
@@ -278,7 +322,6 @@
       border-color: rgba(46,123,255,.38);
       box-shadow: 0 18px 46px rgba(0,0,0,.34);
     }
-
     .floating .mini{
       width: 36px;
       height: 36px;
@@ -293,7 +336,6 @@
       background: rgba(46,123,255,.12);
       border: 1px solid rgba(234,242,255,.10);
     }
-
     .floating .primary{
       background: linear-gradient(180deg, rgba(11,95,255,1), rgba(10,72,190,1));
       color:#fff;
@@ -304,11 +346,8 @@
       background: rgba(255,255,255,.14);
       border: 1px solid rgba(255,255,255,.18);
     }
-    .floating .primary:hover{
-      box-shadow: 0 18px 40px rgba(11,95,255,.26);
-    }
+    .floating .primary:hover{ box-shadow: 0 18px 40px rgba(11,95,255,.26); }
 
-    /* Mobile: full width bottom bar + extra padding so it doesn't overlap content */
     @media (max-width: 640px){
       .floating{
         left: 12px;
@@ -324,17 +363,45 @@
         padding: 12px 10px;
         font-size: 13px;
       }
-      .floating .mini{
-        width: 34px;
-        height: 34px;
-        border-radius: 14px;
-      }
+      .floating .mini{ width: 34px; height: 34px; border-radius: 14px; }
       body{ padding-bottom: 96px; }
     }
 
-    /* Small helpers */
     .i{ width: 18px; height: 18px; }
     .muted{ color: var(--muted); }
+
+    /* Sticky internal action bar (inside app) */
+    .actionbar{
+      position: sticky;
+      bottom: 0;
+      z-index: 20;
+      margin-top: 14px;
+      border-radius: 18px;
+      border: 1px solid var(--stroke);
+      background: var(--surface);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      box-shadow: 0 18px 46px var(--shadow2);
+    }
+
+    /* Mini stepper */
+    .stepper-dot{
+      width: 10px; height: 10px; border-radius: 999px;
+      background: rgba(11,95,255,.18);
+      border: 1px solid rgba(11,95,255,.18);
+    }
+    .stepper-dot.on{
+      background: rgba(11,95,255,1);
+      border-color: rgba(255,255,255,.70);
+      box-shadow: 0 0 0 6px rgba(11,95,255,.12);
+    }
+    [data-theme="dark"] .stepper-dot.on{
+      border-color: rgba(4,20,47,.85);
+      box-shadow: 0 0 0 6px rgba(46,123,255,.14);
+    }
+
+    /* Price UI helpers */
+    .strike{ text-decoration: line-through; opacity:.6; }
   </style>
 </head>
 
@@ -511,7 +578,7 @@
     const root = document.documentElement;
     const app = document.getElementById("app");
 
-    // --------- Theme ----------
+    // -------------------- Theme --------------------
     const THEME_KEY = "comerc_theme";
     const prefersDark = () => window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
     const getSavedTheme = () => {
@@ -537,7 +604,7 @@
       document.getElementById("themeBtn").setAttribute("aria-label", t("theme_toggle"));
     }
 
-    // --------- i18n ----------
+    // -------------------- i18n --------------------
     const I18N = {
       pt: {
         brandSub: "Orçamento premium • rápido e profissional",
@@ -551,14 +618,18 @@
         theme_toggle:"Alternar tema",
 
         intro_badge:"ORÇAMENTO INSTANTÂNEO",
-        intro_title:"Escolha entre 3 ofertas claras",
-        intro_sub:"Responda o quiz e receba 3 opções (essencial, custo-benefício e avançada). Finalize pelo WhatsApp.",
+        intro_title:"Receba 3 ofertas claras em 45 segundos",
+        intro_sub:"Responda o quiz e receba 3 opções (essencial, custo-benefício e avançada). Depois é só finalizar pelo WhatsApp.",
         start:"Começar agora",
         restart:"Reiniciar",
 
         step:"Pergunta",
         of:"de",
         back:"Voltar",
+        next:"Continuar",
+        skip:"Pular",
+        choose_one:"Escolha 1 opção para continuar",
+        optional:"Opcional",
 
         q_goal:"Qual é o seu objetivo principal?",
         goal_sales:"Gerar vendas / conversão",
@@ -582,18 +653,19 @@
         vol_high:"Alto (campanha forte)",
         vol_mega:"Muito alto (máxima presença)",
 
-        q_invest:"Investimento desejado (opcional)",
-        inv_skip:"Prefiro não informar",
+        q_invest:"Investimento desejado",
         inv_100:"Até R$100",
         inv_300:"Até R$300",
         inv_600:"Até R$600",
         inv_1000:"Até R$1.000",
         inv_2000:"Até R$2.000",
+        invest_hint:"Se preferir, pule — estimamos pelo volume.",
 
-        q_deadline:"Prazo desejado (opcional)",
+        q_deadline:"Prazo desejado",
         d1:"Urgente (até 2 dias)",
         d2:"Até 7 dias",
         d3:"Flexível",
+        deadline_hint:"Se preferir, pule — alinhamos no WhatsApp.",
 
         offers_title:"Escolha sua oferta",
         offers_sub:"3 opções claras e limpas. Você escolhe 1 e finaliza no WhatsApp.",
@@ -605,6 +677,7 @@
         save:"Você economiza",
         details:"Ver o que está incluso",
         choose:"Escolher esta oferta",
+        change_answers:"Alterar respostas",
 
         customize_title:"Ajuste fino (opcional)",
         customize_sub:"Opcional: adicione 1–2 extras relevantes (sem poluir a tela).",
@@ -613,6 +686,9 @@
         note:"Observações rápidas (opcional):",
         note_ph:"Ex.: Quero focar em promoções da semana, público X, referência de estilo…",
         send_wa:"Enviar no WhatsApp",
+        copy_msg:"Copiar mensagem",
+        copied:"Copiado!",
+        preview:"Prévia da mensagem",
         summary:"Resumo do quiz",
         obs:"Observação"
       },
@@ -628,14 +704,18 @@
         theme_toggle:"Toggle theme",
 
         intro_badge:"INSTANT QUOTE",
-        intro_title:"Pick from 3 clear offers",
-        intro_sub:"Answer the quiz and get 3 options (simple, best value, advanced). Finish via WhatsApp.",
+        intro_title:"Get 3 clear offers in 45 seconds",
+        intro_sub:"Answer the quiz and get 3 options (simple, best value, advanced). Then finish via WhatsApp.",
         start:"Start now",
         restart:"Restart",
 
         step:"Question",
         of:"of",
         back:"Back",
+        next:"Continue",
+        skip:"Skip",
+        choose_one:"Choose 1 option to continue",
+        optional:"Optional",
 
         q_goal:"What’s your main goal?",
         goal_sales:"Sales / conversion",
@@ -659,18 +739,19 @@
         vol_high:"High (strong campaign)",
         vol_mega:"Very high (maximum presence)",
 
-        q_invest:"Desired budget (optional)",
-        inv_skip:"Prefer not to say",
+        q_invest:"Desired budget",
         inv_100:"Up to R$100",
         inv_300:"Up to R$300",
         inv_600:"Up to R$600",
         inv_1000:"Up to R$1,000",
         inv_2000:"Up to R$2,000",
+        invest_hint:"If you prefer, skip — we estimate by volume.",
 
-        q_deadline:"Desired timeline (optional)",
+        q_deadline:"Desired timeline",
         d1:"Urgent (up to 2 days)",
         d2:"Up to 7 days",
         d3:"Flexible",
+        deadline_hint:"If you prefer, skip — we align on WhatsApp.",
 
         offers_title:"Choose your offer",
         offers_sub:"3 clean options. Pick one and finish on WhatsApp.",
@@ -682,6 +763,7 @@
         save:"You save",
         details:"See what’s included",
         choose:"Choose this offer",
+        change_answers:"Change answers",
 
         customize_title:"Fine-tune (optional)",
         customize_sub:"Optional: add 1–2 relevant add-ons (kept minimal).",
@@ -690,6 +772,9 @@
         note:"Quick notes (optional):",
         note_ph:"E.g., I want weekly promos, audience X, style reference…",
         send_wa:"Send on WhatsApp",
+        copy_msg:"Copy message",
+        copied:"Copied!",
+        preview:"Message preview",
         summary:"Quiz summary",
         obs:"Note"
       }
@@ -705,7 +790,7 @@
     let lang = detectLang();
     const t = (k)=>(I18N[lang] && I18N[lang][k]) ? I18N[lang][k] : (I18N.pt[k]||k);
 
-    // --------- Data ----------
+    // -------------------- Data --------------------
     const raw = JSON.parse(document.getElementById("catalog").textContent);
     const catalog = raw.orcamento || raw;
     const categories = Array.isArray(catalog.categorias) ? catalog.categorias : [];
@@ -746,11 +831,16 @@
       };
     }
 
-    // --------- UI helpers ----------
+    // -------------------- UI helpers --------------------
     function setFade(html){
       app.innerHTML = html;
       const el = app.querySelector(".fade");
       if(el) requestAnimationFrame(()=>el.classList.add("show"));
+      // garante foco no topo do conteúdo renderizado (melhor para teclado/leitor de tela)
+      const focusTarget = app.querySelector("[data-autofocus]");
+      if(focusTarget) focusTarget.focus({preventScroll:true});
+      // mantém a rolagem consistente em mudanças de view
+      window.scrollTo({top: 0, behavior: "smooth"});
     }
 
     function applyLangUI(){
@@ -761,7 +851,6 @@
       document.getElementById("siteLabel").textContent = t("site");
       document.getElementById("igLabel").textContent = t("instagram");
 
-      // top language pills
       const pt = document.getElementById("langPT");
       const en = document.getElementById("langEN");
       if(lang==="pt"){
@@ -778,37 +867,66 @@
       updateThemeBtn();
     }
 
-    // --------- Quiz flow ----------
+    // -------------------- State (persist) --------------------
+    const STATE_KEY = "comerc_quiz_state_v2";
+    function loadState(){
+      try{
+        const s = sessionStorage.getItem(STATE_KEY);
+        return s ? JSON.parse(s) : null;
+      }catch(e){ return null; }
+    }
+    function saveState(){
+      try{
+        sessionStorage.setItem(STATE_KEY, JSON.stringify({
+          answers, stepIndex, view,
+          chosenTier: chosenOffer?.tier || null,
+          custom: customState ? {
+            selectedIds: Array.from(customState.selectedIds),
+            extraIds: Array.from(customState.extraIds),
+            periodById: Array.from(customState.periodById.entries())
+          } : null
+        }));
+      }catch(e){}
+    }
+    function clearState(){
+      try{ sessionStorage.removeItem(STATE_KEY); }catch(e){}
+    }
+
+    // -------------------- Quiz flow --------------------
     let answers = {};
     let stepIndex = 0;
     let view = "intro"; // intro | quiz | offers | customize
     let chosenOffer = null;
     let customState = null;
+    let offersCache = null;
 
     const steps = [
-      { id:"goal", titleKey:"q_goal", options:[
+      { id:"goal", titleKey:"q_goal", optional:false, options:[
         {k:"goal_sales", v:"sales"}, {k:"goal_brand", v:"brand"}, {k:"goal_social", v:"social"},
         {k:"goal_edu", v:"edu"}, {k:"goal_intl", v:"intl"}, {k:"goal_launch", v:"launch"}
       ]},
-      { id:"need", titleKey:"q_need", options:[
+      { id:"need", titleKey:"q_need", optional:false, options:[
         {k:"need_images", v:"images"}, {k:"need_videos", v:"videos"}, {k:"need_plan", v:"plan"},
         {k:"need_oneoff", v:"oneoff"}, {k:"need_mascot", v:"mascot"}, {k:"need_unsure", v:"unsure"}
       ]},
-      { id:"volume", titleKey:"q_volume", options:[
+      { id:"volume", titleKey:"q_volume", optional:false, options:[
         {k:"vol_low", v:"low"}, {k:"vol_mid", v:"mid"}, {k:"vol_high", v:"high"}, {k:"vol_mega", v:"mega"}
       ]},
-      { id:"invest", titleKey:"q_invest", optional:true, options:[
-        {k:"inv_skip", v:null}, {k:"inv_100", v:100}, {k:"inv_300", v:300},
+      { id:"invest", titleKey:"q_invest", optional:true, hintKey:"invest_hint", options:[
+        {k:"inv_100", v:100}, {k:"inv_300", v:300},
         {k:"inv_600", v:600}, {k:"inv_1000", v:1000}, {k:"inv_2000", v:2000}
       ]},
-      { id:"deadline", titleKey:"q_deadline", optional:true, options:[
+      { id:"deadline", titleKey:"q_deadline", optional:true, hintKey:"deadline_hint", options:[
         {k:"d1", v:"urgent"}, {k:"d2", v:"week"}, {k:"d3", v:"flex"}
       ]}
     ];
 
     function progressPct(){
       const total = steps.length + 2; // offers + customize
-      const done = view==="intro" ? 0 : view==="quiz" ? stepIndex : view==="offers" ? steps.length : steps.length+1;
+      const done = view==="intro" ? 0 :
+        view==="quiz" ? stepIndex :
+        view==="offers" ? steps.length :
+        steps.length + 1;
       return Math.round((done/total)*100);
     }
 
@@ -921,26 +1039,37 @@
 
     function calcTotals(items, discountPerc, periodById){
       let subtotal = 0;
+      let originalSubtotal = 0;
+
       const lines = items.map(s=>{
         if(isPlan(s)){
           const period = periodById?.get(s.__id) || "Mensal";
           const p = getPlanPeriod(s, period);
           subtotal += p.monthly;
+          originalSubtotal += p.monthly; // plano já vem "mensal efetivo" no catálogo
           return {svc:s, kind:"plan", period:p.periodo, monthly:p.monthly, termTotal:p.total};
         } else {
           const price = Number(s.preco||0);
+          const original = Number(s.preco_original||price);
           subtotal += price;
-          return {svc:s, kind:"oneoff", price};
+          originalSubtotal += original;
+          return {svc:s, kind:"oneoff", price, original};
         }
       });
+
       const discount = Math.round(subtotal * (discountPerc/100));
       const total = subtotal - discount;
-      return {lines, subtotal, discount, total};
+
+      // economia total inclui: (orig - atual) + desconto combo
+      const instantSave = Math.max(0, Math.round(originalSubtotal - subtotal));
+      const totalSave = instantSave + discount;
+
+      return {lines, subtotal, originalSubtotal, instantSave, discount, total, totalSave};
     }
 
     function buildOffers(){
       const anchor = getAnchor();
-      const discounts = { simple: 0, value: 10, advanced: 12 }; // essential has 0 by default (cleaner / less “confusing”)
+      const discounts = { simple: 0, value: 10, advanced: 12 };
       const periodSimple = "Mensal";
       const periodValue = "Trimestral";
       const periodAdvanced = "Semestral";
@@ -958,14 +1087,12 @@
           }
         });
 
-        const totals = calcTotals(items, discounts[tier] || 0, periodById);
+        let totals = calcTotals(items, discounts[tier] || 0, periodById);
 
-        // keep offers inside a “reasonable” band based on anchor (avoid too cheap/too expensive extremes)
         const target = tier==="simple" ? anchor*0.75 : tier==="value" ? anchor*1.0 : anchor*1.45;
-        // if too high, remove last extra (keep clean)
         if(tier!=="simple" && totals.total > target*1.35 && items.length>1){
           items.pop();
-          return {tier, items, periodById, discountPerc: discounts[tier]||0, ...calcTotals(items, discounts[tier]||0, periodById)};
+          totals = calcTotals(items, discounts[tier] || 0, periodById);
         }
         return {tier, items, periodById, discountPerc: discounts[tier]||0, ...totals};
       }
@@ -974,27 +1101,62 @@
     }
 
     function labelOf(stepId, val){
+      if(val === null || typeof val === "undefined") return lang==="en" ? "Skipped" : "Pulou";
       const s = steps.find(x=>x.id===stepId);
       if(!s) return String(val ?? "");
       const opt = s.options.find(o=>String(o.v)===String(val));
       return opt ? t(opt.k) : String(val ?? "");
     }
 
+    function offerTitle(tier){
+      if(tier==="simple") return t("essential");
+      if(tier==="value") return t("best_value");
+      return t("advanced");
+    }
+
+    // -------------------- Render: shared header blocks --------------------
+    function renderTopProgress(){
+      const pct = progressPct();
+      const dots = steps.map((_, idx)=>{
+        const on = (view==="quiz" && idx <= stepIndex) || (view!=="quiz" && idx < steps.length);
+        return `<span class="stepper-dot ${on ? "on":""}" aria-hidden="true"></span>`;
+      }).join("");
+
+      return `
+        <div class="flex items-center justify-between gap-4">
+          <div class="min-w-0">
+            <div class="pill inline-flex items-center gap-2 px-3 py-1.5 text-xs font-extrabold tracking-wide" style="color: rgba(11,95,255,1);">
+              <span class="chip px-3 py-1 text-[11px] font-extrabold">${escapeHtml(t("intro_badge"))}</span>
+              <span class="muted">${escapeHtml(lang==="en" ? "Fast • Clear • WhatsApp" : "Rápido • Claro • WhatsApp")}</span>
+            </div>
+          </div>
+
+          <div class="min-w-[170px]">
+            <div class="flex items-center justify-end gap-2 mb-1">
+              <div class="flex items-center gap-1.5">${dots}</div>
+              <div class="text-xs muted text-right">${pct}%</div>
+            </div>
+            <div class="h-2 rounded-full overflow-hidden" style="background: rgba(11,95,255,.10);">
+              <div class="h-2" style="width:${pct}%; background: linear-gradient(90deg, rgba(11,95,255,1), rgba(46,123,255,1));"></div>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    // -------------------- Intro --------------------
     function renderIntro(){
       view = "intro";
-      const pct = progressPct();
+      saveState();
 
       setFade(`
         <div class="fade">
           <div class="card p-5 sm:p-6">
-            <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-              <div class="min-w-0">
-                <div class="pill inline-flex items-center gap-2 px-3 py-1.5 text-xs font-extrabold tracking-wide" style="color: rgba(11,95,255,1);">
-                  <span class="chip px-3 py-1 text-[11px] font-extrabold">${escapeHtml(t("intro_badge"))}</span>
-                  <span class="muted">${escapeHtml("Comerc IAs")}</span>
-                </div>
+            ${renderTopProgress()}
 
-                <h1 class="font-display text-2xl sm:text-3xl font-extrabold mt-3 tracking-tight">
+            <div class="mt-4 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+              <div class="min-w-0">
+                <h1 class="font-display text-2xl sm:text-3xl font-extrabold tracking-tight">
                   ${escapeHtml(t("intro_title"))}
                 </h1>
                 <p class="mt-2 text-sm sm:text-base muted max-w-2xl">
@@ -1002,21 +1164,32 @@
                 </p>
 
                 <div class="mt-4 flex flex-wrap gap-2">
-                  <span class="pill px-3 py-1.5 text-xs">${escapeHtml("Azul & branco")}</span>
-                  <span class="pill px-3 py-1.5 text-xs">${escapeHtml("Mobile-first")}</span>
-                  <span class="pill px-3 py-1.5 text-xs">${escapeHtml("3 ofertas")}</span>
+                  <span class="pill px-3 py-1.5 text-xs">${escapeHtml(lang==="en" ? "3 offers" : "3 ofertas")}</span>
+                  <span class="pill px-3 py-1.5 text-xs">${escapeHtml(lang==="en" ? "No surprises" : "Sem pegadinhas")}</span>
+                  <span class="pill px-3 py-1.5 text-xs">${escapeHtml(lang==="en" ? "WhatsApp finish" : "Finaliza no WhatsApp")}</span>
                 </div>
               </div>
 
-              <div class="w-full md:w-[320px]">
-                <div class="text-xs muted text-right">${pct}%</div>
-                <div class="h-2 rounded-full overflow-hidden" style="background: rgba(11,95,255,.10);">
-                  <div class="h-2" style="width:${pct}%; background: linear-gradient(90deg, rgba(11,95,255,1), rgba(46,123,255,1));"></div>
+              <div class="w-full md:w-[340px]">
+                <div class="grid grid-cols-2 gap-2">
+                  <button id="startBtn" data-autofocus class="btn btn-primary px-5 py-3 font-display font-extrabold">
+                    ${escapeHtml(t("start"))}
+                  </button>
+                  <button id="resetBtn" class="btn btn-ghost px-5 py-3 font-display font-bold">
+                    ${escapeHtml(t("restart"))}
+                  </button>
                 </div>
 
-                <div class="mt-4 grid grid-cols-2 gap-2">
-                  <button id="startBtn" class="btn btn-primary px-5 py-3 font-display font-extrabold">${escapeHtml(t("start"))}</button>
-                  <button id="resetBtn" class="btn btn-ghost px-5 py-3 font-display font-bold">${escapeHtml(t("restart"))}</button>
+                <div class="mt-3 pill px-4 py-3 text-sm">
+                  <div class="font-display font-extrabold" style="color: var(--text);">
+                    ${escapeHtml(lang==="en" ? "Tip" : "Dica")}
+                  </div>
+                  <div class="muted mt-1">
+                    ${escapeHtml(lang==="en"
+                      ? "Use the arrow keys to navigate options. Press Enter to select."
+                      : "Use as setas do teclado para navegar. Enter seleciona."
+                    )}
+                  </div>
                 </div>
               </div>
             </div>
@@ -1033,109 +1206,210 @@
       document.getElementById("resetBtn").addEventListener("click", resetAll);
     }
 
+    // -------------------- Step --------------------
     function renderStep(i){
       view = "quiz";
       stepIndex = i;
       const s = steps[i];
-      const pct = progressPct();
+      const selected = answers[s.id];
 
-      const opts = s.options.map(o=>{
-        const isSkip = (o.v === null);
+      saveState();
+
+      const hint = s.optional ? `
+        <div class="pill px-4 py-3 text-sm mt-3">
+          <div class="flex items-start gap-3">
+            <div class="w-9 h-9 rounded-2xl flex items-center justify-center"
+              style="background: var(--warnBg); border: 1px solid rgba(255,145,0,.18); color: var(--warn);">
+              <svg class="i" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M12 8v5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                <path d="M12 17h.01" stroke="currentColor" stroke-width="3.2" stroke-linecap="round"/>
+                <path d="M10.3 4.4h3.4a2 2 0 011.7 1l6.2 10.6a2 2 0 01-1.7 3H4.1a2 2 0 01-1.7-3l6.2-10.6a2 2 0 011.7-1Z" stroke="currentColor" stroke-width="1.6" opacity=".35"/>
+              </svg>
+            </div>
+            <div class="min-w-0">
+              <div class="font-display font-extrabold" style="color: var(--text);">${escapeHtml(t("optional"))}</div>
+              <div class="muted mt-1">${escapeHtml(t(s.hintKey || ""))}</div>
+            </div>
+          </div>
+        </div>
+      ` : ``;
+
+      const opts = s.options.map((o, idx)=>{
+        const isSel = String(selected) === String(o.v);
         return `
-          <button class="option btn text-left p-4 sm:p-5 w-full" data-value="${o.v===null ? "null" : escapeHtml(o.v)}">
+          <button
+            type="button"
+            class="option btn text-left p-4 sm:p-5 w-full ${isSel ? "selected":""}"
+            role="radio"
+            aria-checked="${isSel ? "true":"false"}"
+            data-value="${escapeHtml(o.v)}"
+            data-idx="${idx}">
             <div class="flex items-start gap-3">
               <div class="pill w-10 h-10 flex items-center justify-center shrink-0" style="color: rgba(11,95,255,1);">
-                <svg class="i" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                  <path d="M9.5 12l1.8 1.8L14.8 10.3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
+                <span class="check-dot" aria-hidden="true"></span>
               </div>
               <div class="min-w-0">
                 <div class="font-display font-extrabold leading-snug">${escapeHtml(t(o.k))}</div>
-                ${isSkip ? `<div class="text-sm muted mt-1">${escapeHtml(lang==="en" ? "We’ll estimate based on volume." : "Vamos estimar pelo volume.")}</div>` : ``}
+                <div class="text-sm muted mt-1">
+                  ${escapeHtml(lang==="en" ? "Select and continue." : "Selecione e continue.")}
+                </div>
               </div>
             </div>
           </button>
         `;
       }).join("");
 
+      const canNext = (typeof selected !== "undefined");
+      const backDisabled = i===0;
+
       setFade(`
         <div class="fade">
           <div class="card p-5 sm:p-6">
-            <div class="flex items-start justify-between gap-4">
-              <div>
+            ${renderTopProgress()}
+
+            <div class="mt-4 flex items-start justify-between gap-4">
+              <div class="min-w-0">
                 <div class="text-xs font-extrabold" style="color: rgba(11,95,255,1);">
                   ${escapeHtml(t("step"))} ${i+1} ${escapeHtml(t("of"))} ${steps.length}
                 </div>
                 <div class="font-display text-xl sm:text-2xl font-extrabold mt-1 tracking-tight">
                   ${escapeHtml(t(s.titleKey))}
                 </div>
+                <div class="text-sm muted mt-2">${escapeHtml(t("choose_one"))}</div>
               </div>
+            </div>
 
-              <div class="min-w-[140px]">
-                <div class="text-xs muted text-right">${pct}%</div>
-                <div class="h-2 rounded-full overflow-hidden" style="background: rgba(11,95,255,.10);">
-                  <div class="h-2" style="width:${pct}%; background: linear-gradient(90deg, rgba(11,95,255,1), rgba(46,123,255,1));"></div>
+            ${hint}
+
+            <div class="mt-4 grid gap-3 sm:gap-4 sm:grid-cols-2" role="radiogroup" aria-label="${escapeHtml(t(s.titleKey))}" id="rg">
+              ${opts}
+            </div>
+
+            <div class="actionbar mt-5 p-3">
+              <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                <div class="flex gap-2">
+                  <button id="backBtn" class="btn btn-ghost px-4 py-2.5 font-display font-bold ${backDisabled ? "opacity-40 cursor-not-allowed" : ""}" ${backDisabled ? "disabled":""}>
+                    ${escapeHtml(t("back"))}
+                  </button>
+                  ${s.optional ? `
+                    <button id="skipBtn" class="btn btn-ghost px-4 py-2.5 font-display font-bold">
+                      ${escapeHtml(t("skip"))}
+                    </button>` : ``}
+                </div>
+
+                <div class="flex items-center gap-2">
+                  <span class="pill px-3 py-1.5 text-xs">${escapeHtml("Comerc IAs")}</span>
+                  <button id="nextBtn" class="btn btn-primary px-5 py-2.5 font-display font-extrabold ${canNext ? "" : "opacity-50 cursor-not-allowed"}" ${canNext ? "" : "disabled"}>
+                    ${escapeHtml(t("next"))}
+                  </button>
                 </div>
               </div>
             </div>
 
-            <div class="mt-5 grid gap-3 sm:gap-4 sm:grid-cols-2">
-              ${opts}
-            </div>
-
-            <div class="mt-5 flex items-center justify-between gap-3">
-              <button id="backBtn" class="btn btn-ghost px-4 py-2.5 font-display font-bold ${i===0 ? "opacity-40 cursor-not-allowed" : ""}" ${i===0 ? "disabled":""}>
-                ${escapeHtml(t("back"))}
-              </button>
-              <span class="pill px-3 py-1.5 text-xs">${escapeHtml("Comerc IAs")}</span>
-            </div>
           </div>
         </div>
       `);
+
+      const rg = document.getElementById("rg");
+      const optionButtons = Array.from(rg.querySelectorAll("[role='radio']"));
+
+      function setSelected(rawVal){
+        let v = rawVal;
+        v = isNaN(Number(v)) ? v : Number(v);
+        answers[s.id] = v;
+
+        optionButtons.forEach(btn=>{
+          const val = btn.getAttribute("data-value");
+          const isSel = String(val) === String(rawVal);
+          btn.classList.toggle("selected", isSel);
+          btn.setAttribute("aria-checked", isSel ? "true":"false");
+        });
+
+        const next = document.getElementById("nextBtn");
+        next.disabled = false;
+        next.classList.remove("opacity-50","cursor-not-allowed");
+
+        saveState();
+      }
+
+      optionButtons.forEach(btn=>{
+        btn.addEventListener("click", ()=>setSelected(btn.getAttribute("data-value")));
+      });
+
+      // Keyboard navigation inside radiogroup
+      rg.addEventListener("keydown", (e)=>{
+        const keys = ["ArrowDown","ArrowRight","ArrowUp","ArrowLeft","Home","End","Enter"," "];
+        if(!keys.includes(e.key)) return;
+
+        const active = document.activeElement;
+        let idx = optionButtons.indexOf(active);
+        if(idx < 0) idx = 0;
+
+        if(e.key==="ArrowDown" || e.key==="ArrowRight"){ e.preventDefault(); idx = Math.min(optionButtons.length-1, idx+1); optionButtons[idx].focus(); }
+        if(e.key==="ArrowUp" || e.key==="ArrowLeft"){ e.preventDefault(); idx = Math.max(0, idx-1); optionButtons[idx].focus(); }
+        if(e.key==="Home"){ e.preventDefault(); optionButtons[0].focus(); }
+        if(e.key==="End"){ e.preventDefault(); optionButtons[optionButtons.length-1].focus(); }
+        if(e.key==="Enter" || e.key===" "){
+          e.preventDefault();
+          const focused = document.activeElement;
+          if(focused && focused.getAttribute("data-value") != null){
+            setSelected(focused.getAttribute("data-value"));
+          }
+        }
+      });
+
+      // Focus first option by default (better for keyboard)
+      if(optionButtons[0]) optionButtons[0].setAttribute("tabindex","0");
+      optionButtons.forEach((b, j)=> b.setAttribute("tabindex", j===0 ? "0":"-1"));
+      if(!selected && optionButtons[0]) optionButtons[0].focus({preventScroll:true});
 
       document.getElementById("backBtn").addEventListener("click", ()=> {
         if(i===0) return;
         renderStep(i-1);
       });
 
-      app.querySelectorAll("[data-value]").forEach(btn=>{
-        btn.addEventListener("click", ()=>{
-          const raw = btn.getAttribute("data-value");
-          let v = raw;
-          if(raw === "null") v = null;
-          else v = isNaN(Number(raw)) ? raw : Number(raw);
-          answers[s.id] = v;
+      document.getElementById("nextBtn").addEventListener("click", ()=>{
+        if(typeof answers[s.id] === "undefined") return;
+        if(i === steps.length - 1) return renderOffers();
+        renderStep(i+1);
+      });
 
+      if(s.optional){
+        document.getElementById("skipBtn").addEventListener("click", ()=>{
+          answers[s.id] = null;
+          saveState();
           if(i === steps.length - 1) return renderOffers();
           renderStep(i+1);
         });
-      });
+      }
     }
 
-    function offerTitle(tier){
-      if(tier==="simple") return t("essential");
-      if(tier==="value") return t("best_value");
-      return t("advanced");
-    }
-
+    // -------------------- Offers --------------------
     function renderOffers(){
       view = "offers";
-      const pct = progressPct();
-      const offers = buildOffers();
+      offersCache = buildOffers();
+      saveState();
+
+      const offers = offersCache;
 
       const summary = `
         <div class="card p-5 sm:p-6">
-          <div class="flex items-start justify-between gap-3">
-            <div>
+          ${renderTopProgress()}
+
+          <div class="mt-4 flex items-start justify-between gap-3">
+            <div class="min-w-0">
               <div class="text-xs font-extrabold" style="color: rgba(11,95,255,1);">${escapeHtml(t("offers_title"))}</div>
               <div class="font-display text-xl sm:text-2xl font-extrabold mt-1">${escapeHtml(t("offers_title"))}</div>
               <div class="text-sm muted mt-1">${escapeHtml(t("offers_sub"))}</div>
             </div>
-            <div class="min-w-[140px]">
-              <div class="text-xs muted text-right">${pct}%</div>
-              <div class="h-2 rounded-full overflow-hidden" style="background: rgba(11,95,255,.10);">
-                <div class="h-2" style="width:${pct}%; background: linear-gradient(90deg, rgba(11,95,255,1), rgba(46,123,255,1));"></div>
-              </div>
+
+            <div class="flex gap-2">
+              <button id="changeAnswers" class="btn btn-ghost px-4 py-2.5 font-display font-bold">
+                ${escapeHtml(t("change_answers"))}
+              </button>
+              <button id="resetAll" class="btn btn-danger px-4 py-2.5 font-display font-bold">
+                ${escapeHtml(t("restart"))}
+              </button>
             </div>
           </div>
 
@@ -1154,10 +1428,6 @@
             <div class="pill p-4">
               <div class="text-xs muted">${escapeHtml(t("obs"))}</div>
               <div class="mt-2 text-sm muted leading-relaxed">${escapeHtml(OBS)}</div>
-              <div class="mt-3 flex gap-2">
-                <button id="backToQuiz" class="btn btn-ghost px-4 py-2.5 font-display font-bold">${escapeHtml(t("back"))}</button>
-                <button id="resetAll" class="btn btn-ghost px-4 py-2.5 font-display font-bold">${escapeHtml(t("restart"))}</button>
-              </div>
             </div>
           </div>
         </div>
@@ -1165,7 +1435,6 @@
 
       const cards = offers.map(of=>{
         const best = of.tier==="value";
-        const save = of.discount;
         const top3 = of.lines.slice(0,3).map(x=>{
           const label = isPlan(x.svc)
             ? `${x.svc.titulo_venda || x.svc.titulo} • ${money(x.monthly)} /mês`
@@ -1173,10 +1442,14 @@
           return `<li class="text-sm muted">${escapeHtml(label)}</li>`;
         }).join("");
 
+        const saveLine = of.totalSave
+          ? `<div class="text-xs muted mt-1">${escapeHtml(t("save"))}: <span class="font-semibold">${escapeHtml(money(of.totalSave))}</span>${of.discountPerc ? ` <span class="muted">(${of.discountPerc}%)</span>` : ""}</div>`
+          : `<div class="text-xs muted mt-1">&nbsp;</div>`;
+
         return `
-          <div class="card p-5 sm:p-6 ${best ? "" : ""}" style="${best ? "border-color: rgba(11,95,255,.34);" : ""}">
+          <div class="card p-5 sm:p-6" style="${best ? "border-color: rgba(11,95,255,.34);" : ""}">
             <div class="flex items-start justify-between gap-3">
-              <div>
+              <div class="min-w-0">
                 <div class="flex items-center gap-2">
                   <div class="font-display font-extrabold">${escapeHtml(offerTitle(of.tier))}</div>
                   ${best ? `<span class="chip px-3 py-1 text-[11px] font-extrabold">${escapeHtml(t("best_seller"))}</span>` : ``}
@@ -1184,8 +1457,10 @@
                 <div class="text-sm muted mt-1">${escapeHtml(t("est_total"))}</div>
               </div>
               <div class="text-right">
-                <div class="font-display text-3xl font-extrabold tracking-tight" style="color: rgba(11,95,255,1);">${escapeHtml(money(of.total))}</div>
-                ${save ? `<div class="text-xs muted mt-1">${escapeHtml(t("save"))}: <span class="font-semibold">${escapeHtml(money(save))}</span></div>` : `<div class="text-xs muted mt-1">&nbsp;</div>`}
+                <div class="font-display text-3xl font-extrabold tracking-tight" style="color: rgba(11,95,255,1);">
+                  ${escapeHtml(money(of.total))}
+                </div>
+                ${saveLine}
               </div>
             </div>
 
@@ -1202,7 +1477,8 @@
                 <ul class="text-sm muted list-disc pl-5 space-y-1">
                   ${of.lines.map(x=>{
                     if(x.kind==="plan") return `<li>${escapeHtml((x.svc.titulo_venda||x.svc.titulo) + " — " + money(x.monthly) + " /mês (" + x.period + ")")}</li>`;
-                    return `<li>${escapeHtml((x.svc.titulo_venda||x.svc.titulo) + " — " + money(x.price))}</li>`;
+                    const hasDiscount = Number(x.original||0) > Number(x.price||0);
+                    return `<li>${escapeHtml((x.svc.titulo_venda||x.svc.titulo) + " — " + money(x.price))}${hasDiscount ? ` <span class="strike">(${escapeHtml(money(x.original))})</span>` : ""}</li>`;
                   }).join("")}
                 </ul>
               </div>
@@ -1219,7 +1495,6 @@
         <div class="fade">
           ${summary}
           <div class="mt-4">
-            <!-- RESPONSIVE GRID: 1 col (mobile) / 2 cols (sm+) / 3 cols (lg+) -->
             <div class="grid gap-3 sm:gap-4 sm:grid-cols-2 lg:grid-cols-3">
               ${cards}
             </div>
@@ -1227,20 +1502,20 @@
         </div>
       `);
 
-      document.getElementById("backToQuiz").addEventListener("click", ()=>renderStep(steps.length-1));
+      document.getElementById("changeAnswers").addEventListener("click", ()=>renderStep(Math.min(stepIndex, steps.length-1)));
       document.getElementById("resetAll").addEventListener("click", resetAll);
 
       app.querySelectorAll("[data-pick]").forEach(btn=>{
         btn.addEventListener("click", ()=>{
           const tier = btn.getAttribute("data-pick");
-          const picked = buildOffers().find(o=>o.tier===tier) || buildOffers()[1];
-          chosenOffer = picked;
-          initCustomizeState(picked);
+          chosenOffer = offersCache.find(o=>o.tier===tier) || offersCache[1];
+          initCustomizeState(chosenOffer);
           renderCustomize();
         });
       });
     }
 
+    // -------------------- Customize --------------------
     function initCustomizeState(offer){
       const selectedIds = new Set(offer.items.map(s=>s.__id));
       const extraIds = new Set();
@@ -1252,7 +1527,6 @@
     }
 
     function extrasForCustomize(){
-      // Minimal extras list to avoid confusion
       const pool = [];
       const add = (venda)=>{
         const s = findByVenda(venda);
@@ -1308,7 +1582,6 @@
 
       lines.push(lang==="en" ? "Hi! I want a quote with Comerc IAs." : "Olá! Quero um orçamento com a Comerc IAs.");
       lines.push("");
-
       lines.push((lang==="en" ? "Chosen offer: " : "Oferta escolhida: ") + offerTitle(chosenOffer.tier));
       lines.push("");
 
@@ -1330,6 +1603,9 @@
 
       lines.push("");
       lines.push((lang==="en" ? "Estimated total: " : "Total estimado: ") + money(totals.total));
+      if(totals.totalSave){
+        lines.push((lang==="en" ? "Estimated savings: " : "Economia estimada: ") + money(totals.totalSave));
+      }
       if(totals.discount){
         lines.push((lang==="en" ? "Bundle discount: " : "Desconto de combo: ") + "-" + money(totals.discount) + ` (${chosenOffer.discountPerc}%)`);
       }
@@ -1351,8 +1627,43 @@
       window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`, "_blank");
     }
 
+    async function copyPreview(){
+      const note = document.getElementById("noteField")?.value || "";
+      const msg = buildWhatsAppMessage(note);
+      try{
+        await navigator.clipboard.writeText(msg);
+        const b = document.getElementById("copyBtn");
+        const old = b.textContent;
+        b.textContent = t("copied");
+        setTimeout(()=>b.textContent = old, 1200);
+      }catch(e){
+        // fallback
+        const ta = document.getElementById("previewBox");
+        ta.focus();
+        ta.select();
+        document.execCommand("copy");
+      }
+    }
+
+    function updateCustomizeTotalsUI(){
+      const totals = computeCustomizeTotals();
+      const totalEl = document.getElementById("totalValue");
+      const saveEl  = document.getElementById("saveValue");
+      const preview = document.getElementById("previewBox");
+
+      if(totalEl) totalEl.textContent = money(totals.total);
+      if(saveEl) saveEl.textContent = totals.totalSave ? money(totals.totalSave) : "—";
+      if(preview){
+        const note = document.getElementById("noteField")?.value || "";
+        preview.value = buildWhatsAppMessage(note);
+      }
+      saveState();
+    }
+
     function renderCustomize(){
       view = "customize";
+      saveState();
+
       const pct = progressPct();
       const extras = extrasForCustomize();
       const totals = computeCustomizeTotals();
@@ -1362,6 +1673,10 @@
         const priceLine = isPlan(s)
           ? (()=>{ const p = getPlanPeriod(s, customState.periodById.get(s.__id) || "Mensal"); return `${money(p.monthly)}/mês (${p.periodo})`; })()
           : money(s.preco);
+
+        const original = Number(s.preco_original||s.preco||0);
+        const current  = Number(s.preco||0);
+        const showStrike = (!isPlan(s) && original > current);
 
         return `
           <div class="pill p-4">
@@ -1375,7 +1690,10 @@
                 </div>
               </div>
               <div class="text-right shrink-0">
-                <div class="font-display font-extrabold" style="color: rgba(11,95,255,1);">${escapeHtml(priceLine)}</div>
+                <div class="font-display font-extrabold" style="color: rgba(11,95,255,1);">
+                  ${escapeHtml(priceLine)}
+                </div>
+                ${showStrike ? `<div class="text-xs muted strike">${escapeHtml(money(original))}</div>` : `<div class="text-xs muted">&nbsp;</div>`}
               </div>
             </div>
           </div>
@@ -1388,8 +1706,12 @@
           ? (()=>{ const p = getPlanPeriod(s, customState.periodById.get(s.__id) || "Mensal"); return `${money(p.monthly)}/mês (${p.periodo})`; })()
           : money(s.preco);
 
+        const original = Number(s.preco_original||s.preco||0);
+        const current  = Number(s.preco||0);
+        const showStrike = (!isPlan(s) && original > current);
+
         return `
-          <label class="pill p-4 block">
+          <label class="pill p-4 block cursor-pointer">
             <div class="flex items-start gap-3">
               <input type="checkbox"
                 class="mt-1 w-5 h-5 accent-[rgba(11,95,255,1)]"
@@ -1402,6 +1724,7 @@
                   </div>
                   <div class="text-right shrink-0">
                     <div class="font-display font-extrabold" style="color: rgba(11,95,255,1);">${escapeHtml(priceLine)}</div>
+                    ${showStrike ? `<div class="text-xs muted strike">${escapeHtml(money(original))}</div>` : `<div class="text-xs muted">&nbsp;</div>`}
                   </div>
                 </div>
                 <div class="mt-2 flex flex-wrap gap-2">
@@ -1417,8 +1740,10 @@
       setFade(`
         <div class="fade">
           <div class="card p-5 sm:p-6">
-            <div class="flex items-start justify-between gap-4">
-              <div>
+            ${renderTopProgress()}
+
+            <div class="mt-4 flex items-start justify-between gap-4">
+              <div class="min-w-0">
                 <div class="flex items-center gap-2">
                   <div class="chip px-3 py-1 text-[11px] font-extrabold">${escapeHtml(offerTitle(chosenOffer.tier))}</div>
                   ${best ? `<div class="chip px-3 py-1 text-[11px] font-extrabold">${escapeHtml(t("best_seller"))}</div>` : ``}
@@ -1426,10 +1751,12 @@
                 <div class="font-display text-xl sm:text-2xl font-extrabold mt-2">${escapeHtml(t("customize_title"))}</div>
                 <div class="text-sm muted mt-1">${escapeHtml(t("customize_sub"))}</div>
               </div>
-              <div class="min-w-[160px] text-right">
+
+              <div class="min-w-[190px] text-right">
                 <div class="text-xs muted">${escapeHtml(t("est_total"))}</div>
-                <div class="font-display text-3xl font-extrabold tracking-tight" style="color: rgba(11,95,255,1);">${escapeHtml(money(totals.total))}</div>
-                ${totals.discount ? `<div class="text-xs muted mt-1">${escapeHtml(t("save"))}: <span class="font-semibold">${escapeHtml(money(totals.discount))}</span></div>` : `<div class="text-xs muted mt-1">&nbsp;</div>`}
+                <div id="totalValue" class="font-display text-3xl font-extrabold tracking-tight" style="color: rgba(11,95,255,1);">${escapeHtml(money(totals.total))}</div>
+                <div class="text-xs muted mt-1">${escapeHtml(t("save"))}: <span class="font-semibold" id="saveValue">${totals.totalSave ? escapeHtml(money(totals.totalSave)) : "—"}</span></div>
+
                 <div class="mt-2">
                   <div class="text-xs muted text-right">${pct}%</div>
                   <div class="h-2 rounded-full overflow-hidden" style="background: rgba(11,95,255,.10);">
@@ -1440,7 +1767,6 @@
             </div>
           </div>
 
-          <!-- RESPONSIVE LAYOUT: stack on mobile / split on lg -->
           <div class="mt-4 grid gap-4 lg:grid-cols-12">
             <div class="lg:col-span-5 space-y-4">
               <div class="card p-5">
@@ -1457,13 +1783,24 @@
               <div class="card p-5">
                 <div class="font-display font-extrabold">${escapeHtml(t("note"))}</div>
                 <textarea id="noteField"
-                  class="mt-2 w-full rounded-2xl border px-4 py-3 text-sm min-h-[120px] scrollbar"
+                  class="mt-2 w-full rounded-2xl border px-4 py-3 text-sm min-h-[110px] scrollbar"
                   style="border-color: var(--btnGhostStroke); background: var(--btnGhostBg); color: var(--text);"
                   placeholder="${escapeHtml(t("note_ph"))}"></textarea>
 
-                <button id="sendWA" class="mt-3 btn btn-primary w-full px-5 py-3 font-display font-extrabold">
-                  ${escapeHtml(t("send_wa"))}
-                </button>
+                <div class="mt-3 grid grid-cols-2 gap-2">
+                  <button id="sendWA" class="btn btn-primary w-full px-5 py-3 font-display font-extrabold">
+                    ${escapeHtml(t("send_wa"))}
+                  </button>
+                  <button id="copyBtn" class="btn btn-ghost w-full px-5 py-3 font-display font-extrabold">
+                    ${escapeHtml(t("copy_msg"))}
+                  </button>
+                </div>
+
+                <div class="mt-3 pill p-4">
+                  <div class="font-display font-extrabold">${escapeHtml(t("preview"))}</div>
+                  <textarea id="previewBox" class="mt-2 w-full rounded-2xl border px-4 py-3 text-xs min-h-[140px] scrollbar"
+                    style="border-color: var(--btnGhostStroke); background: rgba(255,255,255,.55); color: var(--text);" readonly></textarea>
+                </div>
 
                 <div class="mt-3 text-xs muted">
                   <span class="font-semibold" style="color: var(--text);">${escapeHtml(t("obs"))}:</span> ${escapeHtml(OBS)}
@@ -1471,7 +1808,7 @@
 
                 <div class="mt-3 flex gap-2">
                   <button id="backToOffers" class="btn btn-ghost px-4 py-2.5 font-display font-bold">${escapeHtml(t("back"))}</button>
-                  <button id="resetAll2" class="btn btn-ghost px-4 py-2.5 font-display font-bold">${escapeHtml(t("restart"))}</button>
+                  <button id="resetAll2" class="btn btn-danger px-4 py-2.5 font-display font-bold">${escapeHtml(t("restart"))}</button>
                 </div>
               </div>
             </div>
@@ -1486,7 +1823,7 @@
 
               <div class="card p-5">
                 <div class="flex items-start justify-between gap-3">
-                  <div>
+                  <div class="min-w-0">
                     <div class="font-display font-extrabold">${escapeHtml(t("extras"))}</div>
                     <div class="text-sm muted mt-1">${escapeHtml(t("customize_sub"))}</div>
                   </div>
@@ -1501,69 +1838,99 @@
         </div>
       `);
 
+      // set initial preview
+      updateCustomizeTotalsUI();
+
       document.getElementById("sendWA").addEventListener("click", openWhatsApp);
+      document.getElementById("copyBtn").addEventListener("click", copyPreview);
       document.getElementById("backToOffers").addEventListener("click", renderOffers);
       document.getElementById("resetAll2").addEventListener("click", resetAll);
+
+      document.getElementById("noteField").addEventListener("input", ()=>{
+        updateCustomizeTotalsUI();
+      });
 
       app.querySelectorAll("[data-extra]").forEach(ch=>{
         ch.addEventListener("change", ()=>{
           const id = ch.getAttribute("data-extra");
           if(ch.checked) customState.extraIds.add(id);
           else customState.extraIds.delete(id);
-
-          // re-render to keep totals always correct and clean
-          renderCustomize();
+          updateCustomizeTotalsUI();
         });
       });
     }
 
+    // -------------------- Reset --------------------
     function resetAll(){
       answers = {};
       stepIndex = 0;
       view = "intro";
       chosenOffer = null;
       customState = null;
+      offersCache = null;
+      clearState();
       renderIntro();
     }
 
-    // --------- Lang buttons ----------
+    // -------------------- Lang buttons --------------------
     document.getElementById("langPT").addEventListener("click", ()=>{
       lang = "pt";
       applyLangUI();
-      // rerender current view cleanly
-      if(view==="intro") renderIntro();
-      else if(view==="quiz") renderStep(stepIndex);
-      else if(view==="offers") renderOffers();
-      else if(view==="customize") renderCustomize();
+      rerenderCurrent();
     });
     document.getElementById("langEN").addEventListener("click", ()=>{
       lang = "en";
       applyLangUI();
+      rerenderCurrent();
+    });
+
+    function rerenderCurrent(){
       if(view==="intro") renderIntro();
       else if(view==="quiz") renderStep(stepIndex);
       else if(view==="offers") renderOffers();
       else if(view==="customize") renderCustomize();
-    });
+    }
 
-    // --------- Theme button ----------
+    // -------------------- Theme button --------------------
     document.getElementById("themeBtn").addEventListener("click", ()=>{
       const cur = root.getAttribute("data-theme") || "light";
       setTheme(cur === "dark" ? "light" : "dark");
-      // keep view but rerender to update any inline text colors if needed
-      if(view==="intro") renderIntro();
-      else if(view==="quiz") renderStep(stepIndex);
-      else if(view==="offers") renderOffers();
-      else if(view==="customize") renderCustomize();
+      rerenderCurrent();
     });
 
-    // init theme
+    // -------------------- Init --------------------
     const initialTheme = getSavedTheme() || (prefersDark() ? "dark" : "light");
     root.setAttribute("data-theme", initialTheme);
 
-    // init UI
     applyLangUI();
-    renderIntro();
 
+    // restore state if exists
+    const st = loadState();
+    if(st && st.view){
+      try{
+        answers = st.answers || {};
+        stepIndex = Number(st.stepIndex || 0);
+        view = st.view || "intro";
+
+        if(st.chosenTier){
+          offersCache = buildOffers();
+          chosenOffer = offersCache.find(o=>o.tier===st.chosenTier) || null;
+        }
+
+        if(st.custom && chosenOffer){
+          const selectedIds = new Set(st.custom.selectedIds || []);
+          const extraIds = new Set(st.custom.extraIds || []);
+          const periodById = new Map(st.custom.periodById || []);
+          customState = {selectedIds, extraIds, periodById};
+        }
+
+        rerenderCurrent();
+      }catch(e){
+        renderIntro();
+      }
+    }else{
+      renderIntro();
+    }
   })();
   </script>
 </body>
